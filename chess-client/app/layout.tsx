@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { FC, ReactNode } from "react";
+import "./_/layout.scss";
 
 
 export const metadata: Metadata = {
