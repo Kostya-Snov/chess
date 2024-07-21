@@ -1,112 +1,93 @@
 "use client";
 
-import { type FC, useEffect, useState } from "react";
-import Image from "next/image";
+import { type FC, useEffect, useReducer, useState } from "react";
+import { assert } from "@/utils/assert";
 import { createArray } from "@/utils/createArray";
+import { ChessEngine } from "@/chess/ChessEngine";
+import { isBoardIndex } from "@/chess/BoardIndex";
+import { getX, getY } from "@/chess/BoardCoordinate";
+import { ChessConstants } from "@/chess/ChessConstants";
+import { Cell } from "./Cell";
+import { Piece } from "./Piece";
+import { bottomSignatures, leftSignatures, rightSignatures, topSignatures } from "./signatures";
 import classes from "./Chess.module.scss";
-import whiteRookImage from "./images/whiteRook.png";
 
 
-const enum Constants {
-    BoardSize = 8,
-    BoardLength = BoardSize ** 2,
-    ACharCode = 97
+const useChessEngine = (
+    initialize = () => new ChessEngine()
+): [ChessEngine, (update: (engine: ChessEngine) => void) => void] => {
+    const [engine] = useState(initialize);
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
+    return [
+        engine,
+        update => {
+            update(engine);
+            forceUpdate();
+        }
+    ];
 }
 
 
-const createSignatures = (position: string, getText: (index: number) => string) => createArray(
-    Constants.BoardSize,
-    i => (
-        <div
-            key={i}
-            className={
-                classes["signature"]
-                + " " + classes[position + "Signature"]
-            }
-        >
-            {getText(i)}
-        </div>
-    )
-);
-const getFileSignatureText = (index: number) => String.fromCharCode(Constants.ACharCode + index);
-const topSignatures = createSignatures("top", getFileSignatureText);
-const bottomSignatures = createSignatures("bottom", getFileSignatureText);
-const getRankSignatureText = (index: number) => (index + 1).toString();
-const leftSignatures = createSignatures("left", getRankSignatureText);
-const rightSignatures = createSignatures("right", getRankSignatureText);
-
 export const Chess: FC = () => {
-    const [[x, y], setPosition] = useState<[number, number]>([0, 0]);
-    const [isActive, setIsActive] = useState(false);
+    const [engine, updateEngine] = useChessEngine();
 
     useEffect(() => {
         const listener = (event: KeyboardEvent) => {
             if (event.key === "Escape") {
-                setIsActive(false);
+                updateEngine(e => e.selectedIndex = null);
             }
         }
         addEventListener("keyup", listener);
         return () => removeEventListener("keyup", listener);
-    }, []);
+    }, [updateEngine]);
 
 
     return (
-        <>
-            <div className={classes["board"]}>
-                {topSignatures}
-                {bottomSignatures}
-                {leftSignatures}
-                {rightSignatures}
-                {createArray(Constants.BoardLength, i => (
-                    <div
-                        key={i}
-                        className={
-                            classes["cell"]
-                            + " " + classes[
-                                (
-                                    Math.floor(i / Constants.BoardSize) + i % Constants.BoardSize
-                                ) % 2 === 0
-                                    ? "white"
-                                    : "black"
-                                ]
+        <div className={classes["board"]}>
+            {rightSignatures}
+            {topSignatures}
+            {leftSignatures}
+            {bottomSignatures}
+
+            {createArray(ChessConstants.BoardLength, index => {
+                assert(isBoardIndex(index));
+                const move = engine.moves === null ? undefined : engine.moves.get(index);
+                return (
+                    <Cell
+                        key={index}
+                        isBlack={(getX(index) + getY(index)) % 2 === 0}
+                        moveType={move?.type}
+                        onClick={
+                            move === undefined
+                                ? undefined
+                                : () => updateEngine(e => e.applyMove(index))
                         }
-                    >
-                        <div className={
-                            classes["sign"]
-                            + " " + classes[
-                                isActive
-                                    ? "movement"
-                                    : "none"
-                                ]
-                        }/>
-                    </div>
-                ))}
+                    />
+                );
+            })}
 
-                <Image
-                    className={
-                        classes["piece"]
-                        + (
-                            isActive
-                                ? " " + classes["active"]
-                                : ""
-                        )
-                        + " " + classes["piece" + x + "_" + y]
-                    }
-                    src={whiteRookImage}
-                    alt="whiteRook"
-                    onClick={() => setIsActive(true)}
-                />
-            </div>
-
-            <button
-                style={{ marginLeft: "5rem" }}
-                onClick={() => setPosition([
-                    Math.floor(Math.random() * 8),
-                    Math.floor(Math.random() * 8)
-                ])}
-            >
-                Random
-            </button>
-        </>
+            {
+                [...engine.getPieces()]
+                    .sort(([, { id: id1 }], [, { id: id2 }]) => id1 - id2)
+                    .map(([index, info]) => (
+                        <Piece
+                            key={info.id}
+                            type={info.type}
+                            isBlack={info.isBlack}
+                            x={getX(index)}
+                            y={getY(index)}
+                            isActive={engine.selectedIndex === index}
+                            onClick={
+                                info.isBlack && engine.isBlackTurn
+                                || !info.isBlack && !engine.isBlackTurn
+                                    ? () => updateEngine(e =>
+                                        e.selectedIndex = e.selectedIndex === index ? null : index
+                                    )
+                                    : undefined
+                            }
+                        />
+                    ))
+            }
+        </div>
     );
 }

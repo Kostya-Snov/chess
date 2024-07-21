@@ -1,143 +1,16 @@
-$_signatureMargin: var(--signatureMargin);
-$_cellSize: var(--cellSize);
-
-$_size: 8;
-$_firstCellNumber: 2;
-$_pieceZIndex: 2;
+@use "./boardVariables";
 
 
 .board {
-    --cellSize: min(80px, 4rem);
-    --signatureMargin: 0.4rem;
+    --cellSize: 80px;
 
     display: grid;
-    grid-template-rows: max-content repeat($_size, $_cellSize) max-content;
-    grid-template-columns: max-content repeat($_size, $_cellSize) max-content;
-}
-
-
-.signature {
-    place-self: center;
-}
-
-.rightSignature {
-    margin-left: $_signatureMargin;
-
-    @for $i from 0 to $_size {
-        :nth-child(#{$i + 1} of &) {
-            grid-area: #{$_firstCellNumber + $i} / #{$_firstCellNumber + $_size};
-        }
-    }
-}
-
-.topSignature {
-    margin-bottom: $_signatureMargin;
-
-    @for $i from 0 to $_size {
-        :nth-child(#{$i + 1} of &) {
-            grid-area: #{$_firstCellNumber - 1} / #{$_firstCellNumber + $i};
-        }
-    }
-}
-
-.leftSignature {
-    margin-right: $_signatureMargin;
-
-    @for $i from 0 to $_size {
-        :nth-child(#{$i + 1} of &) {
-            grid-area: #{$_firstCellNumber + $i} / #{$_firstCellNumber - 1};
-        }
-    }
-}
-
-.bottomSignature {
-    margin-top: $_signatureMargin;
-
-    @for $i from 0 to $_size {
-        :nth-child(#{$i + 1} of &) {
-            grid-area: #{$_firstCellNumber + $_size} / #{$_firstCellNumber + $i};
-        }
-    }
-}
-
-
-.cell {
-    @for $x from 0 to $_size {
-        @for $y from 0 to $_size {
-            :nth-child(#{$y * $_size + $x + 1} of &) {
-                grid-area: #{$_firstCellNumber + $y} / #{$_firstCellNumber + $x};
-            }
-        }
-    }
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.white {
-    background-color: orange;
-}
-
-.black {
-    background-color: black;
-}
-
-
-.piece {
-    grid-area: #{$_firstCellNumber} / #{$_firstCellNumber};
-    position: relative;
-    z-index: $_pieceZIndex;
-    width: 100%;
-    height: 100%;
-
-    transition: transform 500ms, filter 250ms;
-
-    &:hover {
-        filter: drop-shadow(0 0 1rem crimson);
-    }
-
-    &.active {
-        filter: drop-shadow(0 0 1rem green);
-    }
-
-    @for $x from 0 through $_size {
-        @for $y from 0 through $_size {
-            &#{$x}_#{$y} {
-                transform: translate(calc($x * $_cellSize), calc($y * $_cellSize));
-            }
-        }
-    }
-}
-
-
-.sign {
-    width: 50%;
-    height: 50%;
-    border-radius: 50%;
-
-    transition: background-color 250ms;
-
-    &:not(.none) {
-        $backgroundColor: var(--backgroundColor);
-
-        position: relative;
-        z-index: $_pieceZIndex + 1;
-
-        &:not(:hover) {
-            background-color: rgb(from $backgroundColor r g b / 0.5);
-        }
-
-        &:hover {
-            background-color: rgb(from $backgroundColor r g b / 1);
-        }
-    }
-
-    &.none {
-        background-color: transparent;
-    }
-}
-
-.movement {
-    --backgroundColor: lightsteelblue;
+    grid-template-rows:
+        max-content
+        repeat(boardVariables.$boardSize, boardVariables.$cellSize)
+        max-content;
+    grid-template-columns:
+        max-content
+        repeat(boardVariables.$boardSize, boardVariables.$cellSize)
+        max-content;
 }

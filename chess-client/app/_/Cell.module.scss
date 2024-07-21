@@ -1,0 +1,61 @@
+@use "./boardVariables";
+
+
+.cell {
+    @for $x from 0 to boardVariables.$boardSize {
+        @for $y from 0 to boardVariables.$boardSize {
+            :nth-child(#{$y * boardVariables.$boardSize + $x + 1} of &) {
+                grid-area: //
+                    #{boardVariables.$firstCellNumber + $y}
+                    / #{boardVariables.$firstCellNumber + $x};
+            }
+        }
+    }
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.white {
+    background-color: orange;
+}
+
+.black {
+    background-color: black;
+}
+
+
+.sign {
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+
+    transition: background-color 250ms;
+
+    &:not(.none) {
+        $backgroundColor: var(--backgroundColor);
+
+        z-index: boardVariables.$pieceZIndex + 1;
+
+        &:not(:hover) {
+            background-color: rgb(from $backgroundColor r g b / 0.5);
+        }
+
+        &:hover {
+            background-color: rgb(from $backgroundColor r g b / 1);
+        }
+    }
+
+    &.none {
+        background-color: transparent;
+    }
+}
+
+.movement {
+    --backgroundColor: lightsteelblue;
+}
+
+.attack {
+    --backgroundColor: red;
+}

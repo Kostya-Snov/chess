@@ -1,0 +1,49 @@
+@use "./boardVariables";
+
+
+$_signatureMargin: var(--signatureMargin);
+
+
+.signature {
+    --signatureMargin: 0.5rem;
+
+    place-self: center;
+}
+
+@mixin _signature($marginDirection, $getRow, $getColumn) {
+    margin-#{$marginDirection}: $_signatureMargin;
+
+    @for $i from 0 to boardVariables.$boardSize {
+        :nth-child(#{$i + 1} of &) {
+            grid-area: #{call(get-function($getRow), $i)} / #{call(get-function($getColumn), $i)};
+        }
+    }
+}
+
+@function getINumber($index) {
+    @return boardVariables.$firstCellNumber + $index;
+}
+
+@function getFirstNumber($index) {
+    @return boardVariables.$firstCellNumber - 1;
+}
+
+@function getLastNumber($index) {
+    @return boardVariables.$firstCellNumber + boardVariables.$boardSize;
+}
+
+.right {
+    @include _signature(left, getINumber, getLastNumber);
+}
+
+.top {
+    @include _signature(bottom, getFirstNumber, getINumber);
+}
+
+.left {
+    @include _signature(right, getINumber, getFirstNumber);
+}
+
+.bottom {
+    @include _signature(top, getLastNumber, getINumber);
+}
