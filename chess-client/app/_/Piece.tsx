@@ -1,7 +1,7 @@
 import { type FC } from "react";
 import Image from "next/image";
 import { type BoardCoordinate } from "@/chess/BoardCoordinate";
-import { PieceType } from "@/chess/PieceInfo";
+import { PieceType } from "@/chess/Piece";
 import whitePawnImage from "./images/whitePawn.png";
 import whiteRookImage from "./images/whiteRook.png";
 import whiteKnightImage from "./images/whiteKnight.png";

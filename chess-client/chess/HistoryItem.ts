@@ -1,17 +1,8 @@
-import type { MoveType } from "./Move";
-import type { BoardIndex } from "./BoardIndex";
+import type { Move, Rollback } from "./_/Move";
 
 
-export const enum HistoryItemType {
-    Move
-}
-
-export type MoveHistoryItem = {
-    readonly type: HistoryItemType.Move;
-    readonly moveType: MoveType;
-    readonly from: BoardIndex;
-    readonly to: BoardIndex;
+export type HistoryItem = {
+    readonly move: Move;
+    /** @internal */
+    readonly rollback: Rollback;
 };
-
-export type HistoryItem =
-    | MoveHistoryItem;

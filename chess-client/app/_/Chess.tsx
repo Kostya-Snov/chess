@@ -1,46 +1,38 @@
 "use client";
 
-import { type FC, useEffect, useReducer, useState } from "react";
+import { type FC, useEffect, useReducer, useRef } from "react";
 import { assert } from "@/utils/assert";
 import { createArray } from "@/utils/createArray";
-import { ChessEngine } from "@/chess/ChessEngine";
+import { ChessConstants } from "@/chess/ChessConstants";
 import { isBoardIndex } from "@/chess/BoardIndex";
 import { getX, getY } from "@/chess/BoardCoordinate";
-import { ChessConstants } from "@/chess/ChessConstants";
+import { ChessState } from "@/chess/ChessState";
 import { Cell } from "./Cell";
 import { Piece } from "./Piece";
 import { bottomSignatures, leftSignatures, rightSignatures, topSignatures } from "./signatures";
 import classes from "./Chess.module.scss";
 
 
-const useChessEngine = (
-    initialize = () => new ChessEngine()
-): [ChessEngine, (update: (engine: ChessEngine) => void) => void] => {
-    const [engine] = useState(initialize);
+const useChessState = (initialize = () => new ChessState()): ChessState => {
+    const stateRef = useRef<ChessState>();
     const [, forceUpdate] = useReducer(x => x + 1, 0);
-    return [
-        engine,
-        update => {
-            update(engine);
-            forceUpdate();
-        }
-    ];
+    const state = stateRef.current ??= initialize();
+    state.addChangeListener(forceUpdate);
+    return state;
 }
 
-
 export const Chess: FC = () => {
-    const [engine, updateEngine] = useChessEngine();
+    const chessState = useChessState();
 
     useEffect(() => {
         const listener = (event: KeyboardEvent) => {
             if (event.key === "Escape") {
-                updateEngine(e => e.selectedIndex = null);
+                chessState.deselect();
             }
         }
         addEventListener("keyup", listener);
         return () => removeEventListener("keyup", listener);
-    }, [updateEngine]);
-
+    }, [chessState]);
 
     return (
         <div className={classes["board"]}>
@@ -51,7 +43,7 @@ export const Chess: FC = () => {
 
             {createArray(ChessConstants.BoardLength, index => {
                 assert(isBoardIndex(index));
-                const move = engine.moves === null ? undefined : engine.moves.get(index);
+                const move = chessState.moves.get(index);
                 return (
                     <Cell
                         key={index}
@@ -60,29 +52,29 @@ export const Chess: FC = () => {
                         onClick={
                             move === undefined
                                 ? undefined
-                                : () => updateEngine(e => e.applyMove(index))
+                                : () => chessState.applyMove(index)
                         }
                     />
                 );
             })}
 
             {
-                [...engine.getPieces()]
-                    .sort(([, { id: id1 }], [, { id: id2 }]) => id1 - id2)
-                    .map(([index, info]) => (
+                chessState.board
+                    .filter(p => p !== undefined)
+                    .sort((p1, p2) => p1.id - p2.id)
+                    .map(piece => (
                         <Piece
-                            key={info.id}
-                            type={info.type}
-                            isBlack={info.isBlack}
-                            x={getX(index)}
-                            y={getY(index)}
-                            isActive={engine.selectedIndex === index}
+                            key={piece.id}
+                            type={piece.type}
+                            isBlack={piece.isBlack}
+                            x={piece.x}
+                            y={piece.y}
+                            isActive={piece.isSelected}
                             onClick={
-                                info.isBlack && engine.isBlackTurn
-                                || !info.isBlack && !engine.isBlackTurn
-                                    ? () => updateEngine(e =>
-                                        e.selectedIndex = e.selectedIndex === index ? null : index
-                                    )
+                                piece.isCurrentTurn
+                                    ? piece.isSelected
+                                        ? () => chessState.deselect()
+                                        : () => piece.select()
                                     : undefined
                             }
                         />
