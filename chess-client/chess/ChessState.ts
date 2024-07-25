@@ -20,6 +20,8 @@ export class ChessState {
     /** @internal */
     public mutableIsBlacksTurn = false;
     /** @internal */
+    public doubleMovementPawnIndex: BoardIndex | null = null;
+    /** @internal */
     public mutableSelectedIndex: BoardIndex | null = null;
     /** @internal */
     public readonly mutableMoves = new Map<BoardIndex, Move>;

@@ -5,7 +5,8 @@ import type { Piece } from "./Piece";
 
 export const enum MoveType {
     Movement,
-    Attack
+    Attack,
+    EnPassant
 }
 
 export abstract class Move {
@@ -26,7 +27,20 @@ export abstract class Move {
 
 
     /** @internal */
-    public abstract apply(): Rollback;
+    public apply(): Rollback {
+        const { state } = this;
+        const previousDoubleMovementPawnIndex = state.doubleMovementPawnIndex;
+        state.doubleMovementPawnIndex = null;
+        const rollback = this.applyCore();
+
+        return () => {
+            rollback();
+            state.doubleMovementPawnIndex = previousDoubleMovementPawnIndex;
+        };
+    }
+
+
+    protected abstract applyCore(): Rollback;
 }
 
 export type Rollback = () => void;
@@ -39,7 +53,7 @@ export class MovementMove extends Move {
     }
 
 
-    public override apply(): Rollback {
+    protected override applyCore(): Rollback {
         const { piece, from, to } = this;
         piece.move(to);
         const previousIsMoved = piece.isMoved;
@@ -60,7 +74,7 @@ export class AttackMove extends Move {
     }
 
 
-    public override apply(): Rollback {
+    protected override applyCore(): Rollback {
         const { piece, from, to } = this;
         const enemyPiece = this.state.mutableBoard[to]!;
         enemyPiece.delete();
