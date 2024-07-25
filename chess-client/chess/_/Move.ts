@@ -6,7 +6,8 @@ import type { Piece } from "./Piece";
 export const enum MoveType {
     Movement,
     Attack,
-    EnPassant
+    EnPassant,
+    Castling
 }
 
 export abstract class Move {

@@ -129,17 +129,12 @@ export class ChessState {
 
 
     public isShah(): boolean {
-        const board = this.mutableBoard;
-        const kingIndex = board.findIndex(piece =>
+        const kingIndex = this.mutableBoard.findIndex(piece =>
             piece !== undefined
             && piece.isCurrentTurn
             && piece.type === PieceType.King
         ) as BoardIndex;
-        return board.some(piece =>
-            piece !== undefined
-            && !piece.isCurrentTurn
-            && piece.canAttack(kingIndex)
-        );
+        return this.isUnderAttack(kingIndex);
     }
 
 
@@ -228,6 +223,16 @@ export class ChessState {
         }
 
         return result;
+    }
+
+
+    /** @internal */
+    public isUnderAttack(index: BoardIndex): boolean {
+        return this.mutableBoard.some(piece =>
+            piece !== undefined
+            && !piece.isCurrentTurn
+            && piece.canAttack(index)
+        );
     }
 
 

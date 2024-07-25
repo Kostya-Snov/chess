@@ -6,7 +6,8 @@ import classes from "../Cell.module.scss";
 const signTypeClassIds = {
     [MoveType.Movement]: "movement",
     [MoveType.Attack]: "attack",
-    [MoveType.EnPassant]: "enPassant"
+    [MoveType.EnPassant]: "enPassant",
+    [MoveType.Castling]: "castling"
 } as const;
 
 
