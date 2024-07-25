@@ -1,6 +1,12 @@
 import type { FC } from "react";
 import { MoveType } from "@/chess/Move";
-import classes from "./Cell.module.scss";
+import classes from "../Cell.module.scss";
+
+
+const signTypeClassIds = {
+    [MoveType.Movement]: "movement",
+    [MoveType.Attack]: "attack"
+} as const;
 
 
 type Props = {
@@ -9,16 +15,11 @@ type Props = {
     readonly onClick: (() => void) | undefined;
 };
 
-const signTypeClassIds = {
-    [MoveType.Movement]: "movement",
-    [MoveType.Attack]: "attack"
-} as const;
-
 export const Cell: FC<Props> = ({ isBlack, moveType, onClick }) => (
     <div
         className={
             classes["cell"]
-            + " " + classes[isBlack ? "white" : "black"]
+            + " " + classes[isBlack ? "black" : "white"]
         }
         onClick={onClick}
     >

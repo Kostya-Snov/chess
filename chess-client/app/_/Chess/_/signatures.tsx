@@ -1,18 +1,12 @@
 import { createArray } from "@/utils/createArray";
 import { ChessConstants } from "@/chess/ChessConstants";
-import classes from "./signatures.module.scss";
+import classes from "../signatures.module.scss";
 
 
-const createSignatures = (position: string, getText: (index: number) => string) => createArray(
-    ChessConstants.BoardSize,
-    i => (
-        <div
-            key={i}
-            className={classes["signature"] + " " + classes[position]}
-        >
-            {getText(i)}
-        </div>
-    )
+const createSignatures = (position: string, getText: (index: number) => string) => (
+    <div className={classes[position + "Signatures"]}>
+        {createArray(ChessConstants.BoardSize, i => <div key={i}>{getText(i)}</div>)}
+    </div>
 );
 
 

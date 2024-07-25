@@ -1,7 +1,6 @@
 import { type FC } from "react";
 import Image from "next/image";
-import { type BoardCoordinate } from "@/chess/BoardCoordinate";
-import { PieceType } from "@/chess/Piece";
+import { type Piece, PieceType } from "@/chess/Piece";
 import whitePawnImage from "./images/whitePawn.png";
 import whiteRookImage from "./images/whiteRook.png";
 import whiteKnightImage from "./images/whiteKnight.png";
@@ -14,7 +13,7 @@ import blackKnightImage from "./images/blackKnight.png";
 import blackBishopImage from "./images/blackBishop.png";
 import blackKingImage from "./images/blackKing.png";
 import blackQueenImage from "./images/blackQueen.png";
-import classes from "./Piece.module.scss";
+import classes from "../PieceComponent.module.scss";
 
 
 const pieceImages = {
@@ -41,28 +40,24 @@ const pieceTypeNames = {
     [PieceType.Queen]: "Queen",
 } as const;
 
-const getPieceName = (type: PieceType, isBlack: boolean) =>
-    `${isBlack ? "black" : "white"}${pieceTypeNames[type]}` as const;
-
 
 type Props = {
-    readonly type: PieceType;
-    readonly isBlack: boolean;
-    readonly x: BoardCoordinate;
-    readonly y: BoardCoordinate;
-    readonly isActive: boolean;
+    readonly piece: Piece;
     readonly onClick: (() => void) | undefined;
 };
 
-export const Piece: FC<Props> = ({ isActive, x, y, type, isBlack, onClick }) => (
-    <Image
-        className={
-            classes["piece"]
-            + (isActive ? " " + classes["active"] : "")
-            + " " + classes["piece" + x + "_" + y]
-        }
-        src={pieceImages[`${getPieceName(type, isBlack)}Image`]}
-        alt={getPieceName(type, isBlack)}
-        onClick={onClick}
-    />
-);
+export const PieceComponent: FC<Props> = ({ piece, onClick }) => {
+    const pieceName = `${piece.isBlack ? "black" : "white"}${pieceTypeNames[piece.type]}` as const;
+    return (
+        <Image
+            className={
+                classes["piece"]
+                + (piece.isSelected ? " " + classes["selected"] : "")
+                + " " + classes["piece" + piece.x + "_" + piece.y]
+            }
+            src={pieceImages[`${pieceName}Image`]}
+            alt={pieceName}
+            onClick={onClick}
+        />
+    );
+}

@@ -1,20 +1,14 @@
-@use "./boardVariables";
+@use "_/boardVariables";
 
 
 .cell {
-    @for $x from 0 to boardVariables.$boardSize {
-        @for $y from 0 to boardVariables.$boardSize {
-            :nth-child(#{$y * boardVariables.$boardSize + $x + 1} of &) {
-                grid-area: //
-                    #{boardVariables.$firstCellNumber + $y}
-                    / #{boardVariables.$firstCellNumber + $x};
-            }
-        }
-    }
-
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &:first-child {
+        grid-area: 1 / 1;
+    }
 }
 
 .white {
