@@ -1,23 +1,27 @@
 import { getX, getY } from "@/chess/BoardCoordinate";
 import { type BoardIndex, isBoardIndex } from "@/chess/BoardIndex";
 import { ChessConstants } from "@/chess/ChessConstants";
-import { initialChessState } from "@/chess/ChessState";
+import type { ChessState } from "@/chess/ChessState";
 import { Move } from "@/chess/Move";
 import { assert } from "@/utils/assert";
 import { createArray } from "@/utils/createArray";
 import { type FC, useEffect, useState } from "react";
 import classes from "../Board.module.scss";
 import { Cell } from "./Cell";
-import { PieceComponent } from "./PieceComponent";
+import { PieceOnBoard } from "./PieceOnBoard";
 
 
-export const Board: FC = () => {
+type Props = {
+    readonly chessState: ChessState;
+    readonly onChessStateChange: (state: ChessState) => void;
+};
+
+export const Board: FC<Props> = ({ chessState, onChessStateChange }) => {
     type Selection = {
         readonly index: BoardIndex;
         readonly moves: Map<BoardIndex, Move>;
     };
 
-    const [chessState, setChessState] = useState(initialChessState);
     const [selection, setSelection] = useState<Selection | null>(null);
 
     useEffect(() => {
@@ -46,7 +50,7 @@ export const Board: FC = () => {
                             move === undefined
                                 ? undefined
                                 : () => {
-                                    setChessState(move.state);
+                                    onChessStateChange(move.state);
                                     setSelection(null);
                                 }
                         }
@@ -63,7 +67,7 @@ export const Board: FC = () => {
                     const isSelected = selection?.index === index;
 
                     return (
-                        <PieceComponent
+                        <PieceOnBoard
                             key={piece.id}
                             piece={piece}
                             isSelected={isSelected}

@@ -1,0 +1,6 @@
+@forward "./_/colors" hide getColorVariableName, $colors;
+
+
+@function setAlpha($color, $alpha) {
+    @return rgb(from $color r g b / $alpha);
+}

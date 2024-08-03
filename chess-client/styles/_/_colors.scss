@@ -1,0 +1,17 @@
+@function getColorVariableName($name) {
+    @return --#{$name}Color;
+}
+
+@function _getVariable($name) {
+    @return var(getColorVariableName($name));
+}
+
+$background: _getVariable(background);
+$primary: _getVariable(primary);
+$border: _getVariable(border);
+
+$colors: (
+    background: white,
+    primary: black,
+    border: black
+);

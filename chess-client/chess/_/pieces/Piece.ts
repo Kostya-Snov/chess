@@ -19,7 +19,7 @@ export abstract class Piece {
     public constructor(
         public readonly id: number,
         public readonly isBlack: boolean,
-        public readonly isMoved = false
+        public readonly isMoved: boolean
     ) {
     }
 

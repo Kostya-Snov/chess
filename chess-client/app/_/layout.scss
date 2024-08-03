@@ -1,3 +1,8 @@
+@use "@/styles/colors";
+
+
 :root {
     font-size: 150%;
+    background-color: colors.$background;
+    color: colors.$primary;
 }

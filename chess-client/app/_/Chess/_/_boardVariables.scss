@@ -1,2 +1,6 @@
+$cellSize: var(--cellSize);
+
 $boardSize: 8;
-$pieceZIndex: 1;
+$pieceOnBoardZIndex: 1;
+$signZIndex: $pieceOnBoardZIndex + 1;
+$promotionModalZIndex: $signZIndex + 1;

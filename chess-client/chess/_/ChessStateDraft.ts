@@ -1,18 +1,20 @@
-import type { BoardIndex } from "../../BoardIndex";
-import { ChessState } from "../ChessState";
-import type { Piece } from "../pieces";
+import type { BoardIndex } from "../BoardIndex";
+import { ChessState } from "./ChessState";
+import type { Piece } from "./pieces";
 
 
 export class ChessStateDraft {
     public readonly board: (Piece | undefined)[];
     public isBlacksTurn: boolean;
     public doubleMovementPawnIndex: BoardIndex | null;
+    public promotionIndex: BoardIndex | null;
 
 
     public constructor(state: ChessState) {
         this.board = [...state.board];
         this.isBlacksTurn = state.isBlacksTurn;
         this.doubleMovementPawnIndex = state.doubleMovementPawnIndex;
+        this.promotionIndex = state.promotionIndex;
     }
 
 
@@ -20,7 +22,8 @@ export class ChessStateDraft {
         return new ChessState(
             this.board,
             this.isBlacksTurn,
-            this.doubleMovementPawnIndex
+            this.doubleMovementPawnIndex,
+            this.promotionIndex
         );
     }
 }

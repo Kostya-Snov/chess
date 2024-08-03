@@ -1,7 +1,9 @@
 import { InvalidOperationError } from "@/utils/InvalidOperationError";
 import type { BoardIndex } from "../BoardIndex";
+import { ChessStateDraft } from "./ChessStateDraft";
 import type { Move } from "./moves";
-import { AddMovesQuery, CanAttackQuery, type Piece, PieceType } from "./pieces";
+import { AddMovesQuery, CanAttackQuery, createPiece, type Piece, PieceType } from "./pieces";
+import type { PromotionPieceType } from "./PromotionPieceType";
 
 
 declare const brandKey: unique symbol;
@@ -13,7 +15,8 @@ export class ChessState {
     public constructor(
         public readonly board: readonly (Piece | undefined)[],
         public readonly isBlacksTurn: boolean,
-        public readonly doubleMovementPawnIndex: BoardIndex | null
+        public readonly doubleMovementPawnIndex: BoardIndex | null,
+        public readonly promotionIndex: BoardIndex | null
     ) {
     }
 
@@ -24,6 +27,10 @@ export class ChessState {
 
 
     public getMoves(from: BoardIndex): Map<BoardIndex, Move> {
+        if (this.promotionIndex !== null) {
+            throw new InvalidOperationError("The promotion is not over.");
+        }
+
         const piece = this.board[from];
         if (piece === undefined) {
             throw new InvalidOperationError("The piece at the given position is missing.");
@@ -35,6 +42,22 @@ export class ChessState {
         const query = new AddMovesQuery(from, this);
         piece.addMoves(query);
         return query.moves;
+    }
+
+
+    public replaceInPromotion(pieceType: PromotionPieceType): ChessState {
+        const { promotionIndex } = this;
+        if (promotionIndex === null) {
+            throw new InvalidOperationError("There is no pawn to promotion.");
+        }
+
+        const draft = new ChessStateDraft(this);
+        const { board } = draft;
+        const pawn = board[promotionIndex]!;
+        board[promotionIndex] = createPiece(pieceType, pawn.id, pawn.isBlack, true);
+        draft.promotionIndex = null;
+        draft.isBlacksTurn = !draft.isBlacksTurn;
+        return draft.getState();
     }
 
 

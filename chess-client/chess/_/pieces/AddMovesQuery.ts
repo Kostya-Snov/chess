@@ -1,13 +1,8 @@
 import { type BoardCoordinate, getX, getY } from "../../BoardCoordinate";
 import type { BoardIndex } from "../../BoardIndex";
 import type { ChessState } from "../ChessState";
-import {
-    attackHandlerInstance,
-    ChessStateDraft,
-    Move,
-    MoveHandler,
-    movementHandlerInstance
-} from "../moves";
+import { ChessStateDraft } from "../ChessStateDraft";
+import { attackHandlerInstance, Move, MoveHandler, movementHandlerInstance } from "../moves";
 import { getMovePatternIndices, type MovePattern } from "./MovePattern";
 import type { Piece } from "./Piece";
 
@@ -44,22 +39,28 @@ export class AddMovesQuery {
         const draft = new ChessStateDraft(state);
         draft.doubleMovementPawnIndex = null;
         handler.apply(from, to, draft);
-        if (!draft.getState().isShah()) {
-            draft.isBlacksTurn = !draft.isBlacksTurn;
-            this.moves.set(to, {
-                type: handler.type,
-                from,
-                to,
-                previousState: state,
-                state: draft.getState()
-            });
+        if (draft.getState().isShah()) {
+            return;
         }
+
+        if (draft.promotionIndex === null) {
+            draft.isBlacksTurn = !draft.isBlacksTurn;
+        }
+        this.moves.set(to, {
+            type: handler.type,
+            from,
+            to,
+            previousState: state,
+            state: draft.getState()
+        });
     }
 
 
     public addBase(
         movementPatterns: Iterable<MovePattern>,
-        attackPatterns = movementPatterns
+        attackPatterns = movementPatterns,
+        movementHandler: MoveHandler = movementHandlerInstance,
+        attackHandler: MoveHandler = attackHandlerInstance
     ): void {
         const { fromX, fromY, fromPiece, state } = this;
         const { board } = state;
@@ -70,7 +71,7 @@ export class AddMovesQuery {
                     break;
                 }
 
-                this.tryAdd(movementHandlerInstance, to);
+                this.tryAdd(movementHandler, to);
             }
         }
 
@@ -82,7 +83,7 @@ export class AddMovesQuery {
                 }
 
                 if (fromPiece.isEnemy(toPiece)) {
-                    this.tryAdd(attackHandlerInstance, to);
+                    this.tryAdd(attackHandler, to);
                 }
                 break;
             }

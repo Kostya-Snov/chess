@@ -2,16 +2,9 @@
 
 
 .board {
-    --size: 640px;
-
-    $size: var(--size);
-
     grid-area: 2 / 2;
 
-    width: $size;
-    height: $size;
-
     display: grid;
-    grid-template-rows: repeat(boardVariables.$boardSize, 1fr);
-    grid-template-columns: repeat(boardVariables.$boardSize, 1fr);
+    grid-template-rows: repeat(boardVariables.$boardSize, boardVariables.$cellSize);
+    grid-template-columns: repeat(boardVariables.$boardSize, boardVariables.$cellSize);
 }

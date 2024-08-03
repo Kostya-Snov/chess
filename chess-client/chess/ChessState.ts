@@ -1,5 +1,5 @@
 import { ChessState } from "./_/ChessState";
-import { Bishop, King, Knight, Pawn, Piece, Queen, Rook } from "./_/pieces";
+import { createPiece, type Piece, PieceType } from "./_/pieces";
 import { ChessConstants } from "./ChessConstants";
 
 
@@ -11,24 +11,24 @@ const initialBoard = (() => {
     let id = 0;
     let isBlack: boolean;
 
-    const addPiece = (PieceConstructor: new (id: number, isBlack: boolean) => Piece): void => {
-        board.push(new PieceConstructor(id++, isBlack));
+    const addPiece = (type: PieceType): void => {
+        board.push(createPiece(type, id++, isBlack, false));
     }
 
     const addFiguresRank = (): void => {
-        addPiece(Rook);
-        addPiece(Knight);
-        addPiece(Bishop);
-        addPiece(King);
-        addPiece(Queen);
-        addPiece(Bishop);
-        addPiece(Knight);
-        addPiece(Rook);
+        addPiece(PieceType.Rook);
+        addPiece(PieceType.Knight);
+        addPiece(PieceType.Bishop);
+        addPiece(PieceType.King);
+        addPiece(PieceType.Queen);
+        addPiece(PieceType.Bishop);
+        addPiece(PieceType.Knight);
+        addPiece(PieceType.Rook);
     }
 
     const addPawnsRank = (): void => {
         for (let i = 0; i !== ChessConstants.BoardSize; ++i) {
-            addPiece(Pawn);
+            addPiece(PieceType.Pawn);
         }
     }
 
@@ -55,4 +55,4 @@ const initialBoard = (() => {
     return board;
 })();
 
-export const initialChessState = new ChessState(initialBoard, false, null);
+export const initialChessState = new ChessState(initialBoard, false, null, null);

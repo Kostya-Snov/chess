@@ -1,6 +1,14 @@
 import { type BoardCoordinate, getX, getY } from "../../BoardCoordinate";
 import { getIndex } from "../../BoardIndex";
-import { enPassantHandlerInstance, pawnFirstMovementHandlerInstance } from "../moves";
+import { ChessConstants } from "../../ChessConstants";
+import {
+    attackHandlerInstance,
+    attackPromotionHandlerInstance,
+    enPassantHandlerInstance,
+    movementHandlerInstance,
+    movementPromotionHandlerInstance,
+    pawnFirstMovementHandlerInstance
+} from "../moves";
 import { AddMovesQuery } from "./AddMovesQuery";
 import { CanAttackQuery } from "./CanAttackQuery";
 import { getOneWayMovePatterns, type MovePattern } from "./MovePattern";
@@ -44,14 +52,20 @@ export class Pawn extends Piece {
 
     public override addMoves(query: AddMovesQuery): void {
         const { patterns } = this;
-        query.addBase(patterns.movement, patterns.attack);
-
         const { fromX, fromY, state } = query;
-        const { board } = state;
+
+        const [movementHandler, attackHandler] =
+            this.isBlack && fromY === 1
+            || !this.isBlack && fromY === ChessConstants.BoardSize - 2
+                ? [movementPromotionHandlerInstance, attackPromotionHandlerInstance]
+                : [movementHandlerInstance, attackHandlerInstance];
+        query.addBase(patterns.movement, patterns.attack, movementHandler, attackHandler);
+
         if (!this.isMoved) {
             const [, dy] = patterns.movement[0]!;
             const passageIndex = getIndex(fromX, fromY + dy as BoardCoordinate);
             const to = getIndex(fromX, fromY + 2 * dy as BoardCoordinate);
+            const { board } = state;
             if (board[passageIndex] === undefined && board[to] === undefined) {
                 query.tryAdd(pawnFirstMovementHandlerInstance, to);
             }

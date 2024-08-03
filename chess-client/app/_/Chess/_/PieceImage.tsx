@@ -1,8 +1,6 @@
-import type { BoardCoordinate } from "@/chess/BoardCoordinate";
-import { type Piece, PieceType } from "@/chess/Piece";
+import { PieceType } from "@/chess/Piece";
 import Image from "next/image";
 import { type FC } from "react";
-import classes from "../PieceComponent.module.scss";
 import blackBishopImage from "./images/blackBishop.png";
 import blackKingImage from "./images/blackKing.png";
 import blackKnightImage from "./images/blackKnight.png";
@@ -43,22 +41,17 @@ const pieceTypeNames = {
 
 
 type Props = {
-    readonly piece: Piece;
-    readonly isSelected: boolean;
-    readonly x: BoardCoordinate;
-    readonly y: BoardCoordinate;
-    readonly onClick: (() => void) | undefined;
+    readonly type: PieceType;
+    readonly isBlack: boolean;
+    readonly className?: string | undefined;
+    readonly onClick?: (() => void) | undefined;
 };
 
-export const PieceComponent: FC<Props> = ({ piece, isSelected, x, y, onClick }) => {
-    const pieceName = `${piece.isBlack ? "black" : "white"}${pieceTypeNames[piece.type]}` as const;
+export const PieceImage: FC<Props> = ({ type, isBlack, className, onClick }) => {
+    const pieceName = `${isBlack ? "black" : "white"}${pieceTypeNames[type]}` as const;
     return (
         <Image
-            className={
-                classes["piece"]
-                + (isSelected ? " " + classes["selected"] : "")
-                + " " + classes["piece" + x + "_" + y]
-            }
+            className={className}
             src={pieceImages[`${pieceName}Image`]}
             alt={pieceName}
             onClick={onClick}

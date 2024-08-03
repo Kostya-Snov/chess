@@ -1,0 +1,8 @@
+@use "_/colors" as *;
+
+
+:root {
+    @each $name, $color in $colors {
+        #{getColorVariableName($name)}: $color;
+    }
+}
