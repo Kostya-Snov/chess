@@ -1,1 +1,1 @@
-export { PieceType, type Piece } from "./_/Piece";
+export { PieceType, type Piece } from "./_/pieces";

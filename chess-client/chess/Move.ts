@@ -1,1 +1,1 @@
-export { MoveType, type Move } from "./_/Move";
+export { MoveType, type Move } from "./_/moves";

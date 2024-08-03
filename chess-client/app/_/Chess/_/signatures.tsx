@@ -1,5 +1,5 @@
-import { createArray } from "@/utils/createArray";
 import { ChessConstants } from "@/chess/ChessConstants";
+import { createArray } from "@/utils/createArray";
 import classes from "../signatures.module.scss";
 
 

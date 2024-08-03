@@ -1,10 +1,10 @@
-import { ChessConstants } from "./ChessConstants";
 import type { BoardCoordinate } from "./BoardCoordinate";
+import { ChessConstants } from "./ChessConstants";
 
 
 declare const brandKey: unique symbol;
 
-class Brand {
+declare class Brand {
     declare private readonly [brandKey]: never;
 }
 

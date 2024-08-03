@@ -1,5 +1,5 @@
-import type { FC } from "react";
 import { MoveType } from "@/chess/Move";
+import type { FC } from "react";
 import classes from "../Cell.module.scss";
 
 
