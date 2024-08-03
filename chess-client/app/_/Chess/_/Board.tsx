@@ -1,8 +1,8 @@
 import { getX, getY } from "@/chess/BoardCoordinate";
 import { type BoardIndex, isBoardIndex } from "@/chess/BoardIndex";
 import { ChessConstants } from "@/chess/ChessConstants";
-import type { ChessState } from "@/chess/ChessState";
-import { Move } from "@/chess/Move";
+import { type ChessState } from "@/chess/ChessState";
+import { type Move } from "@/chess/Move";
 import { assert } from "@/utils/assert";
 import { createArray } from "@/utils/createArray";
 import { type FC, useEffect, useState } from "react";

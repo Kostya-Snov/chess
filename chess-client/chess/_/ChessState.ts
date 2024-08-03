@@ -1,9 +1,9 @@
 import { InvalidOperationError } from "@/utils/InvalidOperationError";
-import type { BoardIndex } from "../BoardIndex";
+import { type BoardIndex } from "../BoardIndex";
 import { ChessStateDraft } from "./ChessStateDraft";
-import type { Move } from "./moves";
+import { type Move } from "./moves";
 import { AddMovesQuery, CanAttackQuery, createPiece, type Piece, PieceType } from "./pieces";
-import type { PromotionPieceType } from "./PromotionPieceType";
+import { type PromotionPieceType } from "./PromotionPieceType";
 
 
 declare const brandKey: unique symbol;

@@ -1,4 +1,4 @@
-import type { PieceType } from "./pieces";
+import { type PieceType } from "./pieces";
 
 export type PromotionPieceType =
     | PieceType.Rook

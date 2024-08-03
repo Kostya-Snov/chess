@@ -1,4 +1,4 @@
-import type { BoardIndex } from "./BoardIndex";
+import { type BoardIndex } from "./BoardIndex";
 import { ChessConstants } from "./ChessConstants";
 
 

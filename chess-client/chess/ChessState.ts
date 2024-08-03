@@ -3,7 +3,7 @@ import { createPiece, type Piece, PieceType } from "./_/pieces";
 import { ChessConstants } from "./ChessConstants";
 
 
-export type { ChessState };
+export { type ChessState };
 
 
 const initialBoard = (() => {

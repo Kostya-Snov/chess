@@ -1,7 +1,7 @@
-import { BoardIndex } from "../../BoardIndex";
-import { ChessStateDraft } from "../ChessStateDraft";
+import { type BoardIndex } from "../../BoardIndex";
+import { type ChessStateDraft } from "../ChessStateDraft";
 import { attackHandlerInstance } from "./AttackHandler";
-import { type MoveHandler, MoveType } from "./MoveHandler";
+import { type MoveHandler, type MoveType } from "./MoveHandler";
 import { movementHandlerInstance } from "./MovementHandler";
 
 

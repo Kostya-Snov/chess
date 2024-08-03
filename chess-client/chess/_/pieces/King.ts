@@ -1,7 +1,7 @@
-import type { BoardIndex } from "../../BoardIndex";
+import { type BoardIndex } from "../../BoardIndex";
 import { castlingHandlerInstance } from "../moves";
-import { AddMovesQuery } from "./AddMovesQuery";
-import { CanAttackQuery } from "./CanAttackQuery";
+import { type AddMovesQuery } from "./AddMovesQuery";
+import { type CanAttackQuery } from "./CanAttackQuery";
 import {
     diagonalDirections,
     getOneWayMovePatterns,

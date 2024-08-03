@@ -1,6 +1,6 @@
 import { type BoardCoordinate, getX, getY } from "../../BoardCoordinate";
 import { type BoardIndex, getIndex } from "../../BoardIndex";
-import { ChessStateDraft } from "../ChessStateDraft";
+import { type ChessStateDraft } from "../ChessStateDraft";
 import { type MoveHandler, MoveType } from "./MoveHandler";
 
 

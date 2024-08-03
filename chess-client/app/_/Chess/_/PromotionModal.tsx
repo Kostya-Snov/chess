@@ -1,6 +1,5 @@
-import type { PromotionPieceType } from "@/chess/Piece";
-import { PieceType } from "@/chess/Piece";
-import type { FC } from "react";
+import { PieceType, type PromotionPieceType } from "@/chess/Piece";
+import { type FC } from "react";
 import classes from "../PromotionModal.module.scss";
 import { PieceImage } from "./PieceImage";
 

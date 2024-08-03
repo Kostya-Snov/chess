@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import type { FC, ReactNode } from "react";
+import { type Metadata } from "next";
+import { type FC, type ReactNode } from "react";
 import "@/styles/cssVariables.scss";
 import "./_/layout.scss";
 

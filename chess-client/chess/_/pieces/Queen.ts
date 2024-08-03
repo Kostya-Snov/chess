@@ -1,5 +1,5 @@
-import { AddMovesQuery } from "./AddMovesQuery";
-import { CanAttackQuery } from "./CanAttackQuery";
+import { type AddMovesQuery } from "./AddMovesQuery";
+import { type CanAttackQuery } from "./CanAttackQuery";
 import {
     diagonalDirections,
     getInfinityMovePatterns,

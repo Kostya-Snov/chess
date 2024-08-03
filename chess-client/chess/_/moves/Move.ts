@@ -1,6 +1,6 @@
-import type { BoardIndex } from "../../BoardIndex";
-import type { ChessState } from "../ChessState";
-import type { MoveType } from "./MoveHandler";
+import { type BoardIndex } from "../../BoardIndex";
+import { type ChessState } from "../ChessState";
+import { type MoveType } from "./MoveHandler";
 
 
 export type Move = {

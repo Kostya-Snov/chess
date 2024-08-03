@@ -9,8 +9,8 @@ import {
     movementPromotionHandlerInstance,
     pawnFirstMovementHandlerInstance
 } from "../moves";
-import { AddMovesQuery } from "./AddMovesQuery";
-import { CanAttackQuery } from "./CanAttackQuery";
+import { type AddMovesQuery } from "./AddMovesQuery";
+import { type CanAttackQuery } from "./CanAttackQuery";
 import { getOneWayMovePatterns, type MovePattern } from "./MovePattern";
 import { Piece, PieceType } from "./Piece";
 

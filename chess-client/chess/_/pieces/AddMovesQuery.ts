@@ -1,10 +1,15 @@
 import { type BoardCoordinate, getX, getY } from "../../BoardCoordinate";
-import type { BoardIndex } from "../../BoardIndex";
-import type { ChessState } from "../ChessState";
+import { type BoardIndex } from "../../BoardIndex";
+import { type ChessState } from "../ChessState";
 import { ChessStateDraft } from "../ChessStateDraft";
-import { attackHandlerInstance, Move, MoveHandler, movementHandlerInstance } from "../moves";
+import {
+    attackHandlerInstance,
+    type Move,
+    type MoveHandler,
+    movementHandlerInstance
+} from "../moves";
 import { getMovePatternIndices, type MovePattern } from "./MovePattern";
-import type { Piece } from "./Piece";
+import { type Piece } from "./Piece";
 
 
 export class AddMovesQuery {

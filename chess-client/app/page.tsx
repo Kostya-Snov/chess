@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { type FC } from "react";
 import { Chess } from "./_/Chess";
 import classes from "./_/page.module.scss";
 

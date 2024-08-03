@@ -1,6 +1,6 @@
-import type { BoardCoordinate } from "@/chess/BoardCoordinate";
-import type { Piece } from "@/chess/Piece";
-import type { FC } from "react";
+import { type BoardCoordinate } from "@/chess/BoardCoordinate";
+import { type Piece } from "@/chess/Piece";
+import { type FC } from "react";
 import classes from "../PieceOnBoard.module.scss";
 import { PieceImage } from "./PieceImage";
 

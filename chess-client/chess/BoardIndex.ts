@@ -1,4 +1,4 @@
-import type { BoardCoordinate } from "./BoardCoordinate";
+import { type BoardCoordinate } from "./BoardCoordinate";
 import { ChessConstants } from "./ChessConstants";
 
 

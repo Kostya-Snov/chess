@@ -1,3 +1,23 @@
 {
-  "extends": "next/core-web-vitals"
+    "extends": "next/core-web-vitals",
+    "parserOptions": {
+        "project": true
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "@typescript-eslint/consistent-type-imports": [
+            "error",
+            {
+                "fixStyle": "inline-type-imports"
+            }
+        ],
+        "@typescript-eslint/consistent-type-exports": [
+            "error",
+            {
+                "fixMixedExportsWithInlineTypeSpecifier": true
+            }
+        ]
+    }
 }
