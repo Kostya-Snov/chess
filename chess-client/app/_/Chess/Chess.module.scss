@@ -1,9 +1,36 @@
+@use "@/styles/colors";
+@use "_/boardVariables";
+
+
 .chess {
     --cellSize: 80px;
+
+    display: flex;
+    justify-content: space-around;
 }
 
 .boardWithSignatures {
     --signatureMargin: 0.5rem;
 
     display: grid;
+}
+
+$_borderWidth: var(--borderWidth);
+
+.deletedPieces {
+    --borderWidth: 0.3rem;
+
+    display: grid;
+    grid-template-columns: repeat(5, calc(#{boardVariables.$cellSize} + 2 * $_borderWidth));
+    align-content: center;
+    place-items: center;
+    gap: 0.1rem;
+}
+
+.deletedPiece {
+    width: boardVariables.$cellSize;
+    height: boardVariables.$cellSize;
+    border: $_borderWidth solid black;
+    border-radius: 0.2rem;
+    background-color: sandybrown;
 }

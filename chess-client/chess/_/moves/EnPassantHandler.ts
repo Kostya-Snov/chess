@@ -22,7 +22,9 @@ export class EnPassantHandler implements MoveHandler {
 
 
     /** @virtual */
-    public apply(pawnFrom: BoardIndex, pawnTo: BoardIndex, { board }: ChessStateDraft): void {
+    public apply(pawnFrom: BoardIndex, pawnTo: BoardIndex, draft: ChessStateDraft): void {
+        const { board } = draft;
+
         const pawn = board[pawnFrom]!;
         board[pawnTo] = pawn;
         board[pawnFrom] = undefined;
@@ -31,6 +33,7 @@ export class EnPassantHandler implements MoveHandler {
             getX(pawnTo),
             getY(pawnTo) - (pawn.isBlack ? -1 : 1) as BoardCoordinate
         );
+        draft.deletedPieces.push(board[enemyPawnIndex]!);
         board[enemyPawnIndex] = undefined;
     }
 }

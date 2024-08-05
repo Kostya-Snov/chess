@@ -55,4 +55,4 @@ const initialBoard = (() => {
     return board;
 })();
 
-export const initialChessState = new ChessState(initialBoard, false, null, null);
+export const initialChessState = new ChessState(initialBoard, [], false, null, null);

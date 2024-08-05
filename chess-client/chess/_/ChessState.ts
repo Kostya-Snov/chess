@@ -14,6 +14,7 @@ export class ChessState {
 
     public constructor(
         public readonly board: readonly (Piece | undefined)[],
+        public readonly deletedPieces: readonly Piece[],
         public readonly isBlacksTurn: boolean,
         public readonly doubleMovementPawnIndex: BoardIndex | null,
         public readonly promotionIndex: BoardIndex | null

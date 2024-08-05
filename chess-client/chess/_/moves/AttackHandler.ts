@@ -21,7 +21,9 @@ export class AttackHandler implements MoveHandler {
 
 
     /** @virtual */
-    public apply(from: BoardIndex, to: BoardIndex, { board }: ChessStateDraft): void {
+    public apply(from: BoardIndex, to: BoardIndex, draft: ChessStateDraft): void {
+        const { board } = draft;
+        draft.deletedPieces.push(board[to]!);
         board[to] = board[from]!.asMoved();
         board[from] = undefined;
     }
