@@ -15,6 +15,17 @@
     display: grid;
 }
 
+.stateAndDeletedPieces {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.dangerousState {
+    color: red;
+}
+
 $_borderWidth: var(--borderWidth);
 
 .deletedPieces {
@@ -22,7 +33,6 @@ $_borderWidth: var(--borderWidth);
 
     display: grid;
     grid-template-columns: repeat(5, calc(#{boardVariables.$cellSize} + 2 * $_borderWidth));
-    align-content: center;
     place-items: center;
     gap: 0.1rem;
 }

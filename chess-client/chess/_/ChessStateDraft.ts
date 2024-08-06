@@ -9,6 +9,7 @@ export class ChessStateDraft {
     public isBlacksTurn: boolean;
     public doubleMovementPawnIndex: BoardIndex | null;
     public promotionIndex: BoardIndex | null;
+    public cachedCanMove: boolean | null;
 
 
     public constructor(state: ChessState) {
@@ -17,6 +18,7 @@ export class ChessStateDraft {
         this.isBlacksTurn = state.isBlacksTurn;
         this.doubleMovementPawnIndex = state.doubleMovementPawnIndex;
         this.promotionIndex = state.promotionIndex;
+        this.cachedCanMove = state.cachedCanMove;
     }
 
 
@@ -26,7 +28,8 @@ export class ChessStateDraft {
             this.deletedPieces,
             this.isBlacksTurn,
             this.doubleMovementPawnIndex,
-            this.promotionIndex
+            this.promotionIndex,
+            this.cachedCanMove
         );
     }
 }

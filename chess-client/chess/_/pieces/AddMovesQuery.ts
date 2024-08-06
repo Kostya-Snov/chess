@@ -50,6 +50,8 @@ export class AddMovesQuery {
 
         if (draft.promotionIndex === null) {
             draft.isBlacksTurn = !draft.isBlacksTurn;
+        } else {
+            draft.cachedCanMove = true;
         }
         this.moves.set(to, {
             type: handler.type,

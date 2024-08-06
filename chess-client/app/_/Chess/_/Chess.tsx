@@ -21,15 +21,31 @@ export const Chess: FC = () => {
                 {bottomSignatures}
                 <Board chessState={chessState} onChessStateChange={setChessState}/>
             </div>
-            <div className={classes["deletedPieces"]}>
-                {chessState.deletedPieces.map(piece => (
-                    <PieceImage
-                        key={piece.id}
-                        className={classes["deletedPiece"]}
-                        type={piece.type}
-                        isBlack={piece.isBlack}
-                    />
-                ))}
+            <div className={classes["stateAndDeletedPieces"]}>
+                <h2>
+                    Хід {chessState.isBlacksTurn ? "чорних" : "білих"}.
+                    <span className={classes["dangerousState"]}>
+                         {
+                             chessState.canMove()
+                                 ? chessState.isShah()
+                                     ? " Шах!"
+                                     : ""
+                                 : chessState.isShah()
+                                     ? " Мат!"
+                                     : " Пат!"
+                         }
+                    </span>
+                </h2>
+                <div className={classes["deletedPieces"]}>
+                    {chessState.deletedPieces.map(piece => (
+                        <PieceImage
+                            key={piece.id}
+                            className={classes["deletedPiece"]}
+                            type={piece.type}
+                            isBlack={piece.isBlack}
+                        />
+                    ))}
+                </div>
             </div>
             <PromotionModal
                 piecesIsBlack={chessState.isBlacksTurn}

@@ -17,7 +17,9 @@ export class ChessState {
         public readonly deletedPieces: readonly Piece[],
         public readonly isBlacksTurn: boolean,
         public readonly doubleMovementPawnIndex: BoardIndex | null,
-        public readonly promotionIndex: BoardIndex | null
+        public readonly promotionIndex: BoardIndex | null,
+        // Cached to save 'canMove' value after the pawn promotion.
+        public readonly cachedCanMove: boolean | null
     ) {
     }
 
@@ -56,7 +58,7 @@ export class ChessState {
         const { board } = draft;
         const pawn = board[promotionIndex]!;
         board[promotionIndex] = createPiece(pieceType, pawn.id, pawn.isBlack, true);
-        draft.promotionIndex = null;
+        draft.cachedCanMove = draft.promotionIndex = null;
         draft.isBlacksTurn = !draft.isBlacksTurn;
         return draft.getState();
     }
@@ -69,6 +71,18 @@ export class ChessState {
             && this.inCurrentTurn(piece)
         ) as BoardIndex;
         return this.isUnderAttack(kingIndex);
+    }
+
+
+    public canMove(): boolean {
+        return this.cachedCanMove ?? this.board.some((piece, index) => {
+            if (piece === undefined || !this.inCurrentTurn(piece)) {
+                return false;
+            }
+            const query = new AddMovesQuery(index as BoardIndex, this);
+            piece.addMoves(query);
+            return query.moves.size !== 0;
+        });
     }
 
 
