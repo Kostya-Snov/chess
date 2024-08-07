@@ -10,7 +10,7 @@ const createSignatures = (position: string, getText: (index: number) => string) 
 );
 
 
-const getFileSignatureText = (index: number) => String.fromCharCode("a".charCodeAt(0) + index);
+const getFileSignatureText = (index: number) => String.fromCharCode("h".charCodeAt(0) - index);
 
 export const topSignatures = createSignatures("top", getFileSignatureText);
 

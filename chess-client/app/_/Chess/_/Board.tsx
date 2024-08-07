@@ -5,34 +5,34 @@ import { type ChessState } from "@/chess/ChessState";
 import { type Move } from "@/chess/Move";
 import { assert } from "@/utils/assert";
 import { createArray } from "@/utils/createArray";
-import { type FC, useEffect, useState } from "react";
+import { type FC, useEffect } from "react";
 import classes from "../Board.module.scss";
 import { Cell } from "./Cell";
 import { PieceOnBoard } from "./PieceOnBoard";
 
 
-type Props = {
-    readonly chessState: ChessState;
-    readonly onChessStateChange: (state: ChessState) => void;
+export type Selection = {
+    readonly index: BoardIndex;
+    readonly moves: ReadonlyMap<BoardIndex, Move>;
 };
 
-export const Board: FC<Props> = ({ chessState, onChessStateChange }) => {
-    type Selection = {
-        readonly index: BoardIndex;
-        readonly moves: Map<BoardIndex, Move>;
-    };
+type Props = {
+    readonly chessState: ChessState;
+    readonly selection: Selection | null;
+    readonly onMove: (move: Move) => void;
+    readonly onChangeSelection: (selection: Selection | null) => void;
+};
 
-    const [selection, setSelection] = useState<Selection | null>(null);
-
+export const Board: FC<Props> = ({ chessState, selection, onMove, onChangeSelection }) => {
     useEffect(() => {
         const listener = (event: KeyboardEvent) => {
             if (event.key === "Escape") {
-                setSelection(null);
+                onChangeSelection(null);
             }
         }
         addEventListener("keyup", listener);
         return () => removeEventListener("keyup", listener);
-    }, []);
+    }, [onChangeSelection]);
 
     const { board } = chessState;
 
@@ -50,8 +50,8 @@ export const Board: FC<Props> = ({ chessState, onChessStateChange }) => {
                             move === undefined
                                 ? undefined
                                 : () => {
-                                    onChessStateChange(move.state);
-                                    setSelection(null);
+                                    onMove(move);
+                                    onChangeSelection(null);
                                 }
                         }
                     />
@@ -76,7 +76,7 @@ export const Board: FC<Props> = ({ chessState, onChessStateChange }) => {
 
                             onClick={
                                 chessState.inCurrentTurn(piece)
-                                    ? () => setSelection(
+                                    ? () => onChangeSelection(
                                         isSelected
                                             ? null
                                             : {
