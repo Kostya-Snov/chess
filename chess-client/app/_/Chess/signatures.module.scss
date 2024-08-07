@@ -3,39 +3,32 @@
 
 @mixin _fileSignatures {
     display: grid;
-    justify-items: center;
+    place-items: center;
     grid-template-columns: repeat(boardVariables.$boardSize, 1fr);
 }
 
 @mixin _rankSignatures {
     display: grid;
-    align-items: center;
+    place-items: center;
     grid-template-rows: repeat(boardVariables.$boardSize, 1fr);
-}
-
-@mixin _signatures($marginDirection, $gridRow, $gridColumn) {
-    $signatureMargin: var(--signatureMargin);
-
-    grid-area: #{$gridRow} / #{$gridColumn};
-    margin-#{$marginDirection}: $signatureMargin;
 }
 
 .topSignatures {
     @include _fileSignatures;
-    @include _signatures(bottom, 1, 2);
+    grid-area: 1 / 2;
 }
 
 .leftSignatures {
     @include _rankSignatures;
-    @include _signatures(right, 2, 1);
+    grid-area: 2 / 1;
 }
 
 .bottomSignatures {
     @include _fileSignatures;
-    @include _signatures(top, 3, 2);
+    grid-area: 3 / 2;
 }
 
 .rightSignatures {
     @include _rankSignatures;
-    @include _signatures(left, 2, 3);
+    grid-area: 2 / 3;
 }

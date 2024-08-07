@@ -19,11 +19,18 @@ export type Selection = {
 type Props = {
     readonly chessState: ChessState;
     readonly selection: Selection | null;
+    readonly isFlipped: boolean;
     readonly onMove: (move: Move) => void;
     readonly onChangeSelection: (selection: Selection | null) => void;
 };
 
-export const Board: FC<Props> = ({ chessState, selection, onMove, onChangeSelection }) => {
+export const Board: FC<Props> = ({
+    chessState,
+    selection,
+    isFlipped,
+    onMove,
+    onChangeSelection
+}) => {
     useEffect(() => {
         const listener = (event: KeyboardEvent) => {
             if (event.key === "Escape") {
@@ -36,10 +43,20 @@ export const Board: FC<Props> = ({ chessState, selection, onMove, onChangeSelect
 
     const { board } = chessState;
 
+    const flipIndex: (index: BoardIndex) => BoardIndex =
+        isFlipped
+            ? index => {
+                const flippedIndex = ChessConstants.BoardLength - 1 - index;
+                assert(isBoardIndex(flippedIndex));
+                return flippedIndex;
+            }
+            : index => index;
+
     return (
         <div className={classes["board"]}>
-            {createArray(ChessConstants.BoardLength, index => {
-                assert(isBoardIndex(index));
+            {createArray(ChessConstants.BoardLength, flippedIndex => {
+                assert(isBoardIndex(flippedIndex));
+                const index = flipIndex(flippedIndex);
                 const move = selection?.moves.get(index);
                 return (
                     <Cell
@@ -65,14 +82,15 @@ export const Board: FC<Props> = ({ chessState, selection, onMove, onChangeSelect
                     const index = board.indexOf(piece);
                     assert(isBoardIndex(index));
                     const isSelected = selection?.index === index;
+                    const flippedIndex = flipIndex(index);
 
                     return (
                         <PieceOnBoard
                             key={piece.id}
                             piece={piece}
                             isSelected={isSelected}
-                            x={getX(index)}
-                            y={getY(index)}
+                            x={getX(flippedIndex)}
+                            y={getY(flippedIndex)}
 
                             onClick={
                                 chessState.inCurrentTurn(piece)

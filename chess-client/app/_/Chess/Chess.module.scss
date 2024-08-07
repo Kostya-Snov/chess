@@ -62,9 +62,25 @@
 }
 
 .boardWithSignatures {
-    --signatureMargin: 0.5rem;
+    $signatureWidth: var(--signatureWidth);
+
+    --signatureWidth: 1.5rem;
 
     display: grid;
+    grid-template-rows: $signatureWidth auto $signatureWidth;
+    grid-template-columns: $signatureWidth auto $signatureWidth;
+}
+
+.flipButton {
+    place-self: center;
+
+    width: 80%;
+    height: 80%;
+}
+
+.flipImage {
+    width: 100%;
+    height: 100%;
 }
 
 .stateAndDeletedPieces {

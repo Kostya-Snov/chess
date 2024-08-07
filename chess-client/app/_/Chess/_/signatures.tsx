@@ -12,13 +12,29 @@ const createSignatures = (position: string, getText: (index: number) => string) 
 
 const getFileSignatureText = (index: number) => String.fromCharCode("h".charCodeAt(0) - index);
 
-export const topSignatures = createSignatures("top", getFileSignatureText);
-
-export const bottomSignatures = createSignatures("bottom", getFileSignatureText);
-
-
 const getRankSignatureText = (index: number) => (index + 1).toString();
 
-export const leftSignatures = createSignatures("left", getRankSignatureText);
+export const signatures = (
+    <>
+        {createSignatures("top", getFileSignatureText)}
+        {createSignatures("bottom", getFileSignatureText)}
+        {createSignatures("left", getRankSignatureText)}
+        {createSignatures("right", getRankSignatureText)}
+    </>
+);
 
-export const rightSignatures = createSignatures("right", getRankSignatureText);
+
+const getFlippedFileSignatureText = (index: number) =>
+    getFileSignatureText(ChessConstants.BoardSize - 1 - index);
+
+const getFlippedRankSignatureText = (index: number) =>
+    getRankSignatureText(ChessConstants.BoardSize - 1 - index);
+
+export const flippedSignatures = (
+    <>
+        {createSignatures("top", getFlippedFileSignatureText)}
+        {createSignatures("bottom", getFlippedFileSignatureText)}
+        {createSignatures("left", getFlippedRankSignatureText)}
+        {createSignatures("right", getFlippedRankSignatureText)}
+    </>
+);

@@ -2,13 +2,15 @@
 
 import { initialChessState } from "@/chess/ChessState";
 import { type Move } from "@/chess/Move";
+import Image from "next/image";
 import { type FC, Fragment, type JSX, useState } from "react";
 import classes from "../Chess.module.scss";
 import { Board, type Selection } from "./Board";
 import { getMoveName } from "./getMoveName";
+import flipImage from "./images/flip.svg";
 import { PieceImage } from "./PieceImage";
 import { PromotionModal } from "./PromotionModal";
-import { bottomSignatures, leftSignatures, rightSignatures, topSignatures } from "./signatures";
+import { flippedSignatures, signatures } from "./signatures";
 
 
 const enum Constants {
@@ -19,6 +21,7 @@ export const Chess: FC = () => {
     const [history, setHistory] = useState<readonly Move[]>([]);
     const [historyIndex, setHistoryIndex] = useState(Constants.InitialHistoryIndex);
     const [selection, setSelection] = useState<Selection | null>(null);
+    const [isFlipped, setIsFlipped] = useState(true);
 
     const chessState = historyIndex === Constants.InitialHistoryIndex
         ? initialChessState
@@ -79,13 +82,14 @@ export const Chess: FC = () => {
                 ))}
             </div>
             <div className={classes["boardWithSignatures"]}>
-                {rightSignatures}
-                {topSignatures}
-                {leftSignatures}
-                {bottomSignatures}
+                <button className={classes["flipButton"]} onClick={() => setIsFlipped(!isFlipped)}>
+                    <Image className={classes["flipImage"]} src={flipImage} alt="flip"/>
+                </button>
+                {isFlipped ? flippedSignatures : signatures}
                 <Board
                     chessState={chessState}
                     selection={selection}
+                    isFlipped={isFlipped}
                     onMove={pushMove}
                     onChangeSelection={setSelection}
                 />
