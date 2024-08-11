@@ -1,4 +1,4 @@
-@forward "./_/colors" hide getColorVariableName, $colors;
+@forward "_/colors" hide getColorVariableName, $colors;
 
 
 @function setAlpha($color, $alpha) {

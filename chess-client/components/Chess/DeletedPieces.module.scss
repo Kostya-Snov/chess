@@ -1,0 +1,32 @@
+@use "@/styles/colors";
+@use "_/chess" as *;
+
+
+.title {
+    font-size: getCellSizeUnit(1 / 2);
+    text-align: center;
+
+    margin: 0;
+}
+
+
+$_pieceGap: var(--pieceGap);
+
+.pieces {
+    --pieceGap: #{getCellSizeUnit(1 / 6)};
+
+    display: grid;
+    grid-template-columns: repeat(5, getCellSizeUnit(1));
+    column-gap: $_pieceGap;
+}
+
+.piece {
+    width: getCellSizeUnit(1);
+    height: getCellSizeUnit(1);
+    margin-top: $_pieceGap;
+
+    border-radius: 20%;
+    outline: getCellSizeUnit(1 / 20) solid colors.$border;
+
+    background-color: #c9bebe;
+}

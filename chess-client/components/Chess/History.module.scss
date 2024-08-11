@@ -1,0 +1,67 @@
+@use "@/styles/colors";
+@use "_/chess" as *;
+
+
+.title {
+    font-size: getCellSizeUnit(1 / 2);
+    text-align: center;
+
+    margin: 0;
+}
+
+
+$_historyItemWidth: var(--historyItemWidth);
+
+.items {
+    --historyItemWidth: #{getCellSizeUnit(1.8)};
+
+    display: grid;
+    grid-template-columns:
+        minmax(getCellSizeUnit(1 / 2), max-content)
+        repeat(2, minmax($_historyItemWidth, max-content));
+    place-items: center start;
+    gap: getCellSizeUnit(1 / 10);
+
+    font: getCellSizeUnit(1 / 4) "Courier New", serif;
+    line-height: 1.25;
+
+    margin-top: getCellSizeUnit(1 / 5);
+}
+
+.item {
+    color: inherit;
+    font: inherit;
+
+    padding: getCellSizeUnit(1 / 40) getCellSizeUnit(1 / 10);
+
+    border: getCellSizeUnit(1 / 40) solid transparent;
+    border-radius: getCellSizeUnit(1 / 8);
+
+    background-color: transparent;
+
+    transition-duration: 250ms;
+    transition-property: border-color, background-color;
+
+    &:not(.selected) {
+        cursor: pointer;
+
+        &:hover {
+            border-color: colors.$border;
+
+            background-color: navajowhite;
+        }
+    }
+}
+
+.start {
+    grid-area: 1 / 1 / span 1 / span 3;
+    justify-self: center;
+
+    min-width: $_historyItemWidth;
+}
+
+.selected {
+    border-color: colors.$border;
+
+    background-color: white;
+}

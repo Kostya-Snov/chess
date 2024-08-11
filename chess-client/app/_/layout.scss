@@ -3,6 +3,11 @@
 
 :root {
     font-size: 150%;
-    background-color: colors.$background;
     color: colors.$primary;
+
+    background-color: colors.$background;
+}
+
+body {
+    margin: 0;
 }

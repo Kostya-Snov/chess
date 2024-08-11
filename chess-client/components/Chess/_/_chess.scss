@@ -1,0 +1,7 @@
+$coordinateNamesSize: var(--coordinateNamesSize);
+
+@function getCellSizeUnit($value) {
+    $cellSize: var(--cellSize);
+
+    @return calc($value * $cellSize);
+}

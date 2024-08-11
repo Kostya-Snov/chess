@@ -1,0 +1,32 @@
+@use "_/chess" as *;
+
+
+.names {
+    display: grid;
+    place-items: center;
+
+    font-size: calc($coordinateNamesSize * 0.75);
+}
+
+@mixin _names($flow, $gridRow, $gridColumn) {
+    grid-area: #{$gridRow} / #{$gridColumn};
+
+    grid-auto-flow: $flow;
+    grid-auto-#{$flow}s: 1fr;
+}
+
+.top {
+    @include _names(column, 1, 2);
+}
+
+.right {
+    @include _names(row, 2, 3);
+}
+
+.bottom {
+    @include _names(column, 3, 2);
+}
+
+.left {
+    @include _names(row, 2, 1);
+}

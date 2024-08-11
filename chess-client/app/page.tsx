@@ -1,8 +1,13 @@
+import { Chess } from "@/components/Chess";
+import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
 import { type FC } from "react";
-import { Chess } from "./_/Chess";
+import uncheckedClasses from "./_/page.module.scss";
 
 
-const RootPage: FC = () => <Chess/>;
+const classes = new CSSModuleClasses(uncheckedClasses);
+
+
+const RootPage: FC = () => <Chess className={classes.get("chess")}/>;
 
 
 export default RootPage;

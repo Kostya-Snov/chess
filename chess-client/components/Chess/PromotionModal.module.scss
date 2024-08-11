@@ -1,0 +1,71 @@
+@use "@/styles/colors";
+@use "_/chess" as *;
+
+
+$_modalTransitionKind: var(--modalTransitionKind);
+
+.container {
+    --modalTransitionKind: 300ms;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: colors.setAlpha(colors.$background, 0);
+
+    transition: background-color $_modalTransitionKind;
+
+    &:not(.open) {
+        pointer-events: none;
+    }
+
+    &.open {
+        background-color: colors.setAlpha(colors.$background, 0.5);
+    }
+}
+
+.content {
+    scale: 0;
+
+    transition: scale $_modalTransitionKind;
+
+    .open > & {
+        scale: 1;
+    }
+}
+
+
+.pieces {
+    display: flex;
+    gap: getCellSizeUnit(1 / 10);
+
+    padding: getCellSizeUnit(1 / 5);
+
+    border-radius: getCellSizeUnit(1 / 10);
+
+    background-color: colors.$background;
+}
+
+.piece {
+    cursor: pointer;
+
+    width: getCellSizeUnit(1);
+    height: getCellSizeUnit(1);
+
+    border: getCellSizeUnit(1 / 40) solid colors.$border;
+    border-radius: 10%;
+
+    background-color: #c3bba9;
+
+    transition: background-color 250ms;
+
+    &:hover {
+        background-color: #555559;
+    }
+}

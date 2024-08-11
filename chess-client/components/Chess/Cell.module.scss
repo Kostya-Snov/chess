@@ -1,0 +1,89 @@
+@use "@/styles/colors";
+@use "_/chess" as *;
+
+
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:first-child {
+        grid-area: 1 / 1;
+    }
+
+    &::before {
+        $signSize: var(--signSize);
+
+        content: "";
+
+        display: block;
+
+        width: $signSize;
+        height: $signSize;
+
+        border-color: transparent;
+        border-radius: 50%;
+
+        background-color: transparent;
+
+        transition-duration: 250ms;
+    }
+}
+
+.white {
+    background-color: gray;
+}
+
+.black {
+    background-color: black;
+}
+
+
+.baseSign {
+    cursor: pointer;
+}
+
+$_signColor: var(--signColor);
+
+.defaultSign {
+    &::before {
+        --signSize: 50%;
+
+        background-color: colors.setAlpha($_signColor, 0.5);
+
+        transition-property: background-color;
+    }
+
+    &:hover::before {
+        background-color: colors.setAlpha($_signColor, 1);
+    }
+}
+
+.movement::before {
+    --signColor: lightsteelblue;
+}
+
+.enPassant::before {
+    --signColor: yellow;
+}
+
+.castling::before {
+    --signColor: green;
+}
+
+.attack {
+    &::before {
+        --signSize: 90%;
+        --signColor: red;
+
+        box-sizing: border-box;
+
+        border: getCellSizeUnit(1 / 12) solid colors.setAlpha($_signColor, 0.5);
+
+        transition-property: border-color;
+    }
+
+    &:hover::before {
+        border-color: colors.setAlpha($_signColor, 1);
+    }
+}

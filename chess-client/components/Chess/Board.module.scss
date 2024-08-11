@@ -1,0 +1,132 @@
+@use "@/styles/colors";
+@use "_/chess" as *;
+
+
+$_boardSize: 8;
+
+
+.board {
+    --coordinateNamesSize: #{getCellSizeUnit(0.5)};
+
+    display: grid;
+    $template: $coordinateNamesSize calc($_boardSize * getCellSizeUnit(1)) $coordinateNamesSize;
+    grid-template-rows: $template;
+    grid-template-columns: $template;
+}
+
+
+.boardCore {
+    grid-area: 2 / 2;
+
+    display: grid;
+    $template: repeat($_boardSize, 1fr);
+    grid-template-rows: $template;
+    grid-template-columns: $template;
+
+    outline: getCellSizeUnit(1 / 40) solid colors.$border;
+}
+
+
+$_basePieceTransition: var(--basePieceTransition);
+$_pieceDropShadowSize: var(--pieceDropShadowSize);
+
+.piece {
+    --basePieceTransition: filter 250ms, translate 500ms;
+    --pieceDropShadowSize: #{getCellSizeUnit(1 / 12)};
+
+    grid-area: 1 / 1;
+
+    width: 100%;
+    height: 100%;
+
+    transition: $_basePieceTransition;
+
+    @for $x from 0 to $_boardSize {
+        @for $y from 0 to $_boardSize {
+            &#{$x}_#{$y} {
+                translate: $x * 100% $y * 100%;
+            }
+        }
+    }
+
+    &:hover {
+        filter: drop-shadow(0 0 $_pieceDropShadowSize crimson);
+    }
+
+    &:not(.inCurrentTurn) {
+        pointer-events: none;
+    }
+}
+
+.inCurrentTurn {
+    cursor: pointer;
+}
+
+.selected {
+    filter: drop-shadow(0 0 $_pieceDropShadowSize green);
+}
+
+@property --kingStateColor {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: transparent;
+}
+
+.king {
+    $kingStateColor: var(--kingStateColor);
+
+    background-image: radial-gradient(
+            closest-side,
+            $kingStateColor 0%,
+            rgb(from $kingStateColor calc(0.9 * r) calc(0.9 * g) calc(0.9 * b) / alpha) 65%,
+            transparent 90%
+    );
+
+    transition: $_basePieceTransition, --kingStateColor 250ms;
+}
+
+.shah {
+    --kingStateColor: #ff5349;
+}
+
+.mate {
+    --kingStateColor: red;
+}
+
+.stalemate {
+    --kingStateColor: #e3c837;
+}
+
+
+.flipButton {
+    $flipButtonSize: var(--flipButtonSize);
+
+    --flipButtonSize: 75%;
+
+    grid-area: 1 / 3;
+    place-self: center;
+
+    cursor: pointer;
+
+    width: $flipButtonSize;
+    height: $flipButtonSize;
+    padding: 0;
+
+    border: getCellSizeUnit(1 / 40) solid colors.$border;
+    border-radius: 20%;
+
+    background-color: lightgray;
+
+    transition: background-color 150ms;
+
+    &:active {
+        background-color: darkgray;
+    }
+}
+
+.flipImage {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+}

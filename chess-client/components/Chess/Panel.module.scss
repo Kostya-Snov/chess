@@ -1,0 +1,12 @@
+@use "@/styles/colors";
+@use "_/chess" as *;
+
+
+.panel {
+    padding: getCellSizeUnit(1 / 3);
+
+    border: getCellSizeUnit(1 / 15) solid colors.$border;
+    border-radius: getCellSizeUnit(1 / 8);
+
+    background-color: #bcbdd5;
+}
