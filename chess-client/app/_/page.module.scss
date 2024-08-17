@@ -1,3 +1,5 @@
 .chess {
-    --cellSize: calc(100vmin / 9.2);
+    --cellSize: calc(min(100cqw, 100vh) / 9.2);
+
+    container-type: inline-size;
 }
