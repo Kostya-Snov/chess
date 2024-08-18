@@ -1,13 +1,9 @@
-import { Chess } from "@/components/Chess";
-import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
+import { ZoomProvider } from "@/contexts/ZoomContext";
 import { type FC } from "react";
-import uncheckedClasses from "./_/page.module.scss";
+import { ContainerChess } from "./_/ContainerChess";
 
 
-const classes = new CSSModuleClasses(uncheckedClasses);
-
-
-const RootPage: FC = () => <Chess className={classes.get("chess")}/>;
+const RootPage: FC = () => <ZoomProvider><ContainerChess/></ZoomProvider>;
 
 
 export default RootPage;

@@ -11,6 +11,8 @@ $_panelGap: var(--panelGap);
     align-items: flex-start;
     flex-wrap: wrap;
     gap: $_panelGap;
+
+    position: relative;
 }
 
 .boardAndDeletedPieces {

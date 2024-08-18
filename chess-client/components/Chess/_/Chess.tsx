@@ -16,11 +16,7 @@ import { PromotionModal } from "./PromotionModal";
 const classes = new CSSModuleClasses(uncheckedClasses);
 
 
-export type ChessProps = {
-    readonly className?: string | undefined;
-};
-
-export const Chess: FC<ChessProps> = ({ className }) => {
+export const Chess: FC = () => {
     const [history, setHistory] = useState<readonly Move[]>([]);
     const [historyIndex, setHistoryIndex] = useState(-1);
     const [selectedIndex, setSelectedIndex] = useState<BoardIndex | -1>(-1);
@@ -28,7 +24,7 @@ export const Chess: FC<ChessProps> = ({ className }) => {
     const chessState = historyIndex === -1 ? initialChessState : history[historyIndex]!.state;
 
     return (
-        <div className={classes.build().add("chess").addRaw(className).class}>
+        <div className={classes.get("chess")}>
             <div className={classes.get("boardAndDeletedPieces")}>
                 <Panel className={classes.get("boardPanel")}>
                     <Board

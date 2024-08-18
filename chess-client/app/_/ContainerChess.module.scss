@@ -1,0 +1,22 @@
+.chess {
+    position: relative;
+}
+
+.overflow {
+    position: absolute;
+
+    height: 1px;
+
+    visibility: hidden;
+}
+
+.frame {
+    --cellSize: calc(min(100cqw, 100vh) * var(--zoom) / 9.2);
+
+    container-type: inline-size;
+}
+
+.widthIndicator {
+    min-width: 100%;
+    width: fit-content;
+}

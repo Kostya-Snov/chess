@@ -1,1 +1,1 @@
-export { Chess, type ChessProps } from "./_/Chess";
+export { Chess } from "./_/Chess";
