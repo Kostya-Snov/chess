@@ -28,18 +28,22 @@ $_boardSize: 8;
 
 
 $_basePieceTransition: var(--basePieceTransition);
+$_pieceTransitionWithoutTranslate: var(--pieceTransitionWithoutTranslate);
 $_pieceDropShadowSize: var(--pieceDropShadowSize);
 
 .piece {
-    --basePieceTransition: filter 250ms, translate 500ms;
+    --basePieceTransition: filter 250ms;
+    --pieceTransitionWithoutTranslate: #{$_basePieceTransition};
     --pieceDropShadowSize: #{getCellSizeUnit(1 / 12)};
 
     grid-area: 1 / 1;
 
+    touch-action: none;
+
     width: 100%;
     height: 100%;
 
-    transition: $_basePieceTransition;
+    transition: $_pieceTransitionWithoutTranslate, translate 500ms;
 
     @for $x from 0 to $_boardSize {
         @for $y from 0 to $_boardSize {
@@ -49,7 +53,7 @@ $_pieceDropShadowSize: var(--pieceDropShadowSize);
         }
     }
 
-    &:hover {
+    &:not(.inDragging):hover {
         filter: drop-shadow(0 0 $_pieceDropShadowSize crimson);
     }
 
@@ -59,11 +63,19 @@ $_pieceDropShadowSize: var(--pieceDropShadowSize);
 }
 
 .inCurrentTurn {
-    cursor: pointer;
+    cursor: grab;
 }
 
 .selected {
     filter: drop-shadow(0 0 $_pieceDropShadowSize green);
+}
+
+.inDragging {
+    order: 2;
+
+    cursor: grabbing;
+
+    transition: $_pieceTransitionWithoutTranslate;
 }
 
 @property --kingStateColor {
@@ -75,14 +87,14 @@ $_pieceDropShadowSize: var(--pieceDropShadowSize);
 .king {
     $kingStateColor: var(--kingStateColor);
 
+    --pieceTransitionWithoutTranslate: #{$_basePieceTransition}, --kingStateColor 250ms;
+
     background-image: radial-gradient(
             closest-side,
             $kingStateColor 0%,
             rgb(from $kingStateColor calc(0.9 * r) calc(0.9 * g) calc(0.9 * b) / alpha) 65%,
             transparent 90%
     );
-
-    transition: $_basePieceTransition, --kingStateColor 250ms;
 }
 
 .shah {

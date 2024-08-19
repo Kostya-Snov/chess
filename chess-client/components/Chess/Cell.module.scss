@@ -44,6 +44,7 @@
 }
 
 $_signColor: var(--signColor);
+$_signHover: ":is(:hover, .hover)";
 
 .defaultSign {
     &::before {
@@ -54,7 +55,7 @@ $_signColor: var(--signColor);
         transition-property: background-color;
     }
 
-    &:hover::before {
+    &#{$_signHover}::before {
         background-color: colors.setAlpha($_signColor, 1);
     }
 }
@@ -83,7 +84,7 @@ $_signColor: var(--signColor);
         transition-property: border-color;
     }
 
-    &:hover::before {
+    &#{$_signHover}::before {
         border-color: colors.setAlpha($_signColor, 1);
     }
 }

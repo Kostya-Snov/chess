@@ -1,12 +1,11 @@
 "use client";
 
-import { type BoardIndex } from "@/chess/BoardIndex";
 import { initialChessState } from "@/chess/ChessState";
 import { type Move } from "@/chess/Move";
 import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
 import { type FC, useState } from "react";
 import uncheckedClasses from "../Chess.module.scss";
-import { Board } from "./Board";
+import { Board, type Selection } from "./Board";
 import { DeletedPieces } from "./DeletedPieces";
 import { History } from "./History";
 import { Panel } from "./Panel";
@@ -19,7 +18,7 @@ const classes = new CSSModuleClasses(uncheckedClasses);
 export const Chess: FC = () => {
     const [history, setHistory] = useState<readonly Move[]>([]);
     const [historyIndex, setHistoryIndex] = useState(-1);
-    const [selectedIndex, setSelectedIndex] = useState<BoardIndex | -1>(-1);
+    const [selection, setSelection] = useState<Selection | null>(null);
 
     const chessState = historyIndex === -1 ? initialChessState : history[historyIndex]!.state;
 
@@ -29,8 +28,8 @@ export const Chess: FC = () => {
                 <Panel className={classes.get("boardPanel")}>
                     <Board
                         chessState={chessState}
-                        selectedIndex={selectedIndex}
-                        setSelectedIndex={setSelectedIndex}
+                        selection={selection}
+                        setSelection={setSelection}
                         onMove={move => {
                             const newHistory = history.slice(0, historyIndex + 1);
                             newHistory.push(move);
@@ -51,7 +50,7 @@ export const Chess: FC = () => {
                     historyIndex={historyIndex}
                     onItemClick={index => {
                         setHistoryIndex(index);
-                        setSelectedIndex(-1);
+                        setSelection(null);
                     }}
                 />
             </Panel>
