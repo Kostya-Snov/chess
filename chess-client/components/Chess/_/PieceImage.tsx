@@ -1,18 +1,18 @@
 import { PieceType } from "@/chess/Piece";
 import Image, { type ImageProps } from "next/image";
 import { type FC } from "react";
-import blackBishopImage from "./images/blackBishop.png";
-import blackKingImage from "./images/blackKing.png";
-import blackKnightImage from "./images/blackKnight.png";
-import blackPawnImage from "./images/blackPawn.png";
-import blackQueenImage from "./images/blackQueen.png";
-import blackRookImage from "./images/blackRook.png";
-import whiteBishopImage from "./images/whiteBishop.png";
-import whiteKingImage from "./images/whiteKing.png";
-import whiteKnightImage from "./images/whiteKnight.png";
-import whitePawnImage from "./images/whitePawn.png";
-import whiteQueenImage from "./images/whiteQueen.png";
-import whiteRookImage from "./images/whiteRook.png";
+import blackBishopImage from "./images/blackBishop.svg";
+import blackKingImage from "./images/blackKing.svg";
+import blackKnightImage from "./images/blackKnight.svg";
+import blackPawnImage from "./images/blackPawn.svg";
+import blackQueenImage from "./images/blackQueen.svg";
+import blackRookImage from "./images/blackRook.svg";
+import whiteBishopImage from "./images/whiteBishop.svg";
+import whiteKingImage from "./images/whiteKing.svg";
+import whiteKnightImage from "./images/whiteKnight.svg";
+import whitePawnImage from "./images/whitePawn.svg";
+import whiteQueenImage from "./images/whiteQueen.svg";
+import whiteRookImage from "./images/whiteRook.svg";
 
 
 const pieceImages = {
