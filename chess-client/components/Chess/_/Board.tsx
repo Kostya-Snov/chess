@@ -8,11 +8,19 @@ import { assert } from "@/utils/assert";
 import { createArray } from "@/utils/createArray";
 import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
 import Image from "next/image";
-import { type FC, type PointerEventHandler, useEffect, useRef, useState } from "react";
+import {
+    type FC,
+    type MouseEventHandler,
+    type PointerEventHandler,
+    useEffect,
+    useRef,
+    useState
+} from "react";
 import uncheckedClasses from "../Board.module.scss";
 import uncheckedCellClasses from "../Cell.module.scss";
 import { Cell } from "./Cell";
 import { CoordinateNames } from "./CoordinateNames";
+import centerImage from "./images/center.svg";
 import flipImage from "./images/flip.svg";
 import { PieceImage } from "./PieceImage";
 
@@ -64,9 +72,16 @@ export type BoardProps = {
     readonly selection: Selection | null;
     readonly setSelection: (value: Selection | null) => void;
     readonly onMove: (move: Move) => void;
+    readonly onCenterButtonClick: MouseEventHandler<HTMLButtonElement>;
 };
 
-export const Board: FC<BoardProps> = ({ chessState, selection, setSelection, onMove }) => {
+export const Board: FC<BoardProps> = ({
+    chessState,
+    selection,
+    setSelection,
+    onMove,
+    onCenterButtonClick
+}) => {
     const draggingElementRef = useRef<HTMLImageElement>();
     const [isFlipped, setIsFlipped] = useState(true);
 
@@ -308,9 +323,22 @@ export const Board: FC<BoardProps> = ({ chessState, selection, setSelection, onM
 
             <CoordinateNames isFlipped={isFlipped}/>
 
-            <button className={classes.get("flipButton")} onClick={() => setIsFlipped(!isFlipped)}>
-                <Image className={classes.get("flipImage")} src={flipImage} alt="flip"/>
+            <button
+                className={classes.build("button", "flipButton")}
+                onClick={() => setIsFlipped(!isFlipped)}
+            >
+                <Image className={classes.get("buttonImage")} src={flipImage} alt="flip"/>
             </button>
+
+            {["top", "bottom"].map(position => (
+                <button
+                    key={position}
+                    className={classes.build("button", position + "CenterButton")}
+                    onClick={onCenterButtonClick}
+                >
+                    <Image className={classes.get("buttonImage")} src={centerImage} alt="center"/>
+                </button>
+            ))}
         </div>
     );
 };

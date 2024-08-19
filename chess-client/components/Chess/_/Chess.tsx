@@ -3,7 +3,7 @@
 import { initialChessState } from "@/chess/ChessState";
 import { type Move } from "@/chess/Move";
 import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
-import { type FC, useState } from "react";
+import { type FC, type MouseEventHandler, useState } from "react";
 import uncheckedClasses from "../Chess.module.scss";
 import { Board, type Selection } from "./Board";
 import { DeletedPieces } from "./DeletedPieces";
@@ -13,6 +13,19 @@ import { PromotionModal } from "./PromotionModal";
 
 
 const classes = new CSSModuleClasses(uncheckedClasses);
+
+
+const centerBoardPanel: MouseEventHandler<HTMLButtonElement> = event => {
+    let boardPanelElement = event.currentTarget.parentElement!;
+    while (!boardPanelElement.classList.contains(classes.get("boardPanel"))) {
+        boardPanelElement = boardPanelElement.parentElement!;
+    }
+    boardPanelElement.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center"
+    });
+}
 
 
 export const Chess: FC = () => {
@@ -36,6 +49,7 @@ export const Chess: FC = () => {
                             setHistory(newHistory);
                             setHistoryIndex(historyIndex + 1);
                         }}
+                        onCenterButtonClick={centerBoardPanel}
                     />
                 </Panel>
 

@@ -110,19 +110,19 @@ $_pieceDropShadowSize: var(--pieceDropShadowSize);
 }
 
 
-.flipButton {
-    $flipButtonSize: var(--flipButtonSize);
+.button {
+    $buttonSize: var(--buttonSize);
 
-    --flipButtonSize: 75%;
+    --buttonSize: 75%;
 
-    grid-area: 1 / 3;
     place-self: center;
 
     cursor: pointer;
 
-    width: $flipButtonSize;
-    height: $flipButtonSize;
+    width: $buttonSize;
+    height: $buttonSize;
     padding: 0;
+    overflow: hidden;
 
     border: getCellSizeUnit(1 / 40) solid colors.$border;
     border-radius: 20%;
@@ -136,9 +136,21 @@ $_pieceDropShadowSize: var(--pieceDropShadowSize);
     }
 }
 
-.flipImage {
+.buttonImage {
     display: block;
 
     width: 100%;
     height: 100%;
+}
+
+.flipButton {
+    grid-area: 1 / 3;
+}
+
+.topCenterButton {
+    grid-area: 1 / 1;
+}
+
+.bottomCenterButton {
+    grid-area: 3 / 1;
 }
