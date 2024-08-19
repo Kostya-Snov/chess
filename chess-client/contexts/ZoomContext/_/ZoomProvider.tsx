@@ -1,8 +1,9 @@
 "use client";
 
+import { useCookieState } from "@/hooks/useCookieState";
 import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
 import { validateNumberArgument } from "@/utils/validateNumberArgument";
-import { type FC, type ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { type FC, type ReactNode, useEffect, useMemo, useRef } from "react";
 import { ZoomContext, type ZoomContextValue } from "./ZoomContext";
 import uncheckedClasses from "./ZoomProvider.module.scss";
 
@@ -11,14 +12,16 @@ const classes = new CSSModuleClasses(uncheckedClasses);
 
 
 export type ZoomProviderProps = {
-    readonly initialZoom?: number;
+    readonly initialZoom: number;
     readonly threshold?: number;
+    readonly cookieName?: string;
     readonly children?: ReactNode;
 };
 
 export const ZoomProvider: FC<ZoomProviderProps> = ({
-    initialZoom = 1,
+    initialZoom,
     threshold = 1e-7,
+    cookieName = "zoom",
     children
 }) => {
     validateNumberArgument(initialZoom, "initialZoom")
@@ -26,9 +29,17 @@ export const ZoomProvider: FC<ZoomProviderProps> = ({
     validateNumberArgument(threshold, "threshold")
         .isNonNegative();
 
+
+    const thresholdRef = useRef(threshold);
     const indicatorElementRef = useRef<HTMLDivElement>(null);
-    const [zoom, setZoom] = useState(initialZoom);
-    const zoomContextValue = useMemo<ZoomContextValue>(() => [zoom, setZoom], [zoom]);
+    const [zoom, setZoom] = useCookieState(initialZoom, cookieName);
+    const zoomContextValue = useMemo<ZoomContextValue>(() => [zoom, setZoom], [zoom, setZoom]);
+
+
+    useEffect(() => {
+        thresholdRef.current = threshold;
+    }, [threshold]);
+
 
     useEffect(() => {
         const indicatorElement = indicatorElementRef.current!;
@@ -43,17 +54,10 @@ export const ZoomProvider: FC<ZoomProviderProps> = ({
             } as const;
         }
 
-        let needIgnoreResize = false;
-
         let sizes = getSizes();
-        const handleResize = () => {
+        const handle = () => {
             const previousSizes = sizes;
             sizes = getSizes();
-
-            if (needIgnoreResize) {
-                needIgnoreResize = false;
-                return;
-            }
 
             if (!(
                 previousSizes.outerWidth === sizes.outerWidth
@@ -64,25 +68,15 @@ export const ZoomProvider: FC<ZoomProviderProps> = ({
 
             const widthRatio = previousSizes.rectWidth / sizes.rectWidth;
             const heightRatio = previousSizes.rectHeight / sizes.rectHeight;
-            if (Math.abs(widthRatio - heightRatio) < threshold) {
+            if (Math.abs(widthRatio - heightRatio) < thresholdRef.current) {
                 setZoom(prev => prev * (widthRatio + heightRatio) / 2);
             }
         }
 
-        const handleKeyDown = (event: KeyboardEvent): void => {
-            if (event.ctrlKey && event.key === "0") {
-                setZoom(1);
-                needIgnoreResize = true;
-            }
-        }
+        addEventListener("resize", handle);
+        return () => removeEventListener("resize", handle);
+    }, [setZoom]);
 
-        addEventListener("resize", handleResize);
-        addEventListener("keydown", handleKeyDown);
-        return () => {
-            removeEventListener("resize", handleResize);
-            removeEventListener("keydown", handleKeyDown);
-        }
-    }, [threshold]);
 
     return (
         <ZoomContext.Provider value={zoomContextValue}>

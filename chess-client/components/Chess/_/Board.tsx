@@ -4,6 +4,7 @@ import { ChessConstants } from "@/chess/ChessConstants";
 import { type ChessState } from "@/chess/ChessState";
 import { type Move } from "@/chess/Move";
 import { PieceType } from "@/chess/Piece";
+import { buttonClasses } from "@/styles";
 import { assert } from "@/utils/assert";
 import { createArray } from "@/utils/createArray";
 import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
@@ -324,19 +325,33 @@ export const Board: FC<BoardProps> = ({
             <CoordinateNames isFlipped={isFlipped}/>
 
             <button
-                className={classes.build("button", "flipButton")}
+                className={
+                    classes.build()
+                        .add("base", buttonClasses)
+                        .add("square", buttonClasses)
+                        .add("button")
+                        .add("flipButton")
+                        .class
+                }
                 onClick={() => setIsFlipped(!isFlipped)}
             >
-                <Image className={classes.get("buttonImage")} src={flipImage} alt="flip"/>
+                <Image className={buttonClasses.get("image")} src={flipImage} alt="flip"/>
             </button>
 
             {["top", "bottom"].map(position => (
                 <button
                     key={position}
-                    className={classes.build("button", position + "CenterButton")}
+                    className={
+                        classes.build()
+                            .add("base", buttonClasses)
+                            .add("square", buttonClasses)
+                            .add("button")
+                            .add(position + "CenterButton")
+                            .class
+                    }
                     onClick={onCenterButtonClick}
                 >
-                    <Image className={classes.get("buttonImage")} src={centerImage} alt="center"/>
+                    <Image className={buttonClasses.get("image")} src={centerImage} alt="center"/>
                 </button>
             ))}
         </div>

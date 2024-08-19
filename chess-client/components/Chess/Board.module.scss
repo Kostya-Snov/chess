@@ -110,37 +110,12 @@ $_pieceDropShadowSize: var(--pieceDropShadowSize);
 }
 
 
-.button {
-    $buttonSize: var(--buttonSize);
-
+button.button {
     --buttonSize: 75%;
 
     place-self: center;
 
-    cursor: pointer;
-
-    width: $buttonSize;
-    height: $buttonSize;
-    padding: 0;
-    overflow: hidden;
-
-    border: getCellSizeUnit(1 / 40) solid colors.$border;
-    border-radius: 20%;
-
-    background-color: lightgray;
-
-    transition: background-color 150ms;
-
-    &:active {
-        background-color: darkgray;
-    }
-}
-
-.buttonImage {
-    display: block;
-
-    width: 100%;
-    height: 100%;
+    border-width: getCellSizeUnit(1 / 40);
 }
 
 .flipButton {
