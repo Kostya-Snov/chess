@@ -9,12 +9,12 @@
 
     border: 0.1rem solid colors.$border;
 
-    background-color: lightgray;
+    background-color: colors.$button;
 
     transition: background-color 150ms;
 
     &:active {
-        background-color: darkgray;
+        background-color: colors.$activeButton;
     }
 }
 

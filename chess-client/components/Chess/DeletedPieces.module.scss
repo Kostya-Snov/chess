@@ -28,5 +28,5 @@ $_pieceGap: var(--pieceGap);
     border-radius: 20%;
     outline: getCellSizeUnit(1 / 20) solid colors.$border;
 
-    background-color: #c9bebe;
+    background-color: colors.$chessDeletedPiece;
 }

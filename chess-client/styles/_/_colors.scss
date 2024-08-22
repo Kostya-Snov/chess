@@ -9,9 +9,9 @@
 $background: _getVariable(background);
 $primary: _getVariable(primary);
 $border: _getVariable(border);
-
-$colors: (
-    background: lightgray,
-    primary: black,
-    border: black
-);
+$button: _getVariable(button);
+$activeButton: _getVariable(activeButton);
+$chessPanel: _getVariable(chessPanel);
+$chessDeletedPiece: _getVariable(chessDeletedPiece);
+$chessHoveredHistoryItem: _getVariable(chessHoveredHistoryItem);
+$chessSelectedHistoryItem: _getVariable(chessSelectedHistoryItem);

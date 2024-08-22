@@ -48,7 +48,7 @@ $_historyItemWidth: var(--historyItemWidth);
         &:hover {
             border-color: colors.$border;
 
-            background-color: navajowhite;
+            background-color: colors.$chessHoveredHistoryItem;
         }
     }
 }
@@ -63,5 +63,5 @@ $_historyItemWidth: var(--historyItemWidth);
 .selected {
     border-color: colors.$border;
 
-    background-color: white;
+    background-color: colors.$chessSelectedHistoryItem;
 }

@@ -1,15 +1,8 @@
-import { ZoomProvider } from "@/contexts/ZoomContext";
-import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
 import { type Metadata } from "next";
 import { cookies } from "next/headers";
 import { type FC, type ReactNode } from "react";
-import "@/styles/cssVariables.scss";
 import "./_/layout.scss";
-import uncheckedClasses from "./_/layout.module.scss";
-import { ResetZoomButton } from "./_/ResetZoomButton";
-
-
-const classes = new CSSModuleClasses(uncheckedClasses);
+import { RootLayoutClient } from "./_/RootLayoutClient";
 
 
 export const metadata: Metadata = {
@@ -31,16 +24,16 @@ const RootLayout: FC<Props> = ({ children }) => {
         }
     }
 
+    const isDarkThemeCookie = cookies().get("isDarkTheme");
+    const initialIsDarkTheme =
+        isDarkThemeCookie === undefined
+        || isDarkThemeCookie.value.toLowerCase() !== "false";
+
     return (
         <html lang="uk">
-        <body>
-        <ZoomProvider initialZoom={initialZoom}>
-            <ResetZoomButton/>
-            <div className={classes.get("content")}>
-                {children}
-            </div>
-        </ZoomProvider>
-        </body>
+        <RootLayoutClient initialZoom={initialZoom} initialIsDarkTheme={initialIsDarkTheme}>
+            {children}
+        </RootLayoutClient>
         </html>
     );
 }
