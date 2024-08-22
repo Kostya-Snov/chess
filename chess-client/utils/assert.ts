@@ -13,4 +13,4 @@ export const assert: (isTrue: unknown, message?: string) => asserts isTrue = (is
     if (!isTrue) {
         throw new AssertionError(message);
     }
-}
+};

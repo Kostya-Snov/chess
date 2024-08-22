@@ -36,4 +36,4 @@ export const ContainerChess: FC = () => {
             </div>
         </div>
     );
-}
+};

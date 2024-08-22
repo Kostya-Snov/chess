@@ -44,4 +44,4 @@ export const useCookieState = <S>(
     }, [cookieName, cookieValue]);
 
     return stateAndDispatch;
-}
+};

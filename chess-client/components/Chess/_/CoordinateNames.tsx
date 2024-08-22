@@ -41,7 +41,7 @@ const flip = (getText: GetNameText): GetNameText => directCoordinate => {
     const flippedCoordinate = ChessConstants.BoardSize - 1 - directCoordinate;
     assert(isBoardCoordinate(flippedCoordinate));
     return getText(flippedCoordinate);
-}
+};
 
 const getFlippedFileText = flip(getDirectFileText);
 

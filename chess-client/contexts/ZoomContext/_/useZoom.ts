@@ -12,4 +12,4 @@ export const useZoom = (): ZoomContextValue => {
     }
 
     return value;
-}
+};

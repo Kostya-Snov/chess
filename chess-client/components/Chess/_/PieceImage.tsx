@@ -54,4 +54,4 @@ export const PieceImage: FC<PieceImageProps> = ({ type, isBlack, ...props }) => 
             alt={pieceName}
         />
     );
-}
+};

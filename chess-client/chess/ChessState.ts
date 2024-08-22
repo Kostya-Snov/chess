@@ -13,7 +13,7 @@ const initialBoard = (() => {
 
     const addPiece = (type: PieceType): void => {
         board.push(createPiece(type, id++, isBlack, false));
-    }
+    };
 
     const addFiguresRank = (): void => {
         addPiece(PieceType.Rook);
@@ -24,13 +24,13 @@ const initialBoard = (() => {
         addPiece(PieceType.Bishop);
         addPiece(PieceType.Knight);
         addPiece(PieceType.Rook);
-    }
+    };
 
     const addPawnsRank = (): void => {
         for (let i = 0; i !== ChessConstants.BoardSize; ++i) {
             addPiece(PieceType.Pawn);
         }
-    }
+    };
 
     const addEmptyRanks = (): void => {
         const enum Constants {
@@ -40,7 +40,7 @@ const initialBoard = (() => {
         for (let i = 0; i !== Constants.EmptyRanksLength; ++i) {
             board.push(undefined);
         }
-    }
+    };
 
     isBlack = false;
     addFiguresRank();

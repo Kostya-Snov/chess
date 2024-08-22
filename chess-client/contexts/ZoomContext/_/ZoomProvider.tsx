@@ -52,7 +52,7 @@ export const ZoomProvider: FC<ZoomProviderProps> = ({
                 outerWidth,
                 outerHeight
             } as const;
-        }
+        };
 
         let sizes = getSizes();
         const handle = () => {
@@ -71,7 +71,7 @@ export const ZoomProvider: FC<ZoomProviderProps> = ({
             if (Math.abs(widthRatio - heightRatio) < thresholdRef.current) {
                 setZoom(prev => prev * (widthRatio + heightRatio) / 2);
             }
-        }
+        };
 
         addEventListener("resize", handle);
         return () => removeEventListener("resize", handle);
@@ -86,4 +86,4 @@ export const ZoomProvider: FC<ZoomProviderProps> = ({
             </div>
         </ZoomContext.Provider>
     );
-}
+};

@@ -3,7 +3,7 @@ import { type ChessStateDraft } from "../ChessStateDraft";
 import { MovementHandler } from "./MovementHandler";
 
 
-let instance: PawnFirstMovementHandler
+let instance: PawnFirstMovementHandler;
 
 export class PawnFirstMovementHandler extends MovementHandler {
     static {

@@ -36,7 +36,7 @@ const RootLayout: FC<Props> = ({ children }) => {
         </RootLayoutClient>
         </html>
     );
-}
+};
 
 
 export default RootLayout;

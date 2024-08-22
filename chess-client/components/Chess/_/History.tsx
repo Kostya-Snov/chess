@@ -54,7 +54,7 @@ const getMovementOrAttackName: GetMoveName = ({ type, from, to, previousState, s
     }
 
     return result;
-}
+};
 
 const moveNameGetters: Readonly<Record<MoveType, GetMoveName>> = {
     [MoveType.Movement]: getMovementOrAttackName,
@@ -76,7 +76,7 @@ export const getMoveName: GetMoveName = move => {
                 : state.isShah() ? "#" : "="
         )
     );
-}
+};
 
 
 export type HistoryProps = {
@@ -106,7 +106,7 @@ export const History: FC<HistoryProps> = ({ history, historyIndex, onItemClick }
                 {text}
             </button>
         );
-    }
+    };
 
     return (
         <div>
@@ -126,4 +126,4 @@ export const History: FC<HistoryProps> = ({ history, historyIndex, onItemClick }
             </div>
         </div>
     );
-}
+};

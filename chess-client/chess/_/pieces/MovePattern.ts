@@ -51,4 +51,4 @@ export const getMovePatternIndices = function* (
     ) {
         yield getIndex(x, y);
     }
-}
+};

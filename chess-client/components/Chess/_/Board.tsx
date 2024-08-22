@@ -38,7 +38,7 @@ const flippedTransformIndex: TransformIndex = index => {
     const transformedIndex = ChessConstants.BoardLength - 1 - index;
     assert(isBoardIndex(transformedIndex));
     return transformedIndex;
-}
+};
 
 
 const getSignCellElementUnderPiece = (
@@ -59,14 +59,14 @@ const getSignCellElementUnderPiece = (
     }
 
     return undefined;
-}
+};
 
 
 export type Selection = {
     readonly index: BoardIndex;
     readonly isReadyForDeselection: boolean;
     readonly draggingProportionShift: readonly [x: number, y: number] | null;
-}
+};
 
 export type BoardProps = {
     readonly chessState: ChessState;
@@ -99,7 +99,7 @@ export const Board: FC<BoardProps> = ({
             if (event.key === "Escape") {
                 setSelection(null);
             }
-        }
+        };
 
         addEventListener("keyup", handle);
         return () => removeEventListener("keyup", handle);
@@ -158,14 +158,14 @@ export const Board: FC<BoardProps> = ({
             const x = event.clientX - boardCoreRect.x - proportionShiftX * pieceRect.width;
             const y = event.clientY - boardCoreRect.y - proportionShiftY * pieceRect.height;
             pieceElement.style.translate = `${x}px ${y}px`;
-        }
+        };
 
         pieceElement.addEventListener("pointermove", handle);
         return () => {
             clearHoveredSignCell();
             pieceElement.style.translate = "";
             pieceElement.removeEventListener("pointermove", handle);
-        }
+        };
     }, [draggingProportionShift]);
 
 
@@ -224,8 +224,8 @@ export const Board: FC<BoardProps> = ({
                     (event.clientY - pieceStartRect.y) / pieceStartRect.height
                 ]
             });
-        }
-    }
+        };
+    };
 
 
     const getPiecePointerUpHandler = (): PointerEventHandler<HTMLImageElement> | undefined => {
@@ -247,10 +247,10 @@ export const Board: FC<BoardProps> = ({
                     ...selection,
                     isReadyForDeselection: true,
                     draggingProportionShift: null
-                })
+                });
             }
-        }
-    }
+        };
+    };
 
 
     return (

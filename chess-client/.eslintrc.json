@@ -4,7 +4,8 @@
         "project": true
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "@stylistic"
     ],
     "rules": {
         "@typescript-eslint/consistent-type-imports": [
@@ -18,6 +19,7 @@
             {
                 "fixMixedExportsWithInlineTypeSpecifier": true
             }
-        ]
+        ],
+        "@stylistic/semi": "error"
     }
 }

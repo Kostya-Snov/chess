@@ -25,7 +25,7 @@ const centerBoardPanel: MouseEventHandler<HTMLButtonElement> = event => {
         block: "center",
         inline: "center"
     });
-}
+};
 
 
 export const Chess: FC = () => {
@@ -83,4 +83,4 @@ export const Chess: FC = () => {
             />
         </div>
     );
-}
+};

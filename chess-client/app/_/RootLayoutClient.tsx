@@ -32,7 +32,7 @@ const ResetZoomButton: FC = () => {
             <Image className={buttonClasses.get("image")} src={resetZoomImage} alt="resetZoom"/>
         </button>
     );
-}
+};
 
 
 export type RootLayoutClientProps = {
@@ -76,4 +76,4 @@ export const RootLayoutClient: FC<RootLayoutClientProps> = ({
         </ZoomProvider>
         </body>
     );
-}
+};
