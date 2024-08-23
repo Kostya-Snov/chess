@@ -23,6 +23,7 @@ import { Cell } from "./Cell";
 import { CoordinateNames } from "./CoordinateNames";
 import centerImage from "./images/center.svg";
 import flipImage from "./images/flip.svg";
+import { Panel } from "./Panel";
 import { PieceImage } from "./PieceImage";
 
 
@@ -62,6 +63,19 @@ const getSignCellElementUnderPiece = (
 };
 
 
+const handleCenterButtonClick: MouseEventHandler<HTMLButtonElement> = event => {
+    let boardElement = event.currentTarget.parentElement!;
+    while (!boardElement.classList.contains(classes.get("board"))) {
+        boardElement = boardElement.parentElement!;
+    }
+    boardElement.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center"
+    });
+};
+
+
 export type Selection = {
     readonly index: BoardIndex;
     readonly isReadyForDeselection: boolean;
@@ -73,16 +87,9 @@ export type BoardProps = {
     readonly selection: Selection | null;
     readonly setSelection: (value: Selection | null) => void;
     readonly onMove: (move: Move) => void;
-    readonly onCenterButtonClick: MouseEventHandler<HTMLButtonElement>;
 };
 
-export const Board: FC<BoardProps> = ({
-    chessState,
-    selection,
-    setSelection,
-    onMove,
-    onCenterButtonClick
-}) => {
+export const Board: FC<BoardProps> = ({ chessState, selection, setSelection, onMove }) => {
     const draggingElementRef = useRef<HTMLImageElement>();
     const [isFlipped, setIsFlipped] = useState(true);
 
@@ -254,7 +261,7 @@ export const Board: FC<BoardProps> = ({
 
 
     return (
-        <div className={classes.get("board")}>
+        <Panel className={classes.get("board")}>
             <div className={classes.get("boardCore")}>
                 {createArray(ChessConstants.BoardLength, viewIndex => {
                     assert(isBoardIndex(viewIndex));
@@ -349,11 +356,11 @@ export const Board: FC<BoardProps> = ({
                             .add(position + "CenterButton")
                             .class
                     }
-                    onClick={onCenterButtonClick}
+                    onClick={handleCenterButtonClick}
                 >
                     <Image className={buttonClasses.get("image")} src={centerImage} alt="center"/>
                 </button>
             ))}
-        </div>
+        </Panel>
     );
 };

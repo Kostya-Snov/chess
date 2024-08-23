@@ -9,4 +9,11 @@
     border-radius: getCellSizeUnit(1 / 8);
 
     background-color: colors.$chessPanel;
+
+    & > h2 {
+        font-size: getCellSizeUnit(1 / 2);
+        text-align: center;
+
+        margin: 0;
+    }
 }

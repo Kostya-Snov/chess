@@ -5,6 +5,7 @@ import { PieceType } from "@/chess/Piece";
 import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
 import { type FC, Fragment, type ReactNode } from "react";
 import uncheckedClasses from "../History.module.scss";
+import { Panel } from "./Panel";
 
 
 const classes = new CSSModuleClasses(uncheckedClasses);
@@ -109,8 +110,8 @@ export const History: FC<HistoryProps> = ({ history, historyIndex, onItemClick }
     };
 
     return (
-        <div>
-            <h2 className={classes.get("title")}>Історія</h2>
+        <Panel>
+            <h2>Історія</h2>
             <div className={classes.get("items")}>
                 {renderItem(-1, "Початок", "start")}
                 {history.map((move, index) => (
@@ -124,6 +125,6 @@ export const History: FC<HistoryProps> = ({ history, historyIndex, onItemClick }
                     </Fragment>
                 ))}
             </div>
-        </div>
+        </Panel>
     );
 };

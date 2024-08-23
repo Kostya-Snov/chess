@@ -12,6 +12,10 @@ $_boardSize: 8;
     $template: $coordinateNamesSize calc($_boardSize * getCellSizeUnit(1)) $coordinateNamesSize;
     grid-template-rows: $template;
     grid-template-columns: $template;
+
+    @at-root section#{&} {
+        padding: 0;
+    }
 }
 
 

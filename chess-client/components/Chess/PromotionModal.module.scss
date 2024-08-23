@@ -44,12 +44,6 @@ $_modalTransitionKind: var(--modalTransitionKind);
 .pieces {
     display: flex;
     gap: getCellSizeUnit(1 / 10);
-
-    padding: getCellSizeUnit(1 / 5);
-
-    border-radius: getCellSizeUnit(1 / 10);
-
-    background-color: colors.$background;
 }
 
 .piece {

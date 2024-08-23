@@ -12,7 +12,7 @@ export type PanelProps = {
 };
 
 export const Panel: FC<PanelProps> = ({ className, children }) => (
-    <div className={classes.build().add("panel").addRaw(className).class}>
+    <section className={classes.build().add("panel").addRaw(className).class}>
         {children}
-    </div>
+    </section>
 );

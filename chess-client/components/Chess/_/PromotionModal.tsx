@@ -2,6 +2,7 @@ import { PieceType, type PromotionPieceType } from "@/chess/Piece";
 import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
 import { type FC } from "react";
 import uncheckedClasses from "../PromotionModal.module.scss";
+import { Panel } from "./Panel";
 import { PieceImage } from "./PieceImage";
 
 
@@ -24,7 +25,7 @@ export type PromotionModalProps = {
 
 export const PromotionModal: FC<PromotionModalProps> = ({ isBlack, isOpen, onPieceClick }) => (
     <div className={classes.build().add("container").addIf(isOpen, "open").class}>
-        <div className={classes.build("content", "pieces")}>
+        <Panel className={classes.build("content", "pieces")}>
             {promotionPieceTypes.map(type => (
                 <PieceImage
                     key={type}
@@ -34,6 +35,6 @@ export const PromotionModal: FC<PromotionModalProps> = ({ isBlack, isOpen, onPie
                     onClick={() => onPieceClick(type)}
                 />
             ))}
-        </div>
+        </Panel>
     </div>
 );

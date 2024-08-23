@@ -2,14 +2,6 @@
 @use "_/chess" as *;
 
 
-.title {
-    font-size: getCellSizeUnit(1 / 2);
-    text-align: center;
-
-    margin: 0;
-}
-
-
 $_pieceGap: var(--pieceGap);
 
 .pieces {

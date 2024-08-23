@@ -51,7 +51,7 @@ export const RootLayoutClient: FC<RootLayoutClientProps> = ({
     return (
         <body className={colorsClasses.get(isDarkTheme ? "dark" : "light")}>
         <ZoomProvider initialZoom={initialZoom}>
-            <div className={classes.get("header")}>
+            <header className={classes.get("header")}>
                 <ResetZoomButton/>
                 <button
                     className={
@@ -69,10 +69,10 @@ export const RootLayoutClient: FC<RootLayoutClientProps> = ({
                         alt="changeTheme"
                     />
                 </button>
-            </div>
-            <div className={classes.get("content")}>
+            </header>
+            <main className={classes.get("main")}>
                 {children}
-            </div>
+            </main>
         </ZoomProvider>
         </body>
     );
