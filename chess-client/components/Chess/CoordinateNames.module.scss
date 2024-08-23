@@ -1,7 +1,7 @@
 @use "_/chess" as *;
 
 
-.names {
+%_names {
     display: grid;
     place-items: center;
 
@@ -9,6 +9,8 @@
 }
 
 @mixin _names($flow, $gridRow, $gridColumn) {
+    @extend %_names;
+
     grid-area: #{$gridRow} / #{$gridColumn};
 
     grid-auto-flow: $flow;

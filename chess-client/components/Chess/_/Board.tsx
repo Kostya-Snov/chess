@@ -52,7 +52,7 @@ const getSignCellElementUnderPiece = (
 
     if (
         signCellElement !== undefined
-        && signCellElement.classList.contains(cellClasses.get("baseSign"))
+        && signCellElement.hasAttribute("data-sign")
         && signCellElement.parentElement === pieceElement.parentElement
     ) {
         assert(signCellElement instanceof HTMLElement);
@@ -273,6 +273,7 @@ export const Board: FC<BoardProps> = ({ chessState, selection, setSelection, onM
                             key={viewIndex}
                             isBlack={(getX(viewIndex) + getY(viewIndex)) % 2 === 1}
                             moveType={move?.type}
+                            data-sign={move === undefined ? undefined : ""}
                             onClick={
                                 move === undefined
                                     ? undefined
@@ -331,31 +332,14 @@ export const Board: FC<BoardProps> = ({ chessState, selection, setSelection, onM
 
             <CoordinateNames isFlipped={isFlipped}/>
 
-            <button
-                className={
-                    classes.build()
-                        .add("base", buttonClasses)
-                        .add("square", buttonClasses)
-                        .add("button")
-                        .add("flipButton")
-                        .class
-                }
-                onClick={() => setIsFlipped(!isFlipped)}
-            >
+            <button className={classes.get("flipButton")} onClick={() => setIsFlipped(!isFlipped)}>
                 <Image className={buttonClasses.get("image")} src={flipImage} alt="flip"/>
             </button>
 
             {["top", "bottom"].map(position => (
                 <button
                     key={position}
-                    className={
-                        classes.build()
-                            .add("base", buttonClasses)
-                            .add("square", buttonClasses)
-                            .add("button")
-                            .add(position + "CenterButton")
-                            .class
-                    }
+                    className={classes.get(position + "CenterButton")}
                     onClick={handleCenterButtonClick}
                 >
                     <Image className={buttonClasses.get("image")} src={centerImage} alt="center"/>

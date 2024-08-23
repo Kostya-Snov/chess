@@ -19,6 +19,8 @@
 }
 
 .square {
+    @extend .base;
+
     $buttonSize: var(--buttonSize);
 
     --buttonSize: 1.8rem;

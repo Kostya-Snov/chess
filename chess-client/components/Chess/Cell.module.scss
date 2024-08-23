@@ -2,7 +2,7 @@
 @use "_/chess" as *;
 
 
-.cell {
+%_cell {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,23 +30,31 @@
     }
 }
 
+@mixin _cell($color) {
+    @extend %_cell;
+
+    background-color: $color;
+}
+
 .white {
-    background-color: gray;
+    @include _cell(gray);
 }
 
 .black {
-    background-color: black;
+    @include _cell(black);
 }
 
 
-.baseSign {
+%_baseSign {
     cursor: pointer;
 }
 
 $_signColor: var(--signColor);
 $_signHover: ":is(:hover, .hover)";
 
-.defaultSign {
+%_defaultSign {
+    @extend %_baseSign;
+
     &::before {
         --signSize: 50%;
 
@@ -60,19 +68,29 @@ $_signHover: ":is(:hover, .hover)";
     }
 }
 
-.movement::before {
-    --signColor: lightsteelblue;
+@mixin _defaultSign($color) {
+    @extend %_defaultSign;
+
+    &::before {
+        --signColor: #{$color};
+    }
 }
 
-.enPassant::before {
-    --signColor: yellow;
+.movement {
+    @include _defaultSign(lightsteelblue);
 }
 
-.castling::before {
-    --signColor: green;
+.enPassant {
+    @include _defaultSign(yellow);
+}
+
+.castling {
+    @include _defaultSign(green);
 }
 
 .attack {
+    @extend %_baseSign;
+
     &::before {
         --signSize: 90%;
         --signColor: red;

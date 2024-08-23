@@ -4,6 +4,8 @@
 }
 
 .headerButton {
+    composes: square from "@/styles/button.module.scss";
+
     flex-shrink: 0;
 }
 

@@ -7,11 +7,11 @@ import uncheckedClasses from "../Cell.module.scss";
 const classes = new CSSModuleClasses(uncheckedClasses);
 
 
-const signClasses = {
-    [MoveType.Movement]: classes.build("baseSign", "defaultSign", "movement"),
-    [MoveType.Attack]: classes.build("baseSign", "attack"),
-    [MoveType.EnPassant]: classes.build("baseSign", "defaultSign", "enPassant"),
-    [MoveType.Castling]: classes.build("baseSign", "defaultSign", "castling")
+const signClassIds = {
+    [MoveType.Movement]: "movement",
+    [MoveType.Attack]: "attack",
+    [MoveType.EnPassant]: "enPassant",
+    [MoveType.Castling]: "castling"
 } as const;
 
 
@@ -25,9 +25,8 @@ export const Cell: FC<CellProps> = ({ className, isBlack, moveType, ...props }) 
         {...props}
         className={
             classes.build()
-                .add("cell")
                 .add(isBlack ? "black" : "white")
-                .addRaw(moveType === undefined ? undefined : signClasses[moveType])
+                .add(moveType === undefined ? undefined : signClassIds[moveType])
                 .addRaw(className)
                 .class
         }

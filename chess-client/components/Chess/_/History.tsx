@@ -87,17 +87,11 @@ export type HistoryProps = {
 };
 
 export const History: FC<HistoryProps> = ({ history, historyIndex, onItemClick }) => {
-    const renderItem = (index: number, text: string, classId?: string): ReactNode => {
+    const renderItem = (classId: string, index: number, text: string): ReactNode => {
         const isSelected = historyIndex === index;
         return (
             <button
-                className={
-                    classes.build()
-                        .add("item")
-                        .add(classId)
-                        .addIf(isSelected, "selected")
-                        .class
-                }
+                className={classes.build().add(classId).addIf(isSelected, "selected").class}
                 onClick={
                     isSelected
                         ? undefined
@@ -113,7 +107,7 @@ export const History: FC<HistoryProps> = ({ history, historyIndex, onItemClick }
         <Panel>
             <h2>Історія</h2>
             <div className={classes.get("items")}>
-                {renderItem(-1, "Початок", "start")}
+                {renderItem("start", -1, "Початок")}
                 {history.map((move, index) => (
                     <Fragment key={index}>
                         {
@@ -121,7 +115,7 @@ export const History: FC<HistoryProps> = ({ history, historyIndex, onItemClick }
                                 ? <span>{Math.floor(index / 2) + 1}.</span>
                                 : null
                         }
-                        {renderItem(index, getMoveName(move))}
+                        {renderItem("item", index, getMoveName(move))}
                     </Fragment>
                 ))}
             </div>

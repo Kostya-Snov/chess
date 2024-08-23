@@ -46,6 +46,8 @@ $_historyItemWidth: var(--historyItemWidth);
 }
 
 .start {
+    @extend .item;
+
     grid-area: 1 / 1 / span 1 / span 3;
     justify-self: center;
 

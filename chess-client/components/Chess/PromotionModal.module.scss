@@ -30,7 +30,7 @@ $_modalTransitionKind: var(--modalTransitionKind);
     }
 }
 
-.content {
+%_content {
     scale: 0;
 
     transition: scale $_modalTransitionKind;
@@ -42,6 +42,8 @@ $_modalTransitionKind: var(--modalTransitionKind);
 
 
 .pieces {
+    @extend %_content;
+
     display: flex;
     gap: getCellSizeUnit(1 / 10);
 }

@@ -114,22 +114,36 @@ $_pieceDropShadowSize: var(--pieceDropShadowSize);
 }
 
 
-button.button {
-    --buttonSize: 75%;
+%_buttonBase {
+    composes: square from "@/styles/button.module.scss";
 
     place-self: center;
+}
+
+%_buttonOverrides {
+    --buttonSize: 75%;
 
     border-width: getCellSizeUnit(1 / 40);
 }
 
+@mixin _button($gridRow, $gridColumn) {
+    @extend %_buttonBase;
+
+    @at-root button#{&} {
+        @extend %_buttonOverrides;
+    }
+
+    grid-area: #{$gridRow} / #{$gridColumn};
+}
+
 .flipButton {
-    grid-area: 1 / 3;
+    @include _button(1, 3);
 }
 
 .topCenterButton {
-    grid-area: 1 / 1;
+    @include _button(1, 1);
 }
 
 .bottomCenterButton {
-    grid-area: 3 / 1;
+    @include _button(3, 1);
 }

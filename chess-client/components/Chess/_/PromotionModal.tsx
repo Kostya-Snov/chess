@@ -25,7 +25,7 @@ export type PromotionModalProps = {
 
 export const PromotionModal: FC<PromotionModalProps> = ({ isBlack, isOpen, onPieceClick }) => (
     <div className={classes.build().add("container").addIf(isOpen, "open").class}>
-        <Panel className={classes.build("content", "pieces")}>
+        <Panel className={classes.get("pieces")}>
             {promotionPieceTypes.map(type => (
                 <PieceImage
                     key={type}

@@ -12,8 +12,8 @@ const classes = new CSSModuleClasses(uncheckedClasses);
 
 type GetNameText = (index: BoardCoordinate) => string;
 
-const renderNames = (position: string, getText: GetNameText) => (
-    <div className={classes.build("names", position)}>
+const renderNames = (classId: string, getText: GetNameText) => (
+    <div className={classes.get(classId)}>
         {createArray(ChessConstants.BoardSize, coordinate => {
             assert(isBoardCoordinate(coordinate));
             return <span key={coordinate}>{getText(coordinate)}</span>;

@@ -19,16 +19,7 @@ const ResetZoomButton: FC = () => {
     const [, setZoom] = useZoom();
 
     return (
-        <button
-            className={
-                classes.build()
-                    .add("base", buttonClasses)
-                    .add("square", buttonClasses)
-                    .add("headerButton")
-                    .class
-            }
-            onClick={() => setZoom(1)}
-        >
+        <button className={classes.get("headerButton")} onClick={() => setZoom(1)}>
             <Image className={buttonClasses.get("image")} src={resetZoomImage} alt="resetZoom"/>
         </button>
     );
@@ -54,13 +45,7 @@ export const RootLayoutClient: FC<RootLayoutClientProps> = ({
             <header className={classes.get("header")}>
                 <ResetZoomButton/>
                 <button
-                    className={
-                        classes.build()
-                            .add("base", buttonClasses)
-                            .add("square", buttonClasses)
-                            .add("headerButton")
-                            .class
-                    }
+                    className={classes.get("headerButton")}
                     onClick={() => setIsDarkTheme(!isDarkTheme)}
                 >
                     <Image
