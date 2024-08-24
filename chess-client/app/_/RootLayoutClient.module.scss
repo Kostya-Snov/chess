@@ -1,3 +1,6 @@
+@use "@/styles/colors";
+
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -7,6 +10,12 @@
     composes: square from "@/styles/button.module.scss";
 
     flex-shrink: 0;
+}
+
+.resetZoomImage, .lightThemeImage, .darkThemeImage {
+    composes: image from "@/styles/button.module.scss";
+
+    stroke: colors.$primary;
 }
 
 

@@ -4,11 +4,9 @@ import { ChessConstants } from "@/chess/ChessConstants";
 import { type ChessState } from "@/chess/ChessState";
 import { type Move } from "@/chess/Move";
 import { PieceType } from "@/chess/Piece";
-import { buttonClasses } from "@/styles";
 import { assert } from "@/utils/assert";
 import { createArray } from "@/utils/createArray";
 import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
-import Image from "next/image";
 import {
     type FC,
     type MouseEventHandler,
@@ -21,14 +19,53 @@ import uncheckedClasses from "../Board.module.scss";
 import uncheckedCellClasses from "../Cell.module.scss";
 import { Cell } from "./Cell";
 import { CoordinateNames } from "./CoordinateNames";
-import centerImage from "./images/center.svg";
-import flipImage from "./images/flip.svg";
 import { Panel } from "./Panel";
 import { PieceImage } from "./PieceImage";
 
 
 const classes = new CSSModuleClasses(uncheckedClasses);
 const cellClasses = new CSSModuleClasses(uncheckedCellClasses);
+
+
+const flipImage = (
+    <svg
+        className={classes.get("flipImage")}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+    >
+        <path
+            d="
+            M5 6.09v12l-1.29-1.3a1 1 0 0 0-1.42 1.42l3 3a1 1 0 0 0 1.42 0l3-3a1 1 0 0 0 0-1.42 1 1 0
+            0 0-1.42 0L7 18.09v-12A1.56 1.56 0 0 1 8.53 4.5H11a1 1 0 0 0 0-2H8.53A3.56 3.56 0 0 0 5
+            6.09zm9.29-.3a1 1 0 0 0 1.42 1.42L17 5.91v12a1.56 1.56 0 0 1-1.53 1.59H13a1 1 0 0 0 0
+            2h2.47A3.56 3.56 0 0 0 19 17.91v-12l1.29 1.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-3-3a1 1
+            0 0 0-1.42 0z
+            "
+        />
+    </svg>
+);
+
+
+const centerImage = (
+    <svg
+        className={classes.get("centerImage")}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 53 53"
+    >
+        <path
+            d="
+            M36.414 35H46a1 1 0 1 0 0-2H34a.996.996 0 0 0-1 1v12a1 1 0 1 0 2 0v-9.586l16.293
+            16.293a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414L36.414 35zM16.585 17.999H6.999a1 1
+            0 1 0 0 2h12a.996.996 0 0 0 1-1v-12a1 1 0 1 0-2 0v9.586L1.707.293A.999.999 0 1 0 .293
+            1.707l16.292 16.292zm2.797 15.078A1.01 1.01 0 0 0 19 33H7a1 1 0 1 0 0 2h9.586L.293
+            51.293a.999.999 0 1 0 1.414 1.414L18 36.414V46a1 1 0 1 0 2 0V34a.996.996 0 0
+            0-.618-.923zm14.236-13.154c.122.05.252.077.382.077h12a1 1 0 1 0 0-2h-9.586L52.707
+            1.707A.999.999 0 1 0 51.293.293L35 16.586V7a1 1 0 1 0-2 0v12a.996.996 0 0 0 .618.923zM21
+            32h11V21H21v11zm2-9h7v7h-7v-7z
+            "
+        />
+    </svg>
+);
 
 
 type TransformIndex = (index: BoardIndex) => BoardIndex;
@@ -333,7 +370,7 @@ export const Board: FC<BoardProps> = ({ chessState, selection, setSelection, onM
             <CoordinateNames isFlipped={isFlipped}/>
 
             <button className={classes.get("flipButton")} onClick={() => setIsFlipped(!isFlipped)}>
-                <Image className={buttonClasses.get("image")} src={flipImage} alt="flip"/>
+                {flipImage}
             </button>
 
             {["top", "bottom"].map(position => (
@@ -342,7 +379,7 @@ export const Board: FC<BoardProps> = ({ chessState, selection, setSelection, onM
                     className={classes.get(position + "CenterButton")}
                     onClick={handleCenterButtonClick}
                 >
-                    <Image className={buttonClasses.get("image")} src={centerImage} alt="center"/>
+                    {centerImage}
                 </button>
             ))}
         </Panel>

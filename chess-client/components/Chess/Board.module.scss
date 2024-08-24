@@ -147,3 +147,9 @@ $_pieceDropShadowSize: var(--pieceDropShadowSize);
 .bottomCenterButton {
     @include _button(3, 1);
 }
+
+.flipImage, .centerImage {
+    composes: image from "@/styles/button.module.scss";
+
+    fill: colors.$primary;
+}
