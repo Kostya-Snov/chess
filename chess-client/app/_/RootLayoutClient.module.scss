@@ -1,9 +1,65 @@
 @use "@/styles/colors";
 
 
+@mixin _theme($colors) {
+    @each $name, $color in $colors {
+        #{colors.getVariableName($name)}: $color;
+    }
+}
+
+@mixin _light {
+    @include _theme((
+        background: lightgray,
+        primary: black,
+        border: black,
+        button: #bcbdd5,
+        hoveredButton: #abacc1,
+        activeButton: #a2a0ab,
+        chessPanel: #bcbdd5,
+        chessDeletedPiece: #c9bebe,
+        chessHoveredHistoryItem: navajowhite,
+        chessSelectedHistoryItem: white
+    ));
+}
+
+@mixin _dark {
+    @include _theme((
+        background: black,
+        primary: lightgray,
+        border: lightgray,
+        button: #211e1e,
+        hoveredButton: #2d2d2d,
+        activeButton: #404040,
+        chessPanel: #211e1e,
+        chessDeletedPiece: #999,
+        chessHoveredHistoryItem: #777,
+        chessSelectedHistoryItem: #2c2c2c
+    ));
+}
+
+.theme {
+    @media (prefers-color-scheme: dark) {
+        @include _dark;
+    }
+
+    @media (prefers-color-scheme: light) {
+        @include _light;
+    }
+}
+
+.dark {
+    @include _dark;
+}
+
+.light {
+    @include _light;
+}
+
+
 .header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .headerButton {
@@ -12,10 +68,50 @@
     flex-shrink: 0;
 }
 
-.resetZoomImage, .lightThemeImage, .darkThemeImage {
+.resetZoomImage {
     composes: image from "@/styles/button.module.scss";
 
     stroke: colors.$primary;
+}
+
+.themingPanel {
+    display: flex;
+    gap: 0.4rem;
+
+    padding: 0.2rem;
+
+    border: 0.05rem solid colors.$border;
+    border-radius: 1rem;
+}
+
+.themingButton {
+    composes: square from "@/styles/button.module.scss";
+
+    @at-root button#{&} {
+        --buttonSize: 1.2rem;
+
+        padding: 0.25rem;
+
+        border-radius: 50%;
+
+        background-color: transparent;
+
+        &:not(.selected) {
+            border-color: transparent;
+        }
+
+        &.selected {
+            cursor: inherit;
+
+            background-color: colors.$activeButton;
+        }
+    }
+}
+
+.lightThemeImage, .darkThemeImage, .systemThemeImage {
+    composes: image from "@/styles/button.module.scss";
+
+    fill: colors.$primary;
 }
 
 

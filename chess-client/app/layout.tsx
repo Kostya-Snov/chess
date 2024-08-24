@@ -24,10 +24,18 @@ const RootLayout: FC<Props> = ({ children }) => {
         }
     }
 
+    let initialIsDarkTheme: boolean | undefined = undefined;
     const isDarkThemeCookie = cookies().get("isDarkTheme");
-    const initialIsDarkTheme =
-        isDarkThemeCookie === undefined
-        || isDarkThemeCookie.value.toLowerCase() !== "false";
+    if (isDarkThemeCookie !== undefined) {
+        switch (isDarkThemeCookie.value.toLowerCase()) {
+            case "true":
+                initialIsDarkTheme = true;
+                break;
+            case "false":
+                initialIsDarkTheme = false;
+                break;
+        }
+    }
 
     return (
         <html lang="uk">

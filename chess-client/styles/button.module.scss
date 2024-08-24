@@ -13,6 +13,10 @@
 
     transition: background-color 150ms;
 
+    &:hover {
+        background-color: colors.$hoveredButton;
+    }
+
     &:active {
         background-color: colors.$activeButton;
     }

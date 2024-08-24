@@ -1,4 +1,21 @@
-@forward "_/colors" hide getColorVariableName;
+@function getVariableName($name) {
+    @return --#{$name}Color;
+}
+
+@function _getVariable($name) {
+    @return var(getVariableName($name));
+}
+
+$background: _getVariable(background);
+$primary: _getVariable(primary);
+$border: _getVariable(border);
+$button: _getVariable(button);
+$hoveredButton: _getVariable(hoveredButton);
+$activeButton: _getVariable(activeButton);
+$chessPanel: _getVariable(chessPanel);
+$chessDeletedPiece: _getVariable(chessDeletedPiece);
+$chessHoveredHistoryItem: _getVariable(chessHoveredHistoryItem);
+$chessSelectedHistoryItem: _getVariable(chessSelectedHistoryItem);
 
 
 @function setAlpha($color, $alpha) {
