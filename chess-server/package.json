@@ -1,11 +1,21 @@
 {
-  "name": "chess-server",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": ""
+    "name": "chess-server",
+    "version": "0.1.0",
+    "scripts": {
+        "start": "tsc && node dist/index.js",
+        "build": "tsc",
+        "dev": "tsc -w",
+        "lint": "eslint"
+    },
+    "devDependencies": {
+        "@stylistic/eslint-plugin": "^2.6.4",
+        "@types/node": "^22.5.0",
+        "@types/ws": "^8.5.12",
+        "eslint": "^9.9.1",
+        "typescript": "^5.5.4",
+        "typescript-eslint": "^8.2.0"
+    },
+    "dependencies": {
+        "ws": "^8.18.0"
+    }
 }
