@@ -1,4 +1,4 @@
-import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
+import { CSSModuleClasses } from "chess-utils";
 import uncheckedButtonClasses from "./button.module.scss";
 
 

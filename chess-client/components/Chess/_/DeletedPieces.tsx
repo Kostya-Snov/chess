@@ -1,5 +1,5 @@
 import { type Piece } from "@/chess/Piece";
-import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
+import { CSSModuleClasses } from "chess-utils";
 import { type FC } from "react";
 import uncheckedClasses from "../DeletedPieces.module.scss";
 import { Panel } from "./Panel";

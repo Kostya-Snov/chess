@@ -4,9 +4,7 @@ import { ChessConstants } from "@/chess/ChessConstants";
 import { type ChessState } from "@/chess/ChessState";
 import { type Move } from "@/chess/Move";
 import { PieceType } from "@/chess/Piece";
-import { assert } from "@/utils/assert";
-import { createArray } from "@/utils/createArray";
-import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
+import { assert, createArray, CSSModuleClasses } from "chess-utils";
 import {
     type FC,
     type MouseEventHandler,

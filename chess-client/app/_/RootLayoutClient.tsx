@@ -2,7 +2,7 @@
 
 import { useZoom, ZoomProvider } from "@/contexts/ZoomContext";
 import { useCookieState } from "@/hooks/useCookieState";
-import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
+import { CSSModuleClasses } from "chess-utils";
 import { type FC, type ReactNode } from "react";
 import uncheckedClasses from "./RootLayoutClient.module.scss";
 

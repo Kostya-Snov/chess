@@ -1,0 +1,19 @@
+{
+    "name": "chess-utils",
+    "version": "0.1.0",
+    "scripts": {
+        "build": "tsc",
+        "lint": "eslint"
+    },
+    "exports": {
+        "import": "./dist/index.js",
+        "require": "./dist/index.js",
+        "types": "./dist/index.d.ts"
+    },
+    "devDependencies": {
+        "chess-tsconfig": "file:../chess-tsconfig",
+        "eslint": "^9.9.1",
+        "eslint-config-chess": "file:../eslint-config-chess",
+        "typescript": "^5.5.4"
+    }
+}

@@ -2,7 +2,7 @@
 
 import { initialChessState } from "@/chess/ChessState";
 import { type Move } from "@/chess/Move";
-import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
+import { CSSModuleClasses } from "chess-utils";
 import { type FC, useState } from "react";
 import uncheckedClasses from "../Chess.module.scss";
 import { Board, type Selection } from "./Board";

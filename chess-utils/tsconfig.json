@@ -1,0 +1,10 @@
+{
+    "extends": "chess-tsconfig",
+    "compilerOptions": {
+        "lib": [
+            "ESNext"
+        ],
+        "outDir": "dist",
+        "declaration": true
+    }
+}

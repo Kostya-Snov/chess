@@ -1,4 +1,4 @@
-import { InvalidOperationError } from "@/utils/InvalidOperationError";
+import { InvalidOperationError } from "chess-utils";
 import { type BoardIndex } from "../BoardIndex";
 import { ChessStateDraft } from "./ChessStateDraft";
 import { type Move } from "./moves";

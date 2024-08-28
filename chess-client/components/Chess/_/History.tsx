@@ -2,7 +2,7 @@ import { getX, getY } from "@/chess/BoardCoordinate";
 import { type BoardIndex } from "@/chess/BoardIndex";
 import { type Move, MoveType } from "@/chess/Move";
 import { PieceType } from "@/chess/Piece";
-import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
+import { CSSModuleClasses } from "chess-utils";
 import { type FC, Fragment, type ReactNode } from "react";
 import uncheckedClasses from "../History.module.scss";
 import { Panel } from "./Panel";

@@ -1,8 +1,7 @@
 "use client";
 
 import { useCookieState } from "@/hooks/useCookieState";
-import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
-import { validateNumberArgument } from "@/utils/validateNumberArgument";
+import { CSSModuleClasses, validateNumberArgument } from "chess-utils";
 import { type FC, type ReactNode, useEffect, useMemo, useRef } from "react";
 import { ZoomContext, type ZoomContextValue } from "./ZoomContext";
 import uncheckedClasses from "./ZoomProvider.module.scss";

@@ -1,6 +1,6 @@
 "use client";
 
-import { InvalidOperationError } from "@/utils/InvalidOperationError";
+import { InvalidOperationError } from "chess-utils";
 import { useContext } from "react";
 import { ZoomContext, type ZoomContextValue } from "./ZoomContext";
 

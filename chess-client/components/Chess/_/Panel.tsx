@@ -1,4 +1,4 @@
-import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
+import { CSSModuleClasses } from "chess-utils";
 import { type FC, type ReactNode } from "react";
 import uncheckedClasses from "../Panel.module.scss";
 

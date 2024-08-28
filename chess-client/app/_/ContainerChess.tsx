@@ -1,7 +1,7 @@
 "use client";
 
 import { Chess } from "@/components/Chess";
-import { CSSModuleClasses } from "@/utils/CSSModuleClasses";
+import { CSSModuleClasses } from "chess-utils";
 import { type FC, useEffect, useRef } from "react";
 import uncheckedClasses from "./ContainerChess.module.scss";
 
