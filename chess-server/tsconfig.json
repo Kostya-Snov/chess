@@ -1,29 +1,14 @@
 {
+    "extends": "chess-tsconfig",
     "compilerOptions": {
         "lib": [
             "ESNext"
         ],
-        "target": "ES6",
-        "module": "NodeNext",
-        "isolatedModules": true,
-        "forceConsistentCasingInFileNames": true,
-        "incremental": true,
         "outDir": "dist",
         "paths": {
             "@/*": [
                 "./*"
             ]
-        },
-        "strict": true,
-        "allowUnreachableCode": false,
-        "allowUnusedLabels": false,
-        "exactOptionalPropertyTypes": true,
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitOverride": true,
-        "noImplicitReturns": true,
-        "noPropertyAccessFromIndexSignature": true,
-        "noUncheckedIndexedAccess": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true
+        }
     }
 }

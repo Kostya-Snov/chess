@@ -1,0 +1,5 @@
+{
+    "name": "chess-tsconfig",
+    "version": "0.1.0",
+    "exports": "./tsconfig.json"
+}

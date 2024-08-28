@@ -1,0 +1,1 @@
+Chess shared "tsconfig.json".
