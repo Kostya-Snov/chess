@@ -1,6 +1,6 @@
-import { type BoardIndex } from "../BoardIndex";
+import { type BoardIndex } from "./BoardIndex";
 import { ChessState } from "./ChessState";
-import { type Piece } from "./pieces";
+import { type Piece } from "./pieces/Piece";
 
 
 export class ChessStateDraft {

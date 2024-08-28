@@ -1,7 +1,7 @@
 /** @type {import("next").NextConfig} */
 const nextConfig = {
     eslint: {
-        dirs: ["app", "chess", "components", "contexts", "hooks", "styles"]
+        dirs: ["app", "components", "contexts", "hooks", "styles"]
     }
 };
 

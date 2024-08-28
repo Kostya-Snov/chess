@@ -1,8 +1,12 @@
 import { InvalidOperationError } from "chess-utils";
-import { type BoardIndex } from "../BoardIndex";
+import { type BoardIndex } from "./BoardIndex";
+import { ChessConstants } from "./ChessConstants";
 import { ChessStateDraft } from "./ChessStateDraft";
-import { type Move } from "./moves";
-import { AddMovesQuery, CanAttackQuery, createPiece, type Piece, PieceType } from "./pieces";
+import { type Move } from "./moves/Move";
+import { AddMovesQuery } from "./pieces/AddMovesQuery";
+import { CanAttackQuery } from "./pieces/CanAttackQuery";
+import { createPiece } from "./pieces/createPiece";
+import { type Piece, PieceType } from "./pieces/Piece";
 import { type PromotionPieceType } from "./PromotionPieceType";
 
 
@@ -95,3 +99,55 @@ export class ChessState {
         );
     }
 }
+
+
+const initialBoard = (() => {
+    const board: (Piece | undefined)[] = [];
+    let id = 0;
+    let isBlack: boolean;
+
+    const addPiece = (type: PieceType): void => {
+        board.push(createPiece(type, id++, isBlack, false));
+    };
+
+    const addFiguresRank = (): void => {
+        addPiece(PieceType.Rook);
+        addPiece(PieceType.Knight);
+        addPiece(PieceType.Bishop);
+        addPiece(PieceType.King);
+        addPiece(PieceType.Queen);
+        addPiece(PieceType.Bishop);
+        addPiece(PieceType.Knight);
+        addPiece(PieceType.Rook);
+    };
+
+    const addPawnsRank = (): void => {
+        for (let i = 0; i !== ChessConstants.BoardSize; ++i) {
+            addPiece(PieceType.Pawn);
+        }
+    };
+
+    const addEmptyRanks = (): void => {
+        const enum Constants {
+            EmptyRanksLength = 4 * ChessConstants.BoardSize
+        }
+
+        for (let i = 0; i !== Constants.EmptyRanksLength; ++i) {
+            board.push(undefined);
+        }
+    };
+
+    isBlack = false;
+    addFiguresRank();
+    addPawnsRank();
+
+    addEmptyRanks();
+
+    isBlack = true;
+    addPawnsRank();
+    addFiguresRank();
+
+    return board;
+})();
+
+export const initialChessState = new ChessState(initialBoard, [], false, null, null, null);

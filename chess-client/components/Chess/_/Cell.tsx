@@ -1,4 +1,4 @@
-import { MoveType } from "@/chess/Move";
+import { MoveType } from "chess-engine";
 import { CSSModuleClasses } from "chess-utils";
 import { type FC, type HTMLProps } from "react";
 import uncheckedClasses from "../Cell.module.scss";

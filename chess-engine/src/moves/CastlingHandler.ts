@@ -1,4 +1,4 @@
-import { type BoardIndex } from "../../BoardIndex";
+import { type BoardIndex } from "../BoardIndex";
 import { type ChessStateDraft } from "../ChessStateDraft";
 import { type MoveHandler, MoveType } from "./MoveHandler";
 

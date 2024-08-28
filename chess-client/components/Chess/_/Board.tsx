@@ -1,9 +1,13 @@
-import { getX, getY } from "@/chess/BoardCoordinate";
-import { type BoardIndex, isBoardIndex } from "@/chess/BoardIndex";
-import { ChessConstants } from "@/chess/ChessConstants";
-import { type ChessState } from "@/chess/ChessState";
-import { type Move } from "@/chess/Move";
-import { PieceType } from "@/chess/Piece";
+import {
+    type BoardIndex,
+    ChessConstants,
+    type ChessState,
+    getX,
+    getY,
+    isBoardIndex,
+    type Move,
+    PieceType
+} from "chess-engine";
 import { assert, createArray, CSSModuleClasses } from "chess-utils";
 import {
     type FC,

@@ -1,7 +1,6 @@
 "use client";
 
-import { initialChessState } from "@/chess/ChessState";
-import { type Move } from "@/chess/Move";
+import { initialChessState, type Move } from "chess-engine";
 import { CSSModuleClasses } from "chess-utils";
 import { type FC, useState } from "react";
 import uncheckedClasses from "../Chess.module.scss";

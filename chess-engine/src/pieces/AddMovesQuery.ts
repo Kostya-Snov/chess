@@ -1,13 +1,11 @@
-import { type BoardCoordinate, getX, getY } from "../../BoardCoordinate";
-import { type BoardIndex } from "../../BoardIndex";
+import { type BoardCoordinate, getX, getY } from "../BoardCoordinate";
+import { type BoardIndex } from "../BoardIndex";
 import { type ChessState } from "../ChessState";
 import { ChessStateDraft } from "../ChessStateDraft";
-import {
-    attackHandlerInstance,
-    type Move,
-    type MoveHandler,
-    movementHandlerInstance
-} from "../moves";
+import { attackHandlerInstance } from "../moves/AttackHandler";
+import { type Move } from "../moves/Move";
+import { type MoveHandler } from "../moves/MoveHandler";
+import { movementHandlerInstance } from "../moves/MovementHandler";
 import { getMovePatternIndices, type MovePattern } from "./MovePattern";
 import { type Piece } from "./Piece";
 

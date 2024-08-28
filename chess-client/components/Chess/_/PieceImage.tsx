@@ -1,4 +1,4 @@
-import { PieceType } from "@/chess/Piece";
+import { PieceType } from "chess-engine";
 import Image, { type ImageProps } from "next/image";
 import { type FC } from "react";
 import blackBishopImage from "./images/blackBishop.svg";

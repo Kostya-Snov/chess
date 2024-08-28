@@ -1,5 +1,5 @@
-import { type BoardCoordinate, getX, getY } from "../../BoardCoordinate";
-import { type BoardIndex } from "../../BoardIndex";
+import { type BoardCoordinate, getX, getY } from "../BoardCoordinate";
+import { type BoardIndex } from "../BoardIndex";
 import { type ChessState } from "../ChessState";
 import { getMovePatternIndices, type MovePattern } from "./MovePattern";
 

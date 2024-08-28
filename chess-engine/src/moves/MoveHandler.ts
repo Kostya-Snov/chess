@@ -1,8 +1,8 @@
-import { type BoardIndex } from "../../BoardIndex";
+import { type BoardIndex } from "../BoardIndex";
 import { type ChessStateDraft } from "../ChessStateDraft";
 
 
-export const enum MoveType {
+export enum MoveType {
     Movement,
     Attack,
     EnPassant,

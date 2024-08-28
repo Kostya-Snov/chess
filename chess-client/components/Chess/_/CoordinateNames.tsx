@@ -1,5 +1,4 @@
-import { type BoardCoordinate, isBoardCoordinate } from "@/chess/BoardCoordinate";
-import { ChessConstants } from "@/chess/ChessConstants";
+import { type BoardCoordinate, ChessConstants, isBoardCoordinate } from "chess-engine";
 import { assert, createArray, CSSModuleClasses } from "chess-utils";
 import { type FC } from "react";
 import uncheckedClasses from "../CoordinateNames.module.scss";

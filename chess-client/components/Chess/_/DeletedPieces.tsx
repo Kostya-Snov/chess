@@ -1,4 +1,4 @@
-import { type Piece } from "@/chess/Piece";
+import { type Piece } from "chess-engine";
 import { CSSModuleClasses } from "chess-utils";
 import { type FC } from "react";
 import uncheckedClasses from "../DeletedPieces.module.scss";

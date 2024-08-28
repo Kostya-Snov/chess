@@ -1,14 +1,14 @@
-import { type BoardCoordinate, getX, getY } from "../../BoardCoordinate";
-import { getIndex } from "../../BoardIndex";
-import { ChessConstants } from "../../ChessConstants";
+import { type BoardCoordinate, getX, getY } from "../BoardCoordinate";
+import { getIndex } from "../BoardIndex";
+import { ChessConstants } from "../ChessConstants";
+import { attackHandlerInstance } from "../moves/AttackHandler";
+import { enPassantHandlerInstance } from "../moves/EnPassantHandler";
+import { movementHandlerInstance } from "../moves/MovementHandler";
+import { pawnFirstMovementHandlerInstance } from "../moves/PawnFirstMovementHandler";
 import {
-    attackHandlerInstance,
     attackPromotionHandlerInstance,
-    enPassantHandlerInstance,
-    movementHandlerInstance,
-    movementPromotionHandlerInstance,
-    pawnFirstMovementHandlerInstance
-} from "../moves";
+    movementPromotionHandlerInstance
+} from "../moves/PromotionHandler";
 import { type AddMovesQuery } from "./AddMovesQuery";
 import { type CanAttackQuery } from "./CanAttackQuery";
 import { getOneWayMovePatterns, type MovePattern } from "./MovePattern";

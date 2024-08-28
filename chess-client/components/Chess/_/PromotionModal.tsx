@@ -1,4 +1,4 @@
-import { PieceType, type PromotionPieceType } from "@/chess/Piece";
+import { PieceType, type PromotionPieceType } from "chess-engine";
 import { CSSModuleClasses } from "chess-utils";
 import { type FC } from "react";
 import uncheckedClasses from "../PromotionModal.module.scss";

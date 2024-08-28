@@ -2,7 +2,7 @@ import { type AddMovesQuery } from "./AddMovesQuery";
 import { type CanAttackQuery } from "./CanAttackQuery";
 
 
-export const enum PieceType {
+export enum PieceType {
     Pawn,
     Rook,
     Knight,

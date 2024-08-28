@@ -1,6 +1,6 @@
-import { type BoardCoordinate, isBoardCoordinate } from "../../BoardCoordinate";
-import { type BoardIndex, getIndex } from "../../BoardIndex";
-import { ChessConstants } from "../../ChessConstants";
+import { type BoardCoordinate, isBoardCoordinate } from "../BoardCoordinate";
+import { type BoardIndex, getIndex } from "../BoardIndex";
+import { ChessConstants } from "../ChessConstants";
 
 
 export type Direction = readonly [dx: number, dy: number];

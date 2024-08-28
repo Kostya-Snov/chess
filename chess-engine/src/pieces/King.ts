@@ -1,5 +1,5 @@
-import { type BoardIndex } from "../../BoardIndex";
-import { castlingHandlerInstance } from "../moves";
+import { type BoardIndex } from "../BoardIndex";
+import { castlingHandlerInstance } from "../moves/CastlingHandler";
 import { type AddMovesQuery } from "./AddMovesQuery";
 import { type CanAttackQuery } from "./CanAttackQuery";
 import {
