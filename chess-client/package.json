@@ -14,13 +14,12 @@
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^2.6.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
     "chess-tsconfig": "file:../chess-tsconfig",
     "eslint": "^8",
+    "eslint-config-chess-legacy": "file:../eslint-config-chess-legacy",
     "eslint-config-next": "14.2.5",
     "sass": "^1.77.8",
     "typescript": "^5"
