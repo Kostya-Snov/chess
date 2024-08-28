@@ -1,0 +1,9 @@
+{
+    "name": "eslint-config-chess",
+    "version": "0.1.0",
+    "exports": "./eslint.config.mjs",
+    "devDependencies": {
+        "@eslint/eslintrc": "^3.1.0",
+        "eslint-config-chess-legacy": "file:../eslint-config-chess-legacy"
+    }
+}
