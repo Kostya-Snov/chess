@@ -16,6 +16,10 @@
         "typescript": "^5.5.4"
     },
     "dependencies": {
+        "chess-engine": "file:../chess-engine",
+        "chess-utils": "file:../chess-utils",
+        "dotenv": "^16.4.5",
+        "winston": "^3.14.2",
         "ws": "^8.18.0"
     }
 }
