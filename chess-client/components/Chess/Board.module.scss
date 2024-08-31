@@ -61,12 +61,12 @@ $_pieceDropShadowSize: var(--pieceDropShadowSize);
         filter: drop-shadow(0 0 $_pieceDropShadowSize crimson);
     }
 
-    &:not(.inCurrentTurn) {
+    &:not(.interactable) {
         pointer-events: none;
     }
 }
 
-.inCurrentTurn {
+.interactable {
     cursor: grab;
 }
 

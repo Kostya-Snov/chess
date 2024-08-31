@@ -123,12 +123,19 @@ export type Selection = {
 
 export type BoardProps = {
     readonly chessState: ChessState;
+    readonly isBlocked: boolean;
     readonly selection: Selection | null;
     readonly setSelection: (value: Selection | null) => void;
     readonly onMove: (move: Move) => void;
 };
 
-export const Board: FC<BoardProps> = ({ chessState, selection, setSelection, onMove }) => {
+export const Board: FC<BoardProps> = ({
+    chessState,
+    isBlocked,
+    selection,
+    setSelection,
+    onMove
+}) => {
     const draggingElementRef = useRef<HTMLImageElement>();
     const [isFlipped, setIsFlipped] = useState(true);
 
@@ -218,7 +225,7 @@ export const Board: FC<BoardProps> = ({ chessState, selection, setSelection, onM
     const getPiecePointerDownHandler = (
         index: BoardIndex
     ): PointerEventHandler<HTMLImageElement> | undefined => {
-        if (inDragging || !chessState.inCurrentTurn(board[index]!)) {
+        if (isBlocked || inDragging || !chessState.inCurrentTurn(board[index]!)) {
             return undefined;
         }
 
@@ -351,7 +358,7 @@ export const Board: FC<BoardProps> = ({ chessState, selection, setSelection, onM
                                     classes.build()
                                         .add("piece")
                                         .add("piece" + getX(viewIndex) + "_" + getY(viewIndex))
-                                        .addIf(inCurrentTurn, "inCurrentTurn")
+                                        .addIf(!isBlocked && inCurrentTurn, "interactable")
                                         .addIf(isSelected, "selected")
                                         .addIf(isSelected && inDragging, "inDragging")
                                         .addIf(isKing, "king")

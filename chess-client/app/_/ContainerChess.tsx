@@ -1,8 +1,8 @@
 "use client";
 
-import { Chess } from "@/components/Chess";
+import { Chess, initialChessComponentState } from "@/components/Chess";
 import { CSSModuleClasses } from "chess-utils";
-import { type FC, useEffect, useRef } from "react";
+import { type FC, useEffect, useRef, useState } from "react";
 import uncheckedClasses from "./ContainerChess.module.scss";
 
 
@@ -10,6 +10,8 @@ const classes = new CSSModuleClasses(uncheckedClasses);
 
 
 export const ContainerChess: FC = () => {
+    const [chessComponentState, setChessComponentState] = useState(initialChessComponentState);
+
     const overflowElementRef = useRef<HTMLDivElement>(null);
     const widthIndicatorElementRef = useRef<HTMLDivElement>(null);
 
@@ -31,7 +33,7 @@ export const ContainerChess: FC = () => {
             <div ref={overflowElementRef} className={classes.get("overflow")}/>
             <div className={classes.get("frame")}>
                 <div ref={widthIndicatorElementRef} className={classes.get("widthIndicator")}>
-                    <Chess/>
+                    <Chess state={chessComponentState} setState={setChessComponentState}/>
                 </div>
             </div>
         </div>

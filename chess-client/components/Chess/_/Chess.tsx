@@ -1,9 +1,10 @@
 "use client";
 
-import { initialChessState, type Move } from "chess-engine";
+import { type Move, type PromotionPieceType } from "chess-engine";
 import { CSSModuleClasses } from "chess-utils";
 import { type FC, useState } from "react";
 import uncheckedClasses from "../Chess.module.scss";
+import { type ChessComponentState } from "../ChessComponentState";
 import { Board, type Selection } from "./Board";
 import { DeletedPieces } from "./DeletedPieces";
 import { History } from "./History";
@@ -13,25 +14,36 @@ import { PromotionModal } from "./PromotionModal";
 const classes = new CSSModuleClasses(uncheckedClasses);
 
 
-export const Chess: FC = () => {
-    const [history, setHistory] = useState<readonly Move[]>([]);
-    const [historyIndex, setHistoryIndex] = useState(-1);
+export type ChessProps = {
+    readonly state: ChessComponentState;
+    readonly setState: (value: ChessComponentState) => void;
+    readonly boardIsBlocked?: boolean;
+    readonly onMove?: (move: Move) => void;
+    readonly onPromotionChoose?: (type: PromotionPieceType) => void;
+};
+
+export const Chess: FC<ChessProps> = ({
+    state,
+    setState,
+    boardIsBlocked = false,
+    onMove,
+    onPromotionChoose
+}) => {
     const [selection, setSelection] = useState<Selection | null>(null);
 
-    const chessState = historyIndex === -1 ? initialChessState : history[historyIndex]!.state;
+    const { history, historyIndex, chessState } = state;
 
     return (
         <section className={classes.get("chess")}>
             <div className={classes.get("boardAndDeletedPieces")}>
                 <Board
                     chessState={chessState}
+                    isBlocked={boardIsBlocked}
                     selection={selection}
                     setSelection={setSelection}
                     onMove={move => {
-                        const newHistory = history.slice(0, historyIndex + 1);
-                        newHistory.push(move);
-                        setHistory(newHistory);
-                        setHistoryIndex(historyIndex + 1);
+                        onMove?.(move);
+                        setState(state.applyMove(move));
                     }}
                 />
 
@@ -42,21 +54,17 @@ export const Chess: FC = () => {
                 history={history}
                 historyIndex={historyIndex}
                 onItemClick={index => {
-                    setHistoryIndex(index);
+                    setState(state.setHistoryIndex(index));
                     setSelection(null);
                 }}
             />
 
             <PromotionModal
                 isBlack={chessState.isBlacksTurn}
-                isOpen={chessState.promotionIndex !== null}
+                isOpen={!boardIsBlocked && chessState.promotionIndex !== null}
                 onPieceClick={type => {
-                    const newHistory = history.slice(0, -1);
-                    newHistory.push({
-                        ...history.at(-1)!,
-                        state: chessState.replaceInPromotion(type)
-                    });
-                    setHistory(newHistory);
+                    onPromotionChoose?.(type);
+                    setState(state.replaceInPromotion(type));
                 }}
             />
         </section>
