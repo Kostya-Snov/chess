@@ -1,0 +1,3 @@
+.container {
+    --cellSize: calc(min(100cqw, 100vh) * var(--zoom) / 9.2);
+}

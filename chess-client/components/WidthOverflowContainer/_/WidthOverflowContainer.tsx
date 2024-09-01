@@ -1,17 +1,22 @@
 "use client";
 
-import { Chess, initialChessComponentState } from "@/components/Chess";
 import { CSSModuleClasses } from "chess-utils";
-import { type FC, useEffect, useRef, useState } from "react";
-import uncheckedClasses from "./ContainerChess.module.scss";
+import { type FC, type ReactNode, useEffect, useRef } from "react";
+import uncheckedClasses from "../WidthOverflowContainer.module.scss";
 
 
 const classes = new CSSModuleClasses(uncheckedClasses);
 
 
-export const ContainerChess: FC = () => {
-    const [chessComponentState, setChessComponentState] = useState(initialChessComponentState);
+export type WidthOverflowContainerProps = {
+    readonly className?: string | undefined;
+    readonly children?: ReactNode;
+};
 
+export const WidthOverflowContainer: FC<WidthOverflowContainerProps> = ({
+    className,
+    children
+}) => {
     const overflowElementRef = useRef<HTMLDivElement>(null);
     const widthIndicatorElementRef = useRef<HTMLDivElement>(null);
 
@@ -29,11 +34,11 @@ export const ContainerChess: FC = () => {
     }, []);
 
     return (
-        <div className={classes.get("chess")}>
+        <div className={classes.get("wrapper")}>
             <div ref={overflowElementRef} className={classes.get("overflow")}/>
-            <div className={classes.get("frame")}>
+            <div className={classes.build().add("container").addRaw(className).class}>
                 <div ref={widthIndicatorElementRef} className={classes.get("widthIndicator")}>
-                    <Chess state={chessComponentState} setState={setChessComponentState}/>
+                    {children}
                 </div>
             </div>
         </div>
