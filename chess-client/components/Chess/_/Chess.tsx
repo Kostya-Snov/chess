@@ -1,5 +1,6 @@
 "use client";
 
+import { Modal } from "@/components/Modal";
 import { type Move, type PromotionPieceType } from "chess-engine";
 import { CSSModuleClasses } from "chess-utils";
 import { type FC, useState } from "react";
@@ -8,7 +9,7 @@ import { type ChessComponentState } from "../ChessComponentState";
 import { Board, type Selection } from "./Board";
 import { DeletedPieces } from "./DeletedPieces";
 import { History } from "./History";
-import { PromotionModal } from "./PromotionModal";
+import { PromotionChoice } from "./PromotionChoice";
 
 
 const classes = new CSSModuleClasses(uncheckedClasses);
@@ -59,14 +60,15 @@ export const Chess: FC<ChessProps> = ({
                 }}
             />
 
-            <PromotionModal
-                isBlack={chessState.isBlacksTurn}
-                isOpen={!boardIsBlocked && chessState.promotionIndex !== null}
-                onPieceClick={type => {
-                    onPromotionChoose?.(type);
-                    setState(state.replaceInPromotion(type));
-                }}
-            />
+            <Modal isOpen={!boardIsBlocked && chessState.promotionIndex !== null}>
+                <PromotionChoice
+                    isBlack={chessState.isBlacksTurn}
+                    onChoose={type => {
+                        onPromotionChoose?.(type);
+                        setState(state.replaceInPromotion(type));
+                    }}
+                />
+            </Modal>
         </section>
     );
 };

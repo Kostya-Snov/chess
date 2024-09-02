@@ -1,0 +1,26 @@
+@use "@/styles/colors";
+@use "_/chess" as *;
+
+
+.pieces {
+    display: flex;
+    gap: getCellSizeUnit(1 / 10);
+}
+
+.piece {
+    cursor: pointer;
+
+    width: getCellSizeUnit(1);
+    height: getCellSizeUnit(1);
+
+    border: getCellSizeUnit(1 / 40) solid colors.$border;
+    border-radius: 10%;
+
+    background-color: #c3bba9;
+
+    transition: background-color 250ms;
+
+    &:hover {
+        background-color: #555559;
+    }
+}
