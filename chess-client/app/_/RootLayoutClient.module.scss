@@ -11,6 +11,7 @@
     @include _theme((
         background: lightgray,
         primary: black,
+        dangerous: red,
         border: black,
         button: #bcbdd5,
         hoveredButton: #abacc1,
@@ -26,6 +27,7 @@
     @include _theme((
         background: black,
         primary: lightgray,
+        dangerous: red,
         border: lightgray,
         button: #211e1e,
         hoveredButton: #2d2d2d,

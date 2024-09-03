@@ -33,6 +33,12 @@ class ChessComponentState {
     }
 
 
+    public get lastInHistory(): ChessComponentState {
+        const { history } = this;
+        return new ChessComponentState(history, history.length - 1);
+    }
+
+
     public applyMove(move: Move): ChessComponentState {
         if (this.chessState !== move.previousState) {
             throw new InvalidOperationError("The move must be created on the current state.");

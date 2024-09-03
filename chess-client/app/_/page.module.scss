@@ -1,0 +1,45 @@
+@use "@/styles/colors";
+
+
+.chessWrapper {
+    position: relative;
+}
+
+.stateTitle {
+    text-align: center;
+
+    margin: 0 0 0.5rem 0;
+}
+
+%_chessTitle {
+    padding: 0.5rem;
+
+    border: 0.1rem solid colors.$border;
+    border-radius: 0.5rem;
+
+    background-color: colors.$background;
+}
+
+.waitingTitle {
+    @extend %_chessTitle;
+}
+
+.errorTitle {
+    @extend %_chessTitle;
+
+    color: colors.$dangerous;
+}
+
+.spinner {
+    position: fixed;
+    right: 0.5rem;
+    bottom: 0.5rem;
+
+    scale: 0;
+
+    transition: scale 250ms;
+}
+
+.visible {
+    scale: 1;
+}
