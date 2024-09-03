@@ -1,0 +1,130 @@
+@use "@/styles/colors";
+@use "sass:math";
+
+
+$_numberCircles: var(--numberCircles);
+$_index: var(--index);
+
+.spinner {
+    --circleRadiusFactor: 1 / 6;
+    --pulseMaxDuration: 0.6s;
+    --delayDuration: 0.1s;
+    // The intermediate points of the cubic Bezier curve in the CSS timing function "easy" are
+    // P1(0.25; 0.1) and P2(0.25; 1).
+    --cubicBezierX1: 0.25;
+    --cubicBezierY1: 0.1;
+    --cubicBezierX2: 0.25;
+    --cubicBezierY2: 1;
+
+    container-type: size;
+
+    display: inline-block;
+
+    position: relative;
+
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.circle {
+    @extend %_circleAnimation;
+
+    $circleRadiusFactor: var(--circleRadiusFactor);
+    $circleRadius: calc(50cqmin * $circleRadiusFactor);
+
+    display: block;
+
+    position: absolute;
+
+    $size: calc(2 * $circleRadius);
+    width: $size;
+    height: $size;
+
+    border-radius: 50%;
+
+    background-color: colors.$primary;
+
+    $a: calc(50cqw - $circleRadius); // Semi-major axis.
+    $b: calc(50cqh - $circleRadius); // Semi-minor axis.
+    $t: calc($_index * 1turn / $_numberCircles); // Parameter in parameterization.
+    translate: calc($a * (1 + cos($t))) calc($b * (1 + sin($t)));
+}
+
+%_circleAnimation {
+    @function getCubicBezierCoordinate($t, $coordinate1, $coordinate2) {
+        // A cubic Bezier curve in a CSS timing function always has P0(0; 0) and P3(1; 1).
+        $coordinate0: 0;
+        $coordinate3: 1;
+        @return calc(
+            math.pow(1 - $t, 3) * $coordinate0
+            + 3 * math.pow(1 - $t, 2) * $t * $coordinate1
+            + 3 * (1 - $t) * math.pow($t, 2) * $coordinate2
+            + math.pow($t, 3) * $coordinate3
+        );
+    }
+
+    @function getCubicBezierX($t) {
+        $cubicBezierX1: var(--cubicBezierX1);
+        $cubicBezierX2: var(--cubicBezierX2);
+        @return getCubicBezierCoordinate($t, $cubicBezierX1, $cubicBezierX2);
+    }
+
+    @function getCubicBezierY($t) {
+        $cubicBezierY1: var(--cubicBezierY1);
+        $cubicBezierY2: var(--cubicBezierY2);
+        @return getCubicBezierCoordinate($t, $cubicBezierY1, $cubicBezierY2);
+    }
+
+    @function removeUnit($value, $divider) {
+        @return tan(atan2($value, $divider));
+    }
+
+    $pulseMaxDuration: var(--pulseMaxDuration);
+    $delayDuration: var(--delayDuration);
+    $turnDuration: calc($_numberCircles * $delayDuration);
+    $waitingDuration: max(0s, calc($turnDuration - $pulseMaxDuration));
+    $pulseDuration: calc($turnDuration - $waitingDuration);
+    $turnDurationInSeconds: removeUnit($turnDuration, 1s);
+    $pulseDurationInSeconds: removeUnit($pulseDuration, 1s);
+    $halfPulseDurationRatio: calc($pulseDurationInSeconds / (2 * $turnDurationInSeconds));
+
+    $numberIntervals: 10;
+    $step: 1 / $numberIntervals;
+    $points: join((), (), comma);
+
+    // Direct animation.
+    @for $i from 0 through $numberIntervals {
+        $t: $i * $step;
+        $x: getCubicBezierX($t);
+        $y: getCubicBezierY($t);
+        $points: append($points, $y calc(100% * $x * $halfPulseDurationRatio));
+    }
+
+    // Reverse animation.
+    @for $i from 0 through $numberIntervals {
+        $t: $i * $step;
+        $x: calc(1 - getCubicBezierX(1 - $t));
+        $y: getCubicBezierY(1 - $t);
+        $points: append($points, $y calc(100% * (1 + $x) * $halfPulseDurationRatio));
+    }
+
+    // Waiting.
+    $points: append($points, 0 100%);
+
+    // noinspection CssInvalidFunction
+    animation: //
+        $turnDuration //
+        calc($_index * $delayDuration) //
+        linear($points) //
+        infinite backwards pulse;
+}
+
+@keyframes pulse {
+    from {
+        scale: 0.65;
+    }
+
+    to {
+        scale: 1;
+    }
+}
