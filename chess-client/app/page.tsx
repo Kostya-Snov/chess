@@ -4,6 +4,7 @@ import { Chess, initialChessComponentState } from "@/components/Chess";
 import { ChessContainer } from "@/components/ChessContainer";
 import { Modal } from "@/components/Modal";
 import { Spinner } from "@/components/Spinner";
+import { isBoardIndex } from "chess-engine";
 import { assert, CSSModuleClasses } from "chess-utils";
 import { type FC, useEffect, useRef, useState } from "react";
 import uncheckedClasses from "./_/page.module.scss";
@@ -24,16 +25,76 @@ const RootPage: FC = () => {
     const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
+        type ResponseHandler = (response: unknown) => boolean;
+
+        const handleIdentificationResponse: ResponseHandler = response => {
+            if (typeof response !== "boolean") {
+                return false;
+            }
+
+            setPlayerIsBlack(response);
+            return true;
+        };
+
+        const handleSuccessResponse: ResponseHandler = response => {
+            if (response !== "Ok") {
+                return false;
+            }
+
+            setIsLoading(false);
+            return true;
+        };
+
+        const handleMoveResponse: ResponseHandler = response => {
+            if (!(
+                typeof response === "object"
+                && response !== null
+                && "from" in response
+                && "to" in response
+            )) {
+                return false;
+            }
+            const { from, to } = response;
+
+            assert(
+                typeof from === "number"
+                && isBoardIndex(from)
+                && typeof to === "number"
+                && isBoardIndex(to)
+            );
+
+            setChessComponentState(prev => {
+                const currentState = prev.lastInHistory;
+                const move = currentState.chessState.getMoves(from).get(to);
+                assert(move !== undefined);
+
+                const newState = currentState.applyMove(move);
+                const previousHistoryIndex = prev.historyIndex;
+                return newState.historyIndex === previousHistoryIndex + 1
+                    ? newState
+                    : newState.setHistoryIndex(previousHistoryIndex);
+            });
+            return true;
+        };
+
+        const responseHandlers: readonly ResponseHandler[] = [
+            handleIdentificationResponse,
+            handleSuccessResponse,
+            handleMoveResponse
+        ];
+
+
         const handleMessage = (event: MessageEvent): void => {
             const data: unknown = event.data;
             assert(typeof data === "string");
             const response: unknown = JSON.parse(data);
 
-            if (typeof response === "boolean") {
-                setPlayerIsBlack(response);
-            } else {
-                assert(false);
+            for (const handle of responseHandlers) {
+                if (handle(response)) {
+                    return;
+                }
             }
+            assert(false);
         };
 
         const cleanup = (): void => {
@@ -102,6 +163,12 @@ const RootPage: FC = () => {
                             )
                             || chessComponentState.chessState.isBlacksTurn !== playerIsBlack
                         }
+                        onMove={({ from, to }) => {
+                            const socket = socketRef.current;
+                            assert(socket !== undefined);
+                            socket.send(JSON.stringify({ from, to }));
+                            setIsLoading(true);
+                        }}
                     />
                     <Modal isOpen={isWaitingOpponent || hasError}>
                         {
