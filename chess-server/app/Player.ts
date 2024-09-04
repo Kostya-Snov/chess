@@ -1,5 +1,16 @@
-import { type ChessState, isBoardIndex } from "chess-engine";
+import { type ChessState, isBoardIndex, PieceType, type PromotionPieceType } from "chess-engine";
 import { asErrorResponse, type GameResponse, successGameResponse } from "./GameResponse";
+
+
+const promotionPieceTypes: readonly number[] = [
+    PieceType.Rook,
+    PieceType.Knight,
+    PieceType.Bishop,
+    PieceType.Queen
+] satisfies PromotionPieceType[];
+
+const isPromotionPieceType = (value: number): value is PromotionPieceType =>
+    promotionPieceTypes.includes(value);
 
 
 export type Game = {
@@ -19,6 +30,7 @@ export class Player {
         return this.game.state.isBlacksTurn === this.isBlack
             ? null
             ?? this.handleMoveRequest(request)
+            ?? this.handlePawnPromotionRequest(request)
             ?? asErrorResponse("Invalid request.", request)
             : asErrorResponse(
                 "Now it is the opponent's turn.",
@@ -71,6 +83,28 @@ export class Player {
         }
 
         game.state = move.state;
+        return successGameResponse;
+    }
+
+
+    private handlePawnPromotionRequest(request: unknown): GameResponse | null {
+        if (typeof request !== "number") {
+            return null;
+        }
+        const pieceType = request;
+
+        if (!isPromotionPieceType(pieceType)) {
+            return asErrorResponse("Invalid pawn promotion request.", pieceType);
+        }
+
+        const { game } = this;
+        const { state } = game;
+
+        if (state.promotionIndex === null) {
+            return asErrorResponse("Now there is no pawn promotion.");
+        }
+
+        game.state = state.replaceInPromotion(pieceType);
         return successGameResponse;
     }
 }

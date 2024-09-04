@@ -1,10 +1,10 @@
 "use client";
 
-import { Chess, initialChessComponentState } from "@/components/Chess";
+import { Chess, type ChessComponentState, initialChessComponentState } from "@/components/Chess";
 import { ChessContainer } from "@/components/ChessContainer";
 import { Modal } from "@/components/Modal";
 import { Spinner } from "@/components/Spinner";
-import { isBoardIndex } from "chess-engine";
+import { isBoardIndex, PieceType, type PromotionPieceType } from "chess-engine";
 import { assert, CSSModuleClasses } from "chess-utils";
 import { type FC, useEffect, useRef, useState } from "react";
 import uncheckedClasses from "./_/page.module.scss";
@@ -15,6 +15,17 @@ const classes = new CSSModuleClasses(uncheckedClasses);
 
 const serverUrl = process.env["NEXT_PUBLIC_SERVER_URL"];
 assert(serverUrl !== undefined);
+
+
+const promotionPieceTypes: readonly number[] = [
+    PieceType.Rook,
+    PieceType.Knight,
+    PieceType.Bishop,
+    PieceType.Queen
+] satisfies PromotionPieceType[];
+
+const isPromotionPieceType = (value: number): value is PromotionPieceType =>
+    promotionPieceTypes.includes(value);
 
 
 const RootPage: FC = () => {
@@ -45,6 +56,16 @@ const RootPage: FC = () => {
             return true;
         };
 
+        const setCurrentState = (
+            callback: (currentState: ChessComponentState) => ChessComponentState
+        ) => setChessComponentState(prev => {
+            const newState = callback(prev.lastInHistory);
+            const previousHistoryIndex = prev.historyIndex;
+            return newState.historyIndex === previousHistoryIndex + 1
+                ? newState
+                : newState.setHistoryIndex(previousHistoryIndex);
+        });
+
         const handleMoveResponse: ResponseHandler = response => {
             if (!(
                 typeof response === "object"
@@ -63,24 +84,29 @@ const RootPage: FC = () => {
                 && isBoardIndex(to)
             );
 
-            setChessComponentState(prev => {
-                const currentState = prev.lastInHistory;
+            setCurrentState(currentState => {
                 const move = currentState.chessState.getMoves(from).get(to);
                 assert(move !== undefined);
-
-                const newState = currentState.applyMove(move);
-                const previousHistoryIndex = prev.historyIndex;
-                return newState.historyIndex === previousHistoryIndex + 1
-                    ? newState
-                    : newState.setHistoryIndex(previousHistoryIndex);
+                return currentState.applyMove(move);
             });
+            return true;
+        };
+
+        const handlePawnPromotionResponse: ResponseHandler = response => {
+            if (typeof response !== "number") {
+                return false;
+            }
+            const pieceType = response;
+            assert(isPromotionPieceType(pieceType));
+            setCurrentState(currentState => currentState.replaceInPromotion(pieceType));
             return true;
         };
 
         const responseHandlers: readonly ResponseHandler[] = [
             handleIdentificationResponse,
             handleSuccessResponse,
-            handleMoveResponse
+            handleMoveResponse,
+            handlePawnPromotionResponse
         ];
 
 
@@ -137,6 +163,13 @@ const RootPage: FC = () => {
     const isWaitingOpponent = playerIsBlack === null;
     const { chessState } = chessComponentState.lastInHistory;
 
+    const sendRequest = (request: unknown): void => {
+        const socket = socketRef.current;
+        assert(socket !== undefined);
+        socket.send(JSON.stringify(request));
+        setIsLoading(true);
+    };
+
     return (
         <>
             <ChessContainer>
@@ -163,12 +196,8 @@ const RootPage: FC = () => {
                             )
                             || chessComponentState.chessState.isBlacksTurn !== playerIsBlack
                         }
-                        onMove={({ from, to }) => {
-                            const socket = socketRef.current;
-                            assert(socket !== undefined);
-                            socket.send(JSON.stringify({ from, to }));
-                            setIsLoading(true);
-                        }}
+                        onMove={({ from, to }) => sendRequest({ from, to })}
+                        onPromotionChoose={sendRequest}
                     />
                     <Modal isOpen={isWaitingOpponent || hasError}>
                         {
