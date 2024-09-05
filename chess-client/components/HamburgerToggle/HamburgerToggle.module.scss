@@ -1,0 +1,130 @@
+@use "@/styles/colors";
+
+
+$_distanceRatio: var(--distanceRatio);
+$_numberLines: var(--numberLines);
+
+
+.toggle {
+    --distanceRatio: 1;
+    --boxShadowKind: 0 0 1rem;
+    --movingTransitionKind: 250ms;
+    --boxShadowTransitionKind: 200ms;
+
+    container-type: size;
+
+    cursor: pointer;
+
+    display: inline-block;
+
+    width: 1.6rem;
+    height: 1rem;
+}
+
+
+@function getLineHeight($toggleHeight) {
+    @return calc($toggleHeight / ($_numberLines + ($_numberLines - 1) * $_distanceRatio));
+}
+
+@function getYOffset($lineHeight) {
+    $index: var(--index);
+    @return calc($index * $lineHeight * $_distanceRatio);
+}
+
+.line {
+    $lineHeight: getLineHeight(100cqh);
+
+    display: block;
+
+    width: 100cqw;
+    height: $lineHeight;
+
+    border-radius: 5% / 40%;
+
+    background-color: colors.$primary;
+
+    translate: 0 getYOffset($lineHeight);
+
+
+    @mixin transition($additionalMovingProperties...) {
+        $transition: join((), (), comma);
+
+        $baseMovingProperties: height, translate;
+        @each $movingProperty in join($baseMovingProperties, $additionalMovingProperties) {
+            $movingTransitionKind: var(--movingTransitionKind);
+            $transition: append($transition, $movingProperty $movingTransitionKind);
+        }
+
+        $boxShadowTransitionKind: var(--boxShadowTransitionKind);
+        $transition: append($transition, box-shadow $boxShadowTransitionKind);
+
+        transition: $transition;
+    }
+
+    @include transition(opacity, scale);
+
+    @at-root %_diagonal {
+        @include transition(width, rotate);
+    }
+
+    &:first-child {
+        @extend %_diagonal;
+
+        transform-origin: bottom left;
+    }
+
+    &:last-child {
+        @extend %_diagonal;
+
+        transform-origin: top left;
+    }
+
+
+    $boxShadowKind: var(--boxShadowKind);
+
+    :hover > & {
+        box-shadow: $boxShadowKind colors.$shadow;
+    }
+
+    :active > & {
+        box-shadow: $boxShadowKind colors.$primary;
+    }
+}
+
+.open > .line {
+    $lineHeight: getLineHeight(100cqmin);
+    $yOffset: calc((100cqh - 100cqmin) / 2 + getYOffset($lineHeight));
+
+    height: $lineHeight;
+
+    opacity: 0;
+
+    scale: 0;
+    translate: 0 $yOffset;
+
+    @at-root %_openDiagonal {
+        width: calc(100cqmin / sin(45deg) - $lineHeight);
+
+        opacity: revert;
+
+        scale: revert;
+    }
+
+    @mixin diagonalTransform($rotationCoefficient) {
+        $rotationOffset: calc($lineHeight * (1 - sin(45deg)));
+        translate: //
+            calc((100cqw - 100cqmin) / 2) //
+            calc($yOffset + $rotationCoefficient * $rotationOffset);
+        rotate: -45deg * $rotationCoefficient;
+    }
+
+    &:first-child {
+        @extend %_openDiagonal;
+        @include diagonalTransform(-1);
+    }
+
+    &:last-child {
+        @extend %_openDiagonal;
+        @include diagonalTransform(1);
+    }
+}
