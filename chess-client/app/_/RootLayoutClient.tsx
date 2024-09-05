@@ -1,9 +1,11 @@
 "use client";
 
+import { HamburgerToggle } from "@/components/HamburgerToggle";
 import { useZoom, ZoomProvider } from "@/contexts/ZoomContext";
 import { useCookieState } from "@/hooks/useCookieState";
 import { CSSModuleClasses } from "chess-utils";
-import { type FC, type ReactNode } from "react";
+import Link from "next/link";
+import { type FC, type ReactNode, useState } from "react";
 import uncheckedClasses from "./RootLayoutClient.module.scss";
 
 
@@ -103,7 +105,10 @@ const ResetZoomButton: FC = () => {
     const [, setZoom] = useZoom();
 
     return (
-        <button className={classes.get("headerButton")} onClick={() => setZoom(1)}>
+        <button
+            className={classes.build("headerButton", "headerSeparator")}
+            onClick={() => setZoom(1)}
+        >
             {resetZoomImage}
         </button>
     );
@@ -130,6 +135,7 @@ export const RootLayoutClient: FC<RootLayoutClientProps> = ({
         "isDarkTheme",
         serializeIsDarkTheme
     );
+    const [headerIsCollapsed, setHeaderIsCollapsed] = useState(true);
 
     const renderThemeButton = (buttonIsDarkTheme: typeof isDarkTheme, index: number) => (
         <button
@@ -169,9 +175,34 @@ export const RootLayoutClient: FC<RootLayoutClientProps> = ({
         >
         <ZoomProvider initialZoom={initialZoom}>
             <header className={classes.get("header")}>
-                <ResetZoomButton/>
-                <div className={classes.get("themingPanel")}>
-                    {[true, undefined, false].map(renderThemeButton)}
+                <div className={classes.get("headerToggleContainer")}>
+                    <HamburgerToggle
+                        isOpen={!headerIsCollapsed}
+                        onClick={() => setHeaderIsCollapsed(!headerIsCollapsed)}
+                    />
+                </div>
+                <div
+                    className={
+                        classes.build()
+                            .add("headerCollapsible")
+                            .addIf(headerIsCollapsed, "collapsed")
+                            .class
+                    }
+                >
+                    <div className={classes.get("headerCollapsibleInner")}>
+                        <section className={classes.get("headerContent")}>
+                            <Link className={classes.get("headerLink")} href="./offline">
+                                Offline
+                            </Link>
+                            <Link className={classes.get("headerLink")} href="./online">
+                                Online
+                            </Link>
+                            <ResetZoomButton/>
+                            <div className={classes.get("themingPanel")}>
+                                {[true, undefined, false].map(renderThemeButton)}
+                            </div>
+                        </section>
+                    </div>
                 </div>
             </header>
             <main className={classes.get("main")}>

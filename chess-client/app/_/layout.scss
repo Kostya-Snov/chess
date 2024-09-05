@@ -1,12 +1,15 @@
 @use "@/styles/colors";
+@use "@/styles/variables";
 
 
 :root {
-    font-size: 150%;
+    font-size: 100% * variables.$remFactor;
 }
 
 body {
     color: colors.$primary;
+
+    margin: 0;
 
     background-color: colors.$background;
 }

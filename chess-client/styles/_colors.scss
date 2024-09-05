@@ -8,9 +8,11 @@
 
 $background: _getVariable(background);
 $primary: _getVariable(primary);
+$secondary: _getVariable(secondary);
 $dangerous: _getVariable(dangerous);
 $border: _getVariable(border);
 $shadow: _getVariable(shadow);
+$headerLine: _getVariable(headerLine);
 $button: _getVariable(button);
 $hoveredButton: _getVariable(hoveredButton);
 $activeButton: _getVariable(activeButton);
