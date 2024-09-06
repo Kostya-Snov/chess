@@ -1,68 +1,89 @@
 @use "@/styles/colors";
 @use "@/styles/variables";
+@use "sass:meta";
 
 
-@mixin _theme($colors) {
-    @each $name, $color in $colors {
-        #{colors.getVariableName($name)}: $color;
+@function _capitalize($string) {
+    @return to-upper-case(str-slice($string, 1, 1)) + str-slice($string, 2);
+}
+
+@function _getThemeVariableName($name, $prefix) {
+    $variableNameWithoutDashes: str-slice(colors.getVariableName($name), 3);
+    @return --#{$prefix}#{_capitalize($variableNameWithoutDashes)};
+}
+
+$_colorNames: map-keys(meta.module-variables(colors));
+
+@mixin _theme($prefix) {
+    @each $name in $_colorNames {
+        #{colors.getVariableName($name)}: var(_getThemeVariableName($name, $prefix));
     }
-}
-
-@mixin _light {
-    @include _theme((
-        background: lightgray,
-        primary: black,
-        secondary: #666,
-        dangerous: red,
-        border: black,
-        shadow: dimgray,
-        headerLine: #eaeaea,
-        button: #bcbdd5,
-        hoveredButton: #abacc1,
-        activeButton: #a2a0ab,
-        chessPanel: #bcbdd5,
-        chessDeletedPiece: #c9bebe,
-        chessHoveredHistoryItem: navajowhite,
-        chessSelectedHistoryItem: white
-    ));
-}
-
-@mixin _dark {
-    @include _theme((
-        background: black,
-        primary: lightgray,
-        secondary: #888,
-        dangerous: red,
-        border: lightgray,
-        shadow: gray,
-        headerLine: #333,
-        button: #211e1e,
-        hoveredButton: #2d2d2d,
-        activeButton: #404040,
-        chessPanel: #211e1e,
-        chessDeletedPiece: #999,
-        chessHoveredHistoryItem: #777,
-        chessSelectedHistoryItem: #2c2c2c
-    ));
 }
 
 .theme {
+    $colors: (
+        dark: (
+            background: black,
+            primary: lightgray,
+            secondary: #888,
+            dangerous: red,
+            border: lightgray,
+            shadow: gray,
+            headerLine: #333,
+            button: #211e1e,
+            hoveredButton: #2d2d2d,
+            activeButton: #404040,
+            chessPanel: #211e1e,
+            chessDeletedPiece: #999,
+            chessHoveredHistoryItem: #777,
+            chessSelectedHistoryItem: #2c2c2c
+        ),
+        light: (
+            background: lightgray,
+            primary: black,
+            secondary: #666,
+            dangerous: red,
+            border: black,
+            shadow: dimgray,
+            headerLine: #eaeaea,
+            button: #bcbdd5,
+            hoveredButton: #abacc1,
+            activeButton: #a2a0ab,
+            chessPanel: #bcbdd5,
+            chessDeletedPiece: #c9bebe,
+            chessHoveredHistoryItem: navajowhite,
+            chessSelectedHistoryItem: white
+        )
+    );
+
+    @each $prefix, $themeColors in $colors {
+        @each $name in $_colorNames {
+            $color: map-get($themeColors, $name);
+            @if $color == null {
+                @error "Color '#{$name}' is not specified in the theme prefixed with '#{$prefix}'."
+            }
+
+            #{_getThemeVariableName($name, $prefix)}: $color;
+        }
+    }
+
     @media (prefers-color-scheme: dark) {
-        @include _dark;
+        @include _theme(dark);
     }
 
     @media (prefers-color-scheme: light) {
-        @include _light;
+        @include _theme(light);
     }
 }
 
 .dark {
-    @include _dark;
+    @include _theme(dark);
 }
 
 .light {
-    @include _light;
+    @include _theme(light);
 }
+
 
 .main {
     margin-top: 1rem;
