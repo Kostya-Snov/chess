@@ -5,7 +5,7 @@ import { ChessContainer } from "@/components/ChessContainer";
 import { type FC, useState } from "react";
 
 
-export const OfflineChess: FC = () => {
+export const OfflinePage: FC = () => {
     const [chessComponentState, setChessComponentState] = useState(initialChessComponentState);
 
     return (

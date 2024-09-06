@@ -1,20 +1,14 @@
-import { type Metadata } from "next";
 import { cookies } from "next/headers";
 import { type FC, type ReactNode } from "react";
-import "./_/layout.scss";
-import { RootLayoutClient } from "./_/RootLayoutClient";
+import { RootLayoutClient } from "./RootLayoutClient";
+import "./RootLayout.scss";
 
 
-export const metadata: Metadata = {
-    title: "Chess"
-};
-
-
-type Props = {
+export type RootLayoutProps = {
     readonly children?: ReactNode;
 };
 
-const RootLayout: FC<Props> = ({ children }) => {
+export const RootLayout: FC<RootLayoutProps> = ({ children }) => {
     let initialZoom = 1;
     const zoomCookie = cookies().get("zoom");
     if (zoomCookie !== undefined) {
@@ -45,6 +39,3 @@ const RootLayout: FC<Props> = ({ children }) => {
         </html>
     );
 };
-
-
-export default RootLayout;

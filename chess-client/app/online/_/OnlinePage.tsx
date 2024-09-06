@@ -7,7 +7,7 @@ import { Spinner } from "@/components/Spinner";
 import { isBoardIndex, PieceType, type PromotionPieceType } from "chess-engine";
 import { assert, CSSModuleClasses } from "chess-utils";
 import { type FC, useEffect, useRef, useState } from "react";
-import uncheckedClasses from "./OnlineChess.module.scss";
+import uncheckedClasses from "./OnlinePage.module.scss";
 
 
 const classes = new CSSModuleClasses(uncheckedClasses);
@@ -28,7 +28,7 @@ const isPromotionPieceType = (value: number): value is PromotionPieceType =>
     promotionPieceTypes.includes(value);
 
 
-export const OnlineChess: FC = () => {
+export const OnlinePage: FC = () => {
     const socketRef = useRef<WebSocket>();
     const [chessComponentState, setChessComponentState] = useState(initialChessComponentState);
     const [playerIsBlack, setPlayerIsBlack] = useState<boolean | null>(null);
