@@ -199,19 +199,14 @@ export const OnlinePage: FC = () => {
                         onMove={({ from, to }) => sendRequest({ from, to })}
                         onPromotionChoose={sendRequest}
                     />
-                    <Modal isOpen={isWaitingOpponent || hasError}>
+                    <Modal
+                        className={classes.get("chessMessageContainer")}
+                        isOpen={isWaitingOpponent || hasError}
+                    >
                         {
                             hasError
-                                ? (
-                                    <h2 className={classes.get("errorTitle")}>
-                                        Сталась помилка!
-                                    </h2>
-                                )
-                                : (
-                                    <h2 className={classes.get("waitingTitle")}>
-                                        Очікування опонента...
-                                    </h2>
-                                )
+                                ? <h2 className={classes.get("error")}>Сталась помилка!</h2>
+                                : <h2>Очікування опонента...</h2>
                         }
                     </Modal>
                 </div>

@@ -7,12 +7,13 @@ const classes = new CSSModuleClasses(uncheckedClasses);
 
 
 export type ModalProps = {
+    readonly className?: string | undefined;
     readonly isOpen: boolean;
     readonly onClosingEnd?: (() => void) | undefined;
     readonly children?: ReactNode;
 };
 
-export const Modal: FC<ModalProps> = ({ isOpen, onClosingEnd, children }) => {
+export const Modal: FC<ModalProps> = ({ className, isOpen, onClosingEnd, children }) => {
     const containerElementRef = useRef<HTMLDivElement>(null);
     const [isCompletelyClosed, setIsCompletelyClosed] = useState(!isOpen);
 
@@ -57,7 +58,7 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClosingEnd, children }) => {
                     .class
             }
         >
-            <div className={classes.get("content")}>
+            <div className={classes.build().add("content").addRaw(className).class}>
                 {children}
             </div>
         </div>

@@ -11,22 +11,27 @@
     margin: 0 0 0.5rem 0;
 }
 
-%_chessTitle {
-    padding: 0.5rem;
+.chessMessageContainer {
+    align-self: flex-start;
 
-    border: 0.1rem solid colors.$border;
-    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
 
-    background-color: colors.$background;
+    height: 100%;
+    max-height: 100vh;
+
+    & > h2 {
+        margin: 0;
+        padding: 0.5rem;
+
+        border: 0.1rem solid colors.$border;
+        border-radius: 0.5rem;
+
+        background-color: colors.$background;
+    }
 }
 
-.waitingTitle {
-    @extend %_chessTitle;
-}
-
-.errorTitle {
-    @extend %_chessTitle;
-
+.error {
     color: colors.$dangerous;
 }
 
