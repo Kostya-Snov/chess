@@ -12,7 +12,9 @@ export type ChessContainerProps = {
 };
 
 export const ChessContainer: FC<ChessContainerProps> = ({ children }) => (
-    <WidthOverflowContainer className={classes.get("container")}>
-        {children}
-    </WidthOverflowContainer>
+    <div className={classes.get("wrapper")}>
+        <WidthOverflowContainer className={classes.get("container")}>
+            {children}
+        </WidthOverflowContainer>
+    </div>
 );
