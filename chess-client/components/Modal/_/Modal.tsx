@@ -1,5 +1,5 @@
 import { CSSModuleClasses } from "chess-utils";
-import { type FC, type ReactNode } from "react";
+import { type FC, type ReactNode, useEffect, useRef, useState } from "react";
 import uncheckedClasses from "../Modal.module.scss";
 
 
@@ -11,10 +11,51 @@ export type ModalProps = {
     readonly children?: ReactNode;
 };
 
-export const Modal: FC<ModalProps> = ({ isOpen, children }) => (
-    <div className={classes.build().add("container").addIf(isOpen, "open").class}>
-        <div className={classes.get("content")}>
-            {children}
+export const Modal: FC<ModalProps> = ({ isOpen, children }) => {
+    const containerElementRef = useRef<HTMLDivElement>(null);
+    const [isCompletelyClosed, setIsCompletelyClosed] = useState(!isOpen);
+
+    useEffect(() => {
+        const containerElement = containerElementRef.current!;
+
+        const withIndicator = (callback: () => void) => (event: TransitionEvent): void => {
+            const enum Constants {
+                IndicatorPropertyName = "background-color"
+            }
+
+            if (
+                event.target === containerElement
+                && event.propertyName === Constants.IndicatorPropertyName
+            ) {
+                callback();
+            }
+        };
+
+        if (isOpen) {
+            const handle = withIndicator(() => setIsCompletelyClosed(false));
+            containerElement.addEventListener("transitionstart", handle);
+            return () => containerElement.removeEventListener("transitionstart", handle);
+        } else {
+            const handle = withIndicator(() => setIsCompletelyClosed(true));
+            containerElement.addEventListener("transitionend", handle);
+            return () => containerElement.removeEventListener("transitionend", handle);
+        }
+    }, [isOpen]);
+
+    return (
+        <div
+            ref={containerElementRef}
+            className={
+                classes.build()
+                    .add("container")
+                    .addIf(isOpen, "open")
+                    .addIf(isCompletelyClosed, "completelyClosed")
+                    .class
+            }
+        >
+            <div className={classes.get("content")}>
+                {children}
+            </div>
         </div>
-    </div>
-);
+    );
+};

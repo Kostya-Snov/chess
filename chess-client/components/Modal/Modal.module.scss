@@ -16,16 +16,16 @@ $_modalTransitionKind: var(--modalTransitionKind);
     justify-content: center;
     align-items: center;
 
-    pointer-events: none;
-
     background-color: colors.setAlpha(colors.$background, 0);
 
     transition: background-color $_modalTransitionKind;
 }
 
-.open {
-    pointer-events: inherit;
+.completelyClosed {
+    pointer-events: none;
+}
 
+.open {
     background-color: colors.setAlpha(colors.$background, 0.5);
 }
 
