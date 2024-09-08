@@ -8,8 +8,6 @@
 }
 
 .piece {
-    cursor: pointer;
-
     width: getCellSizeUnit(1);
     height: getCellSizeUnit(1);
 
@@ -19,6 +17,10 @@
     background-color: #c3bba9;
 
     transition: background-color 250ms;
+}
+
+.interactable {
+    cursor: pointer;
 
     &:hover {
         background-color: #555559;

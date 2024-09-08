@@ -1,4 +1,3 @@
-import { Modal } from "@/components/Modal";
 import {
     type BoardIndex,
     ChessConstants,
@@ -25,7 +24,7 @@ import { Cell } from "./Cell";
 import { CoordinateNames } from "./CoordinateNames";
 import { Panel } from "./Panel";
 import { PieceImage } from "./PieceImage";
-import { PromotionChoice } from "./PromotionChoice";
+import { PromotionModal } from "./PromotionModal";
 
 
 const classes = new CSSModuleClasses(uncheckedClasses);
@@ -380,12 +379,11 @@ export const Board: FC<BoardProps> = ({
                         );
                     })}
 
-                <Modal isOpen={!isBlocked && chessState.promotionIndex !== null}>
-                    <PromotionChoice
-                        isBlack={chessState.isBlacksTurn}
-                        onChoose={onPromotionChoose}
-                    />
-                </Modal>
+                <PromotionModal
+                    isOpen={!isBlocked && chessState.promotionIndex !== null}
+                    isBlack={chessState.isBlacksTurn}
+                    onChoose={onPromotionChoose}
+                />
             </div>
 
             <CoordinateNames isFlipped={isFlipped}/>

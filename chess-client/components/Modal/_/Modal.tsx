@@ -8,10 +8,11 @@ const classes = new CSSModuleClasses(uncheckedClasses);
 
 export type ModalProps = {
     readonly isOpen: boolean;
+    readonly onClosingEnd?: (() => void) | undefined;
     readonly children?: ReactNode;
 };
 
-export const Modal: FC<ModalProps> = ({ isOpen, children }) => {
+export const Modal: FC<ModalProps> = ({ isOpen, onClosingEnd, children }) => {
     const containerElementRef = useRef<HTMLDivElement>(null);
     const [isCompletelyClosed, setIsCompletelyClosed] = useState(!isOpen);
 
@@ -36,11 +37,14 @@ export const Modal: FC<ModalProps> = ({ isOpen, children }) => {
             containerElement.addEventListener("transitionstart", handle);
             return () => containerElement.removeEventListener("transitionstart", handle);
         } else {
-            const handle = withIndicator(() => setIsCompletelyClosed(true));
+            const handle = withIndicator(() => {
+                onClosingEnd?.();
+                setIsCompletelyClosed(true);
+            });
             containerElement.addEventListener("transitionend", handle);
             return () => containerElement.removeEventListener("transitionend", handle);
         }
-    }, [isOpen]);
+    }, [onClosingEnd, isOpen]);
 
     return (
         <div
