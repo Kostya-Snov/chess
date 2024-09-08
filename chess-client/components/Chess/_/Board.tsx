@@ -1,3 +1,4 @@
+import { Modal } from "@/components/Modal";
 import {
     type BoardIndex,
     ChessConstants,
@@ -6,7 +7,8 @@ import {
     getY,
     isBoardIndex,
     type Move,
-    PieceType
+    PieceType,
+    type PromotionPieceType
 } from "chess-engine";
 import { assert, createArray, CSSModuleClasses } from "chess-utils";
 import {
@@ -23,6 +25,7 @@ import { Cell } from "./Cell";
 import { CoordinateNames } from "./CoordinateNames";
 import { Panel } from "./Panel";
 import { PieceImage } from "./PieceImage";
+import { PromotionChoice } from "./PromotionChoice";
 
 
 const classes = new CSSModuleClasses(uncheckedClasses);
@@ -127,6 +130,7 @@ export type BoardProps = {
     readonly selection: Selection | null;
     readonly setSelection: (value: Selection | null) => void;
     readonly onMove: (move: Move) => void;
+    readonly onPromotionChoose: (type: PromotionPieceType) => void;
 };
 
 export const Board: FC<BoardProps> = ({
@@ -134,7 +138,8 @@ export const Board: FC<BoardProps> = ({
     isBlocked,
     selection,
     setSelection,
-    onMove
+    onMove,
+    onPromotionChoose
 }) => {
     const draggingElementRef = useRef<HTMLImageElement>();
     const [isFlipped, setIsFlipped] = useState(true);
@@ -374,6 +379,13 @@ export const Board: FC<BoardProps> = ({
                             />
                         );
                     })}
+
+                <Modal isOpen={!isBlocked && chessState.promotionIndex !== null}>
+                    <PromotionChoice
+                        isBlack={chessState.isBlacksTurn}
+                        onChoose={onPromotionChoose}
+                    />
+                </Modal>
             </div>
 
             <CoordinateNames isFlipped={isFlipped}/>

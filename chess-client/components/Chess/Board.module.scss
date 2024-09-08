@@ -27,6 +27,8 @@ $_boardSize: 8;
     grid-template-rows: $template;
     grid-template-columns: $template;
 
+    position: relative;
+
     outline: getCellSizeUnit(1 / 40) solid colors.$border;
 }
 
