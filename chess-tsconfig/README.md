@@ -1,1 +1,3 @@
-Chess shared "tsconfig.json".
+# TSConfig
+
+The helper package with a shared TSConfig.
