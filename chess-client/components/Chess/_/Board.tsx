@@ -24,6 +24,7 @@ import { Cell } from "./Cell";
 import { CoordinateNames } from "./CoordinateNames";
 import { Panel } from "./Panel";
 import { PieceImage } from "./PieceImage";
+import { PieceSelection } from "./PieceSelection";
 import { PromotionModal } from "./PromotionModal";
 
 
@@ -117,17 +118,11 @@ const handleCenterButtonClick: MouseEventHandler<HTMLButtonElement> = event => {
 };
 
 
-export type Selection = {
-    readonly index: BoardIndex;
-    readonly isReadyForDeselection: boolean;
-    readonly draggingProportionShift: readonly [x: number, y: number] | null;
-};
-
 export type BoardProps = {
     readonly chessState: ChessState;
     readonly isBlocked: boolean;
-    readonly selection: Selection | null;
-    readonly setSelection: (value: Selection | null) => void;
+    readonly selection: PieceSelection | null;
+    readonly setSelection: (value: PieceSelection | null) => void;
     readonly onMove: (move: Move) => void;
     readonly onPromotionChoose: (type: PromotionPieceType) => void;
 };
@@ -271,16 +266,15 @@ export const Board: FC<BoardProps> = ({
             pieceElement.setPointerCapture(event.pointerId);
 
             const pieceStartRect = pieceElement.getBoundingClientRect();
-            setSelection({
+            setSelection(new PieceSelection(
                 index,
-                isReadyForDeselection:
-                    selection?.index === index
-                    && selection.isReadyForDeselection,
-                draggingProportionShift: [
+                selection?.index === index
+                && selection.isReadyForDeselection,
+                [
                     (event.clientX - pieceStartRect.x) / pieceStartRect.width,
                     (event.clientY - pieceStartRect.y) / pieceStartRect.height
                 ]
-            });
+            ));
         };
     };
 
@@ -300,11 +294,7 @@ export const Board: FC<BoardProps> = ({
             if (signCellElement !== undefined) {
                 signCellElement.click();
             } else {
-                setSelection(selection.isReadyForDeselection ? null : {
-                    ...selection,
-                    isReadyForDeselection: true,
-                    draggingProportionShift: null
-                });
+                setSelection(selection.isReadyForDeselection ? null : selection.with(true, null));
             }
         };
     };
@@ -327,10 +317,7 @@ export const Board: FC<BoardProps> = ({
                             onClick={
                                 move === undefined
                                     ? undefined
-                                    : () => {
-                                        onMove(move);
-                                        setSelection(null);
-                                    }
+                                    : () => onMove(move)
                             }
                             onDragStart={e => e.preventDefault()}
                         />

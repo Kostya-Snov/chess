@@ -2,12 +2,13 @@
 
 import { type Move, type PromotionPieceType } from "chess-engine";
 import { CSSModuleClasses } from "chess-utils";
-import { type FC, useState } from "react";
+import { type Dispatch, type FC, type SetStateAction, useCallback } from "react";
 import uncheckedClasses from "../Chess.module.scss";
-import { type ChessComponentState } from "../ChessComponentState";
-import { Board, type Selection } from "./Board";
+import { Board } from "./Board";
+import { type ChessComponentState } from "./ChessComponentState";
 import { DeletedPieces } from "./DeletedPieces";
 import { History } from "./History";
+import { type PieceSelection } from "./PieceSelection";
 
 
 const classes = new CSSModuleClasses(uncheckedClasses);
@@ -15,7 +16,7 @@ const classes = new CSSModuleClasses(uncheckedClasses);
 
 export type ChessProps = {
     readonly state: ChessComponentState;
-    readonly setState: (value: ChessComponentState) => void;
+    readonly setState: Dispatch<SetStateAction<ChessComponentState>>;
     readonly boardIsBlocked?: boolean;
     readonly onMove?: (move: Move) => void;
     readonly onPromotionChoose?: (type: PromotionPieceType) => void;
@@ -28,17 +29,17 @@ export const Chess: FC<ChessProps> = ({
     onMove,
     onPromotionChoose
 }) => {
-    const [selection, setSelection] = useState<Selection | null>(null);
-
-    const { history, historyIndex, chessState } = state;
+    const setSelection = useCallback((value: PieceSelection | null): void => {
+        setState(prev => prev.setSelection(value));
+    }, [setState]);
 
     return (
         <section className={classes.get("chess")}>
             <div className={classes.get("boardAndDeletedPieces")}>
                 <Board
-                    chessState={chessState}
+                    chessState={state.chessState}
                     isBlocked={boardIsBlocked}
-                    selection={selection}
+                    selection={state.selection}
                     setSelection={setSelection}
                     onMove={move => {
                         onMove?.(move);
@@ -50,16 +51,13 @@ export const Chess: FC<ChessProps> = ({
                     }}
                 />
 
-                <DeletedPieces pieces={chessState.deletedPieces}/>
+                <DeletedPieces pieces={state.chessState.deletedPieces}/>
             </div>
 
             <History
-                history={history}
-                historyIndex={historyIndex}
-                onItemClick={index => {
-                    setState(state.setHistoryIndex(index));
-                    setSelection(null);
-                }}
+                history={state.history}
+                historyIndex={state.historyIndex}
+                onItemClick={index => setState(state.setHistoryIndex(index))}
             />
         </section>
     );

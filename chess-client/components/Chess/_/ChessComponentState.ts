@@ -4,7 +4,8 @@ import {
     type Move,
     type PromotionPieceType
 } from "chess-engine";
-import { InvalidOperationError, validateNumberArgument } from "chess-utils";
+import { assert, InvalidOperationError, validateNumberArgument } from "chess-utils";
+import { type PieceSelection } from "./PieceSelection";
 
 
 let initialInstance: ChessComponentState;
@@ -15,15 +16,21 @@ class ChessComponentState {
     declare private readonly [brandKey]: never;
 
 
+    /** @internal */
+    public readonly selection: PieceSelection | null;
+
+
     static {
-        initialInstance = new ChessComponentState([], -1);
+        initialInstance = new ChessComponentState([], -1, null);
     }
 
 
     private constructor(
         public readonly history: readonly Move[],
-        public readonly historyIndex: number
+        public readonly historyIndex: number,
+        selection: PieceSelection | null
     ) {
+        this.selection = selection;
     }
 
 
@@ -34,8 +41,7 @@ class ChessComponentState {
 
 
     public get lastInHistory(): ChessComponentState {
-        const { history } = this;
-        return new ChessComponentState(history, history.length - 1);
+        return this.setHistoryIndex(this.history.length - 1);
     }
 
 
@@ -47,7 +53,7 @@ class ChessComponentState {
         const historyIndex = this.historyIndex + 1;
         const history = this.history.slice(0, historyIndex);
         history.push(move);
-        return new ChessComponentState(history, historyIndex);
+        return new ChessComponentState(history, historyIndex, null);
     }
 
 
@@ -65,11 +71,17 @@ class ChessComponentState {
             ...lastMove,
             state: lastMove.state.replaceInPromotion(type)
         });
-        return new ChessComponentState(history, this.historyIndex);
+
+        assert(this.selection === null);
+        return new ChessComponentState(history, this.historyIndex, null);
     }
 
 
     public setHistoryIndex(index: number): ChessComponentState {
+        if (index === this.historyIndex) {
+            return this;
+        }
+
         validateNumberArgument(index, "index")
             .isSafeInteger()
             .isGreaterThanOrEqual(-1);
@@ -81,7 +93,13 @@ class ChessComponentState {
             );
         }
 
-        return new ChessComponentState(history, index);
+        return new ChessComponentState(history, index, null);
+    }
+
+
+    /** @internal */
+    public setSelection(selection: PieceSelection | null): ChessComponentState {
+        return new ChessComponentState(this.history, this.historyIndex, selection);
     }
 }
 
