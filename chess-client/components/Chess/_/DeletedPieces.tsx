@@ -15,7 +15,7 @@ export type DeletedPiecesProps = {
 
 export const DeletedPieces: FC<DeletedPiecesProps> = ({ pieces }) => (
     <Panel>
-        <h2>Захоплені фігури</h2>
+        <h2>Captured pieces</h2>
         <div className={classes.get("pieces")}>
             {pieces.map(piece => (
                 <PieceImage

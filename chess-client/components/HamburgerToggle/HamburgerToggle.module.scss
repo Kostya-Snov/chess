@@ -6,7 +6,7 @@ $_numberLines: var(--numberLines);
 
 
 .toggle {
-    --distanceRatio: 1;
+    --distanceRatio: 1.5;
     --boxShadowKind: 0 0 1rem;
     --movingTransitionKind: 250ms;
     --boxShadowTransitionKind: 200ms;
@@ -17,7 +17,7 @@ $_numberLines: var(--numberLines);
 
     display: inline-block;
 
-    width: 1.6rem;
+    width: 1.2rem;
     height: 1rem;
 }
 
@@ -82,8 +82,10 @@ $_numberLines: var(--numberLines);
 
     $boxShadowKind: var(--boxShadowKind);
 
-    :hover > & {
-        box-shadow: $boxShadowKind colors.$shadow;
+    @media (hover: hover) {
+        :hover > & {
+            box-shadow: $boxShadowKind colors.$shadow;
+        }
     }
 
     :active > & {

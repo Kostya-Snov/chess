@@ -1,5 +1,4 @@
 import { type BoardIndex } from "chess-engine";
-import { assert } from "chess-utils";
 
 
 export class PieceSelection {
@@ -8,10 +7,6 @@ export class PieceSelection {
         public readonly isReadyForDeselection: boolean,
         public readonly draggingProportionShift: readonly [x: number, y: number] | null
     ) {
-        if (draggingProportionShift !== null) {
-            const [x, y] = draggingProportionShift;
-            assert(x >= 0 && x <= 1 && y >= 0 && y <= 1);
-        }
     }
 
 

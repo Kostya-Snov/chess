@@ -50,7 +50,6 @@
 }
 
 $_signColor: var(--signColor);
-$_signHover: ":is(:hover, .hover)";
 
 %_defaultSign {
     @extend %_baseSign;
@@ -63,7 +62,13 @@ $_signHover: ":is(:hover, .hover)";
         transition-property: background-color;
     }
 
-    &#{$_signHover}::before {
+    @media (hover: hover) {
+        &:hover::before {
+            background-color: colors.setAlpha($_signColor, 1);
+        }
+    }
+
+    &.hover::before {
         background-color: colors.setAlpha($_signColor, 1);
     }
 }
@@ -102,7 +107,13 @@ $_signHover: ":is(:hover, .hover)";
         transition-property: border-color;
     }
 
-    &#{$_signHover}::before {
+    @media (hover: hover) {
+        &:hover::before {
+            border-color: colors.setAlpha($_signColor, 1);
+        }
+    }
+
+    &.hover::before {
         border-color: colors.setAlpha($_signColor, 1);
     }
 }

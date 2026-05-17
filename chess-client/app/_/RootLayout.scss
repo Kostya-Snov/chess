@@ -1,15 +1,18 @@
 @use "@/styles/colors";
-@use "@/styles/variables";
+@use "sass:meta";
 
 
 :root {
-    font-size: 100% * variables.$remFactor;
+    font-size: clamp(1rem, meta.inspect(2svw * 1rem / 16px), 1.5rem);
 }
 
 body {
+    -webkit-tap-highlight-color: transparent;
+
     color: colors.$primary;
 
     margin: 0;
+    padding-bottom: 1rem;
 
     background-color: colors.$background;
 }

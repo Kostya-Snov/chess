@@ -22,7 +22,9 @@
 .interactable {
     cursor: pointer;
 
-    &:hover {
-        background-color: #555559;
+    @media (hover: hover) {
+        &:hover {
+            background-color: #555559;
+        }
     }
 }

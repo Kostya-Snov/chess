@@ -6,4 +6,4 @@ import uncheckedClasses from "./RootNotFound.module.scss";
 const classes = new CSSModuleClasses(uncheckedClasses);
 
 
-export const RootNotFound: FC = () => <h1 className={classes.get("title")}>Не знайдено!</h1>;
+export const RootNotFound: FC = () => <h1 className={classes.get("title")}>Not found!</h1>;

@@ -59,8 +59,10 @@ $_pieceDropShadowSize: var(--pieceDropShadowSize);
         }
     }
 
-    &:not(.inDragging):hover {
-        filter: drop-shadow(0 0 $_pieceDropShadowSize crimson);
+    @media (hover: hover) {
+        &:not(.inDragging):hover {
+            filter: drop-shadow(0 0 $_pieceDropShadowSize crimson);
+        }
     }
 
     &:not(.interactable) {

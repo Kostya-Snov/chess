@@ -102,9 +102,9 @@ export const History: FC<HistoryProps> = ({ history, historyIndex, onItemClick }
 
     return (
         <Panel>
-            <h2>Історія</h2>
+            <h2>Move history</h2>
             <div className={classes.get("items")}>
-                {renderItem("start", -1, "Початок")}
+                {renderItem("start", -1, "Start")}
                 {history.map((move, index) => (
                     <Fragment key={index}>
                         {

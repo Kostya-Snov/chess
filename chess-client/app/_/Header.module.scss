@@ -1,5 +1,4 @@
 @use "@/styles/colors";
-@use "@/styles/variables";
 
 
 %_padding {
@@ -28,7 +27,7 @@
     margin-left: auto;
 }
 
-@media screen and (max-width: 20rem * variables.$remFactor) {
+@media screen and (max-width: 30rem) {
     .header {
         position: relative;
     }
@@ -81,8 +80,10 @@
 
     transition: color 200ms, text-shadow 150ms;
 
-    &:hover {
-        color: colors.$primary;
+    @media (hover: hover) {
+        &:hover {
+            color: colors.$primary;
+        }
     }
 
     &:active {

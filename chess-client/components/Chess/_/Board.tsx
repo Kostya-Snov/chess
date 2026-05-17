@@ -187,24 +187,6 @@ export const Board: FC<BoardProps> = ({
                 hoveredSignCellElement = signCellElement;
             }
 
-            /*
-            The vector of the piece RELATIVELY TO VIEWPORT can be written as follows:
-            R_ = o_ + r_
-            where:
-            o_ is the board vector RELATIVELY TO VIEWPORT.
-            r_ is the piece vector RELATIVELY TO THE BOARD.
-
-            Hence:
-            r_ = R_ - o_
-
-            With (1):
-            R_ = p_ - s_
-            r_ = p_ - s_ - o_ = p_ - o_ - (ps_x * w, ps_y * h)
-
-            Or in coordinate form:
-            r_x = p_x - o_x - ps_x * w
-            r_y = p_y - o_y - ps_y * h
-            */
             const pieceRect = pieceElement.getBoundingClientRect();
             const boardCoreRect = boardCoreElement.getBoundingClientRect();
             const x = event.clientX - boardCoreRect.x - proportionShiftX * pieceRect.width;
@@ -217,6 +199,35 @@ export const Board: FC<BoardProps> = ({
             clearHoveredSignCell();
             pieceElement.style.translate = "";
             pieceElement.removeEventListener("pointermove", handle);
+
+            pieceElement.style.order = "1";
+
+            const handleTransitionCancel = (event: TransitionEvent): void => {
+                if (event.propertyName !== "translate") {
+                    return;
+                }
+
+                if (pieceElement.style.order === "") {
+                    cleanupTransitionListeners();
+                }
+            };
+
+            const handleTransitionEnd = (event: TransitionEvent): void => {
+                if (event.propertyName !== "translate") {
+                    return;
+                }
+
+                pieceElement.style.order = "";
+                cleanupTransitionListeners();
+            };
+
+            pieceElement.addEventListener("transitioncancel", handleTransitionCancel);
+            pieceElement.addEventListener("transitionend", handleTransitionEnd);
+
+            const cleanupTransitionListeners = (): void => {
+                pieceElement.removeEventListener("transitioncancel", handleTransitionCancel);
+                pieceElement.removeEventListener("transitionend", handleTransitionEnd);
+            };
         };
     }, [draggingProportionShift]);
 
@@ -229,40 +240,10 @@ export const Board: FC<BoardProps> = ({
         }
 
         return event => {
-            /*
-            About moving a piece.
-            The goal is to find the piece's offset RELATIVELY TO THE BOARD (class "boardCore").
-            Between moves, it is necessary to retain the position where the piece was captured.
-
-            Let's write the equation ("х_" is the "х" vector):
-            p_ = R_ + s_ (1)
-            where:
-            p_ is the pointer vector RELATIVELY TO VIEWPORT.
-            R_ is the piece vector RELATIVELY TO VIEWPORT.
-            s_ is the pointer vector RELATIVELY TO THE PIECE. Let's call this "shift".
-
-            Knowing the initial m0_ and R0_, we find the s0_:
-            s0_ = m0_ - R0_
-
-            We could stop there if the piece's size were constant. But it is not, it can change when
-            the zoom is reset (not in the browser itself, but in the application using the button).
-            Example:
-            The piece's size is 50x50. The capture occurred at s_ = (25, 25). Accordingly, at the
-            center. Let the size of the piece change to 100x100. The old shift is no longer at the
-            center, but at 25% from the upper left corner.
-            Therefore, we will save not the shift value itself, but the shift relative to the sizes,
-            which should be constant:
-            ps_x = s_x / w
-            ps_y = s_y / h
-
-            ps_x = s0_x / w0 = (m0_x - R0_x) / w0
-            ps_y = s0_y / h0 = (m0_y - R0_y) / h0
-
-            s_x = ps_x * w
-            s_y = ps_y * h
-            s_ = (s_x, s_y) = (ps_x * w, ps_y * h)
-            */
             const pieceElement = draggingElementRef.current = event.currentTarget;
+            const boardCoreElement = pieceElement.parentElement!;
+
+            pieceElement.style.order = "";
             pieceElement.setPointerCapture(event.pointerId);
 
             const pieceStartRect = pieceElement.getBoundingClientRect();
@@ -275,6 +256,11 @@ export const Board: FC<BoardProps> = ({
                     (event.clientY - pieceStartRect.y) / pieceStartRect.height
                 ]
             ));
+
+            const boardCoreStartRect = boardCoreElement.getBoundingClientRect();
+            const startX = pieceStartRect.x - boardCoreStartRect.x;
+            const startY = pieceStartRect.y - boardCoreStartRect.y;
+            pieceElement.style.translate = `${startX}px ${startY}px`;
         };
     };
 
@@ -362,6 +348,7 @@ export const Board: FC<BoardProps> = ({
                                 onPointerDown={getPiecePointerDownHandler(index)}
                                 onPointerUp={getPiecePointerUpHandler()}
                                 onDragStart={e => e.preventDefault()}
+                                onContextMenu={e => e.preventDefault()}
                             />
                         );
                     })}

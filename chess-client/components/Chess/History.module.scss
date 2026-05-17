@@ -37,10 +37,12 @@ $_historyItemWidth: var(--historyItemWidth);
     &:not(.selected) {
         cursor: pointer;
 
-        &:hover {
-            border-color: colors.$border;
+        @media (hover: hover) {
+            &:hover {
+                border-color: colors.$border;
 
-            background-color: colors.$chessHoveredHistoryItem;
+                background-color: colors.$chessHoveredHistoryItem;
+            }
         }
     }
 }

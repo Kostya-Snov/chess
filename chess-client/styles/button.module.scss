@@ -13,8 +13,10 @@
 
     transition: background-color 150ms;
 
-    &:hover {
-        background-color: colors.$hoveredButton;
+    @media (hover: hover) {
+        &:hover {
+            background-color: colors.$hoveredButton;
+        }
     }
 
     &:active {

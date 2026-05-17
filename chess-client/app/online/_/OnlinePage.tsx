@@ -17,6 +17,38 @@ const serverUrl = process.env["NEXT_PUBLIC_SERVER_URL"];
 assert(serverUrl !== undefined);
 
 
+type GameStatusProps = {
+    readonly playerIsBlack: boolean;
+    readonly isBlacksTurn: boolean;
+    readonly isLoading: boolean;
+};
+
+const GameStatus: FC<GameStatusProps> = ({ playerIsBlack, isBlacksTurn, isLoading }) => {
+    const [delayIsOver, setDelayIsOver] = useState(false);
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setDelayIsOver(true);
+        }, 1000);
+
+        return () => clearTimeout(timeoutId);
+    }, []);
+
+    if (!isLoading && delayIsOver) {
+        setDelayIsOver(false);
+        return undefined;
+    }
+
+    return isLoading
+        ? delayIsOver
+            ? "Loading..."
+            : `Your move – ${playerIsBlack ? "Black" : "White"}`
+        : isBlacksTurn === playerIsBlack
+            ? `Your move – ${playerIsBlack ? "Black" : "White"}`
+            : "Opponent’s move";
+};
+
+
 const promotionPieceTypes: readonly number[] = [
     PieceType.Rook,
     PieceType.Knight,
@@ -177,12 +209,14 @@ export const OnlinePage: FC = () => {
                     <h2 className={classes.get("stateTitle")}>
                         {
                             isWaitingOpponent
-                                ? "Очікування опонента..."
-                                : isLoading
-                                    ? "Завантаження..."
-                                    : chessState.isBlacksTurn === playerIsBlack
-                                        ? `Твій хід (${playerIsBlack ? "чорні" : "білі"})`
-                                        : "Хід опонента"
+                                ? "Waiting for opponent..."
+                                : (
+                                    <GameStatus
+                                        playerIsBlack={playerIsBlack}
+                                        isBlacksTurn={chessState.isBlacksTurn}
+                                        isLoading={isLoading}
+                                    />
+                                )
                         }
                     </h2>
                     <Chess
@@ -205,8 +239,8 @@ export const OnlinePage: FC = () => {
                     >
                         {
                             hasError
-                                ? <h2 className={classes.get("error")}>Сталась помилка!</h2>
-                                : <h2>Очікування опонента...</h2>
+                                ? <h2 className={classes.get("error")}>Error!</h2>
+                                : <h2>Waiting for opponent...</h2>
                         }
                     </Modal>
                 </div>
